@@ -1,0 +1,61 @@
+@use 'variables' as *; 
+
+#topbar {
+    height: 5rem;
+   
+      .navbar {
+         box-shadow:  0 4px 8px rgba($Pink-Primary, 0.5);
+         background-color: $Pink-Secondary;
+      }
+      .navbar-nav {
+         display: none;
+      }
+
+      .navbar-nav .nav-item a {
+         font-size: 16px;
+         padding-right: 0.75rem;
+         opacity : 1;
+      }
+
+      .navbar-nav .dropdown-toggle::after {
+         position: absolute;
+         top: 50%;
+         right: 0;
+         transform: translateY(-50%);
+         width: 0;
+         height: 0;
+         content: "";
+         color: $Pink-Primary;
+         border-top: 0.3em solid;
+         border-right: 0.3em solid transparent;
+         border-bottom: 0;
+         border-left: 0.3em solid transparent;
+      }
+
+      .burger-menu {
+         display: flex;
+         flex-direction: column;
+         justify-content: space-around; /* Ensure there's spacing between lines */
+         align-items: center; /* Center align the lines */
+         height: 1.5rem; 
+         margin-right:1.5rem;
+         
+      }
+      .burger-menu .line {
+            width: 1.5rem;
+            height: 0.25rem;
+            background-color: black;
+      }
+      header .navbar {
+            box-shadow:  0 4px 8px rgba(red, 0.5);;
+      }
+
+      .hidden {
+         display: hidden;
+      }
+
+      .show {
+         display: block; 
+         z-index: 10;   
+      }
+}
