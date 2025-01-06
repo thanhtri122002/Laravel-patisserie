@@ -1,6 +1,23 @@
-
-
 $sidebar-width: 250px;
 $sidebar-bg-color: #343a40;
 $sidebar-text-color: #ffffff;
 $hover-bg-color: #495057;
+
+//Colors
+$Pink-Primary: #ee76ad;
+$Pink-Secondary: #fce7f1;
+
+
+$Gray-Primary: #def4fb;
+$Gray-Secondary: #c0c0c3;
+
+$Gray-Tertiary: #fdf2ea;
+
+
+// Breakpoints (mobile-first approach)
+$breakpoint-xs: 0;       // Extra small (mobile)
+$breakpoint-sm: 576px;   // Small (mobile)
+$breakpoint-md: 768px;   // Medium (tablet)
+$breakpoint-lg: 992px;   // Large (desktop)
+$breakpoint-xl: 1200px;  // Extra large (large desktop)
+$breakpoint-xxl: 1400px; // Extra extra large (widescreens)

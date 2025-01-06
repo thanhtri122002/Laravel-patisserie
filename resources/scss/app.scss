@@ -2,8 +2,19 @@
 @use 'tailwindcss/components';
 @use 'tailwindcss/utilities';
 
-@use 'variables';
+@use 'variables' as *;
+@use 'responsive';
 @use 'sidebar';
+@use 'topbar';
+
+.about-us .a {
+    padding: 0.5rem 1rem;
+    margin: 0 0.75rem;
+}
+
+.about-us .a:hover {
+    
+}
 
 
 // resources/scss/app.scss

@@ -1,0 +1,83 @@
+@use 'variables' as *; 
+
+// For small devices and up
+@media (min-width: $breakpoint-sm) {
+   header .container {
+        max-width: 33.74rem;
+   }
+   .small-container {
+        max-width: 36.5rem; 
+   }
+
+   header .navbar {
+        box-shadow:  0 4px 8px rgba(red, 0.5);;
+  }
+
+}
+
+// For tablets and up
+@media (min-width: $breakpoint-md) {
+    header .container {
+        max-width: 46.25rem;
+    }
+
+    .small-container {
+        max-width: 48rem; 
+    }
+
+    .burger-menu {
+        display: none !important;
+    }
+
+    #topbar .navbar-nav {
+        display: flex !important ;
+        justify-content: center;
+        align-items: center;
+        margin-left: auto;
+    }
+    
+}
+
+// For desktops and up
+@media (min-width: $breakpoint-lg) {
+    header .container {
+        max-width: 60rem;
+    }
+    .small-container {
+        max-width: 62rem; 
+    }
+    
+}
+
+// For large desktops and up
+@media (min-width: $breakpoint-xl) {
+    header .container {
+        max-width: 71.25rem;
+    }
+    .small-container {
+        max-width: 73rem; 
+    }
+}
+
+// For widescreens and up
+@media (min-width: $breakpoint-xxl) {
+    .small-container {
+        max-width: 75rem; 
+    }
+}
+
+
+// Between small and medium (576px - 768px)
+@media (min-width: $breakpoint-sm) and (max-width: $breakpoint-md) {
+    
+}
+
+// Between medium and large (768px - 992px)
+@media (min-width: $breakpoint-md) and (max-width: $breakpoint-lg) {
+   
+}
+
+// Between large and extra-large (992px - 1200px)
+@media (min-width: $breakpoint-lg) and (max-width: $breakpoint-xl) {
+  
+}
