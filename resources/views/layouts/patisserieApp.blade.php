@@ -67,20 +67,19 @@
         
     </header>
 
-    <div class="min-h-dvh relative">
+    <section class="w-full min-h-screen relative">
         <div class="banner absolute inset-0 bg-center bg-cover bg-no-repeat" style="background-image: url('{{ asset('storage/images/elements/banner1.jpg') }}');"></div>
-        <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 h-fit max-w-[40dvw] flex items-center ">
-            <div class="flex flex-col gap-y-4 p-10 bg-white bg-opacity-50">
+        <div class="absolute inset-0  flex justify-center items-center">
+            <div class="flex flex-col max-h-full max-w-[50dvh] my-auto gap-y-4 m-auto bg-white bg-opacity-50">
                 <p class="">Freshly Patisserie</p>
                 <p class="">for sweet-tooth</p>
                 <p class="uppercase">glamour</p>
-                
                 <p>Indulge your sweet tooth with our exquisite creations, crafted to bring a touch of glamour to every moment. From delicate pastries to decadent delights, our patisserie promises a journey through the art of sweetness.</p>
                 <p>Elevate your day with flavors that captivate the senses, all in a setting designed for elegance and charm.</p>
                 <button type="button" class="rounded-full py-4 px-5 text-center border border-[] bg-pink-300 hover:bg-opacity-80">Explore more </button>
             </div>
         </div>
-    </div>
+    </section>
 
     <section class="w-full my-[3rem]">
         <div class="section-wrapper h-full small-container mx-auto ">
@@ -128,7 +127,17 @@
         <div class="section-wrapper h-full small-container mx-auto">
             <div class="px-5">
                 <h1 class="text-center">Best Product</h1>
-                
+                <div class="flex gap-x-4 items-center">
+                    <div class="relative flex flex-col">
+                        <div class="absolute top-0 p-3">
+                            <p>Products name</p>
+                        </div>
+                        <img src="" alt=""> 
+                        <div class="absolute bottom-0 p-3">
+                            <p>Price:</p>
+                        </div>
+                    </div>
+                </div> 
             </div>
         </div>
     </section>
