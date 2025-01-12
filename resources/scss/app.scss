@@ -4,17 +4,46 @@
 
 @use 'variables' as *;
 @use 'responsive';
+@use 'animation';
+@use 'body';
 @use 'sidebar';
 @use 'topbar';
 
-.about-us .a {
+.navlink-about-us a {
     padding: 0.5rem 1rem;
     margin: 0 0.75rem;
+    text-decoration: none
 }
 
-.about-us .a:hover {
+.navlink-about-us a::after {
+    content: '' ;
+    height: 1px;
+    width: 0px;
+    background-color: $Pink-Primary;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    transition: width 1s ease;
+
+}
+
+.navlink-about-us a:hover::after{
+
+    width: 100%;
     
 }
+
+
+
+.active {
+    display: block;
+}
+
+.hidden {
+    display: none;
+}
+
+
 
 
 // resources/scss/app.scss
