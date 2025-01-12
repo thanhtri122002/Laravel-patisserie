@@ -7,12 +7,39 @@ window.Alpine = Alpine;
 Alpine.start();
 
 
-const toggleMenu = document.querySelector('.navbar-nav .dropdown-toggle');
+const burgerMenu = document.getElementById('burgerMenu');
+const mobileMenu = document.getElementById('mobileMenu');
+const closeBtnMenu = document.getElementById('closeBtn');
+
+burgerMenu.addEventListener('click', visualBurgerMenu);
+closeBtn.addEventListener('click', closingBtn);
+function visualBurgerMenu () {
+    mobileMenu.classList.toggle('active');
+}
+
+function closingBtn() {
+    mobileMenu.classList.remove('active');
+}
 
 
-toggleMenu.addEventListener('')
 
+document.querySelectorAll('.navlink-about-us a').forEach(link => {
+    link.addEventListener('click', transitionAboutUs);
+});
 
-$(document).ready(function () {
-    $()
-})
+function transitionAboutUs(event) {
+    event.preventDefault();
+    document.querySelectorAll('.section-inf > div').forEach(section => {
+
+        if (section.classList.contains('grid')) {
+            
+            section.classList.remove('grid'); // Remove 'grid' class if it exists
+           
+        }
+    });
+
+    const target = event.target.getAttribute('data-target');
+    
+    document.getElementById(target).classList.add('grid');
+}
+

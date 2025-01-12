@@ -1,0 +1,26 @@
+@use 'variables' as * ;
+
+
+.section-inf {
+    //set display to the grid
+
+    position: relative;
+    display:grid;
+    grid-template-rows: auto; 
+    z-index: 1;
+    //set to absolute so then divs will not be stack like block under block
+    //Note that this is the initial state of the transition
+    > div {
+        grid-area: 1 /1 ;
+        inset: 0;
+        opacity : 0;
+        visibility: hidden;
+        transform: translateY(20px);
+        transition : opacity 0.5s ease, transform 0.5s ease, visibility 0.5s; 
+    }
+    > div.grid {
+        visibility: visible;
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

@@ -14,12 +14,12 @@
 <body class="w-full min-h-dvh relative">
 
     <header id="topbar" class="w-full my-5">
-        <div class="h-full navbar container py-2 mx-auto flex justify-between items-center sm:rounded-3xl ">
-            <div class="logo flex items-center h-full">
+        <div class="h-full navbar container py-2 mx-auto flex items-center sm:rounded-3xl ">
+            <div class="logo flex items-center h-full ml-4">
                 <img class="w-auto h-full object-cover" src="{{ asset('storage/images/icons/patisserie.svg') }}" alt="">
                 <p class="">Glamour</p>
             </div>
-            <div class="navbar-nav ">
+            <div class="navbar-nav mr-4">
                 <ul class="flex gap-x-4">
                     <li class="nav-item">
                         <a href="#">Home</a>
@@ -45,11 +45,23 @@
                     </li>
                 </ul>
             </div>
-            <div class="burger-menu">
-            
+            <div id="burgerMenu" class="burger-menu ml-auto">
                 <span class="line"></span>
                 <span class="line"></span>
                 <span class="line"></span>
+            </div>
+            <div id="mobileMenu" class="mobile-menu">
+                <div class="flex m-10 justify-between">
+                    <img class="w-auto h-[2rem] object-cover" src="{{ asset('storage/images/icons/patisserie.svg') }}" alt="">
+                    <button id="closeBtn">x</button>
+                </div>
+                
+                <ul>
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#about">About</a></li>
+                    <li><a href="#services">Services</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
             </div>
         </div>
         
@@ -70,15 +82,53 @@
         </div>
     </div>
 
-    <section class="w-full h-[30dvh] mt-[3rem]">
+    <section class="w-full my-[3rem]">
         <div class="section-wrapper h-full small-container mx-auto ">
             <div class="px-5 my-3">
                 <p class="text-center uppercase">About us</p>
                 <div class="navlink-about-us flex justify-center items-center gap-x-4 py-8">
-                    <a class="nav-link" href="">Our missions</a>
-                    <a class="nav-link" href="">Our values</a>
-                    <a class="nav-link" href="">Our goals</a>
+                    <a class="nav-link relative" href="#" data-target="mission">Our missions</a>
+                    <a class="nav-link relative" href="#" data-target="values">Our values</a>
+                    <a class="nav-link relative" href="#" data-target="goals">Our goals</a>
                 </div>
+                <div class="section-inf">
+                    <div id="mission" class="h-full grid grid-cols-1 md:grid-cols-2 md:gap-x-5">
+                        <div class="img-wrapper h-[15rem]">
+                            <img class="w-full h-full object-cover" src="{{ asset('storage/images/elements/about-us.jpg')}}" alt="">
+                        </div>
+                        <div class="flex flex-col">
+                            <h2>Providing quality products for all be happy and peace</h2>
+                            <p>We strive to deliver exceptional products that meet your needs, ensuring happiness and peace in every aspect of your life.</p>
+                        </div>
+                    </div>
+                    <div id="values" class="h-full grid-cols-1 md:grid-cols-2 md:gap-x-5">
+                        <div class="img-wrapper h-[15rem]">
+                            <img class="w-full h-full object-cover" src="{{ asset('storage/images/elements/about-us-2.jpg')}}" alt="">
+                        </div>
+                        <div class="flex flex-col">
+                            <h2>Guided by integrity and excellence</h2>
+                            <p>Our values are rooted in trust, honesty, and excellence, shaping the foundation of our interactions with customers and communities.</p>
+                        </div>
+                    </div>
+                    <div id="goals" class="h-full grid-cols-1 md:grid-cols-2 md:gap-x-5">
+                        <div class="img-wrapper h-[15rem]">
+                            <img class="w-full h-full object-cover" src="{{ asset('storage/images/elements/about-us-3.jpg')}}" alt="">
+                        </div>
+                        <div class="flex flex-col">
+                            <h2>Empowering growth and innovation</h2>
+                            <p>Our goal is to continuously innovate and expand, ensuring we bring the best solutions to our customers and foster a culture of growth.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="w-full my-[3rem] relative z-[2]">
+        <div class="section-wrapper h-full small-container mx-auto">
+            <div class="px-5">
+                <h1 class="text-center">Best Product</h1>
+                
             </div>
         </div>
     </section>
