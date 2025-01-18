@@ -3,11 +3,27 @@
 @use 'tailwindcss/utilities';
 
 @use 'variables' as *;
+@use 'fonts';
 @use 'responsive';
 @use 'animation';
 @use 'body';
 @use 'sidebar';
 @use 'topbar';
+@use 'custom-swiper';
+
+:root {
+    --Pink-Primary: $Pink-Primary;
+    --Pink-Secondary: $Pink-Secondary;
+    --Gray-Primary: $Gray-Primary;
+    --Gray-Secondary: $Gray-Secondary;
+    --Gray-Tertiary: $Gray-Tertiary;
+
+    --merriweather-sans: 'Merriweather', sans-serif;
+
+}
+html {
+    overflow-x: hidden;
+}
 
 .navlink-about-us a {
     padding: 0.5rem 1rem;
@@ -33,15 +49,6 @@
     
 }
 
-
-
-.active {
-    display: block;
-}
-
-.hidden {
-    display: none;
-}
 
 
 

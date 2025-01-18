@@ -27,7 +27,7 @@
          position: absolute;
          bottom: 0;
          left:0;
-         transition: width 2s ease;
+         transition: width 0.3s ease;
       }
       // after hover the width will be 100% 
       .navbar-nav .nav-item a:hover::after {
@@ -61,8 +61,8 @@
       .burger-menu {
          display: flex;
          flex-direction: column;
-         justify-content: space-around; /* Ensure there's spacing between lines */
-         align-items: center; /* Center align the lines */
+         justify-content: space-around; 
+         align-items: center;
          height: 1.5rem; 
          margin-right:1.5rem;
          transition: transform 0.5s
@@ -72,7 +72,9 @@
             height: 0.25rem;
             background-color: black;
       }
-
+      //hide the mobile menu to the right by its width 100%
+      //When it is click, which mean toggle the active class by javscript it will return to the normal position
+      //which mean transform(0)
       .mobile-menu {
          position: fixed;
          top:0;
