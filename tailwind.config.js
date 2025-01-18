@@ -13,8 +13,15 @@ export default {
     theme: {
         extend: {
             fontFamily: {
-                sans: ['Figtree', ...defaultTheme.fontFamily.sans],
+                'mer': ['var(--merriweather-sans)', 'sans-serif']
             },
+            fontWeight :{
+                h1: ['3rem', {lineHeight: '1.2', letterSpacing: '-0.02rem', fontWeight: '900', },],
+                h2: ['2.5rem', {lineHeight: '1.25',letterSpacing: '-0.015rem', fontWeight: '700', },],
+                h3: ['2rem', {lineHeight: '1.3',letterSpacing: '-0.01rem', fontWeight: '700', },],
+                body: ['1rem', {lineHeight: '1.5',letterSpacing: '0rem', fontWeight: '400', },],
+                emphasized: ['1.125rem', {lineHeight: '1.4', letterSpacing: '0.005rem',fontWeight: '700', },],
+                },
 
             screens: {       // Extra small (mobile)
                 'sm': '576px',     // Small (mobile)

@@ -6,8 +6,12 @@
         max-width: 33.74rem;
    }
    .small-container {
-        max-width: 36.5rem; 
+        max-width: 33.5rem; 
    }
+
+   .xs-container {
+        max-width: 33.5rem; 
+    }
 
    header .navbar {
         box-shadow:  0 4px 8px rgba(red, 0.5);;
@@ -23,6 +27,10 @@
 
     .small-container {
         max-width: 48rem; 
+    }
+    
+    .xs-container {
+        max-width: 46.25rem;
     }
 
     .burger-menu {
@@ -51,6 +59,9 @@
     .small-container {
         max-width: 62rem; 
     }
+    .xs-container {
+        max-width: 60rem;
+    }
     
 }
 
@@ -62,12 +73,18 @@
     .small-container {
         max-width: 73rem; 
     }
+    .xs-container {
+        max-width: 68rem;
+    }
 }
 
 // For widescreens and up
 @media (min-width: $breakpoint-xxl) {
     .small-container {
         max-width: 75rem; 
+    }
+    .xs-container {
+        max-width: 70rem;
     }
 }
 

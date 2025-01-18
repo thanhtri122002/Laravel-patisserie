@@ -3,8 +3,6 @@
 
 .section-inf {
     //set display to the grid
-
-    position: relative;
     display:grid;
     grid-template-rows: auto; 
     z-index: 1;
@@ -14,13 +12,32 @@
         grid-area: 1 /1 ;
         inset: 0;
         opacity : 0;
-        visibility: hidden;
         transform: translateY(20px);
-        transition : opacity 0.5s ease, transform 0.5s ease, visibility 0.5s; 
+        transition : opacity 0.5s ease, transform 0.5s ease; 
     }
     > div.grid {
-        visibility: visible;
         opacity: 1;
         transform: translateY(0);
     }
+}
+
+.section-product {
+    // .products .product img {
+    //     transition: 0.3s ease-out;
+    // }
+    // .products .product img:hover {
+    //     transform: scale(1.1);
+    // }
+
+    .product .product-name, 
+    .product .product-price {
+        transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out
+    }
+    .product:focus .product-name{
+        transform : translate(-50%,-100%);
+    }
+    .product:focus .product-price{
+        transform: translate(-50%, 100%);
+    }
+
 }

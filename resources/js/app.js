@@ -12,7 +12,7 @@ const mobileMenu = document.getElementById('mobileMenu');
 const closeBtnMenu = document.getElementById('closeBtn');
 
 burgerMenu.addEventListener('click', visualBurgerMenu);
-closeBtn.addEventListener('click', closingBtn);
+closeBtnMenu.addEventListener('click', closingBtn);
 function visualBurgerMenu () {
     mobileMenu.classList.toggle('active');
 }
@@ -42,4 +42,10 @@ function transitionAboutUs(event) {
     
     document.getElementById(target).classList.add('grid');
 }
+
+// document.querySelectorAll('.product').forEach(product => {
+//     product.addEventListener('click', () => {
+//         product.classList.toggle('active');
+//     });
+// });
 
