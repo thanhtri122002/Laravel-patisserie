@@ -8,6 +8,7 @@ Route::get('/', function() {
     return view('layouts.patisserieApp');
 });
 
+<<<<<<< HEAD
 Route::prefix('admin')->name('admin')->group(function() {
     Route::get('login', [AdminAuthController::class, 'showLoginForm'])->name('login');
     Route::post('login', [AdminAuthController::class, 'login']);
@@ -20,6 +21,8 @@ Route::middleware('auth:admin')->group(function () {
     });
 });
 
+=======
+>>>>>>> d0ad93032767e352bd422a1a7a7c9fcf783e39a1
 
 /*
 Route::get('/', function () {
