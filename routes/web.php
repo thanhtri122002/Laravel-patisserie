@@ -2,25 +2,35 @@
 
 use App\Http\Controllers\AdminAuthController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\UserAuthController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function() {
-    return view('layouts.patisserieApp');
+    return view('homepage');
 });
 
-Route::prefix('admin')->name('admin')->group(function() {
+Route::prefix('admin')->name('admin.')->group(function() {
     Route::get('login', [AdminAuthController::class, 'showLoginForm'])->name('login');
     Route::post('login', [AdminAuthController::class, 'login']);
     Route::post('logout', [AdminAuthController::class, 'logout'])->name('logout');
 });
-
+//All route require to protect sensitive info will need to be implements the authentication of middleware
 Route::middleware('auth:admin')->group(function () {
-    Route::get('admin/dashboard', function () {
-        return view('admin.dashboard');
-    });
+    Route::get('admin/dashboard', [AdminAuthController::class, 'index'])->name('dashboard');
+    Route::post('admin/create', [AdminAuthController::class, 'create'])->name('create');
+    Route::post('admin/update', [AdminAuthController::class, 'update'])->name('update');
+    
+});
+//Note: prefix user + login => user/login
+Route::prefix('user')->name('user.')->group(function() {
+    Route::get('login', [UserAuthController::class, 'showLoginForm'])->name('login');
+    Route::post('login', [UserAuthController::class, 'login']);
+    Route::post('logout', [UserAuthController::class, 'logout'])->name('logout');
+    Route::post('register', [UserAuthController::class, 'create'])->name('create');
 });
 
-
+Route::middleware('auth')->group(function() {
+});
 /*
 Route::get('/', function () {
     return view('welcome');

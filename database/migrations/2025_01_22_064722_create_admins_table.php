@@ -19,7 +19,6 @@ return new class extends Migration
             $table->string('password', 255)->collation('utf8mb4_general_ci')->nullable(false);
             $table->timestamp('email_verified_at')->nullable();
             $table->rememberToken();
-            $table->timestamps();
         });
     }
 
