@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\admin\Auth\LoginRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Admin;
@@ -15,9 +16,9 @@ class AdminAuthController extends Controller
     public function showLoginForm (Request $request) {
         return view('admin.login');
     }
-    public function login(Request $request) {
+    public function login(LoginRequest $request) {
 
-        $credentials = $request->only('email', 'password');
+        $credentials = $request->validated();
         if(Auth::guard('admin')->attempt($credentials)){
             $request->session()->regenerate();
             return redirect()->route('admin.dashboard');
