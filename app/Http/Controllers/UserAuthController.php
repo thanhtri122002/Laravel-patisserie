@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Auth\LoginRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth; // Ensure this is included
@@ -13,13 +14,10 @@ class UserAuthController extends Controller
         return view('user.login');
     }
 
-    public function login(Request $request)
+    public function login(LoginRequest $request)
     {
         // Validate the incoming request data
-        $credentials = $request->validate([
-            'email' => 'required|email',
-            'password' => 'required'
-        ]);
+        $credentials = $request->validated();
 
         // Attempt to authenticate the user using the 'web' guard
         if (Auth::guard('web')->attempt($credentials)) {

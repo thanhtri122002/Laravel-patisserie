@@ -16,12 +16,12 @@
                     <label for="password">Password:</label>
                     <input type="text">
                 </div>
-                <button type="submit">Log in</button>
-                <div class="flex justify-between">
-                    <p>Don't have an account?</p>
-                    <a href="{{ route('user.create') }}">Register now</a>
-                </div>
+                <button type="submit">Log in</button> 
             </form>
+            <div class="flex justify-between">
+                <p>Don't have an account?</p>
+                <a href="{{ route('user.create') }}">Register now</a>
+            </div>
         </div>
     </div>
 @endsection
