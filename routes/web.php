@@ -13,14 +13,15 @@ Route::prefix('admin')->name('admin.')->group(function() {
     Route::get('login', [AdminAuthController::class, 'showLoginForm'])->name('login');
     Route::post('login', [AdminAuthController::class, 'login']);
     Route::post('logout', [AdminAuthController::class, 'logout'])->name('logout');
-});
-//All route require to protect sensitive info will need to be implements the authentication of middleware
-Route::middleware('auth:admin')->group(function () {
-    Route::get('admin/dashboard', [AdminAuthController::class, 'index'])->name('dashboard');
-    Route::post('admin/create', [AdminAuthController::class, 'create'])->name('create');
-    Route::post('admin/update', [AdminAuthController::class, 'update'])->name('update');
+    
+    Route::get('dashboard', [AdminAuthController::class, 'index'])->name('dashboard');
+    Route::post('create', [AdminAuthController::class, 'create'])->name('create');
+    Route::post('update', [AdminAuthController::class, 'update'])->name('update');
     
 });
+
+//All route require to protect sensitive info will need to be implements the authentication of middleware
+
 //Note: prefix user + login => user/login
 Route::prefix('user')->name('user.')->group(function() {
     Route::get('login', [UserAuthController::class, 'showLoginForm'])->name('login');
@@ -46,4 +47,3 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 */
-require __DIR__.'/auth.php';

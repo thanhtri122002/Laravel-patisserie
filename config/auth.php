@@ -40,8 +40,8 @@ return [
             'driver' => 'session',
             'provider' => 'users',
         ],
-        'admin' => ['
-            driver' => 'session',
+        'admin' => [
+            'driver' => 'session',
             'provider' => 'admins',
         ],
     ],
@@ -73,8 +73,8 @@ return [
             'driver' => 'eloquent',
             'model' =>  App\Models\Admin::class,
         ],
-       ]
     ],
+    
 
     /*
     |--------------------------------------------------------------------------
