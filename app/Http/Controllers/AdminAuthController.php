@@ -16,9 +16,8 @@ class AdminAuthController extends Controller
         return view('admin.login');
     }
     public function showDashboard() {
-        dd(Auth::guard('admin')->check());
 
-        return view('admin.dashboard');
+        return 'hello';
     }
 
     public function login(LoginRequest $request) {
@@ -27,7 +26,6 @@ class AdminAuthController extends Controller
         
         if(Auth::guard('admin')->attempt($credentials)){
             $request->session()->regenerate();
-    
             return redirect()->route('admin.dashboard');
         }
         

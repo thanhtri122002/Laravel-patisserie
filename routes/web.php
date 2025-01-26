@@ -10,17 +10,21 @@ Route::get('/', function() {
 });
 
 Route::prefix('admin')->name('admin.')->group(function() {
+    // Public login routes
     Route::get('login', [AdminAuthController::class, 'showLoginForm'])->name('login');
     Route::post('login', [AdminAuthController::class, 'login'])->name('login.submit');
     Route::post('logout', [AdminAuthController::class, 'logout'])->name('logout');
-    Route::get('/', [AdminAuthController::class, 'showDashboard'])->name('dashboard');
+
+    // Admin dashboard, protected by auth middleware
+    Route::middleware(['auth:admin'])->get('dashboard', [AdminAuthController::class, 'showDashboard'])->name('dashboard');
+
+    // Admin actions inside the dashboard (protected by auth)
     Route::middleware(['auth:admin'])->prefix('dashboard')->name('dashboard.')->group(function () {
-        
         Route::post('create', [AdminAuthController::class, 'create'])->name('create');
         Route::post('update', [AdminAuthController::class, 'update'])->name('update');
     });
-   
 });
+
 
 //All route require to protect sensitive info will need to be implements the authentication of middleware
 
