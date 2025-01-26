@@ -42,7 +42,7 @@ return [
         ],
         'admin' => [
             'driver' => 'session',
-            'provider' => 'admins',
+            'provider' => 'admins', // This should reference your Admin model
         ],
     ],
 
@@ -71,7 +71,7 @@ return [
 
        'admins' => [
             'driver' => 'eloquent',
-            'model' =>  App\Models\Admin::class,
+            'model' =>  App\Models\Admin::class ,
         ],
     ],
     

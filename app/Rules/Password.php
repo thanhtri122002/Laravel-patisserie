@@ -21,9 +21,7 @@ class Password implements ValidationRule
         }
 
         // Check for at least one uppercase letter
-        if (!preg_match('/[A-Z]/', $value)) {
-            $fail('The :attribute must contain at least one uppercase letter.');
-        }
+       
 
         // Check for at least one lowercase letter
         if (!preg_match('/[a-z]/', $value)) {
@@ -36,9 +34,6 @@ class Password implements ValidationRule
         }
 
         // Check for at least one special character
-        if (!preg_match('/[\W_]/', $value)) {
-            $fail('The :attribute must contain at least one special character.');
-        }
-
+        
     }
 }
