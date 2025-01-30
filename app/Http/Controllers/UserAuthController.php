@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\Auth\LoginRequest;
+use App\Http\Requests\user\Auth\RegisterRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth; // Ensure this is included
@@ -13,7 +14,11 @@ class UserAuthController extends Controller
     {
         return view('user.login');
     }
-
+    
+    public function showDasboard() {
+        return 'hello';
+    }
+    
     public function login(LoginRequest $request)
     {
         // Validate the incoming request data
@@ -42,13 +47,10 @@ class UserAuthController extends Controller
         return redirect()->route('user.login');
     }
 
-    public function register(Request $request) {
-        $validate = $request->validate([
-            'name' => "required",
-            'email' => "required|unique:users",
-            'password' => "required|min:8|confirmed",
-        ]);
+    public function register(RegisterRequest $request) {
+        $validate = $request->validated();
         User::create($validate);
+
         return redirect()->back()->with('success', 'Register successfully');
     }
 }

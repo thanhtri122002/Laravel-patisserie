@@ -3,9 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\admin\Auth\LoginRequest;
+use App\Http\Requests\admin\Auth\RegisterRequest;
+use App\Http\Requests\user\Auth\RegisterRequest as AuthRegisterRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Admin;
+use Illuminate\Auth\Events\Validated;
 use Illuminate\Support\Facades\Hash;
 
 class AdminAuthController extends Controller
@@ -19,13 +22,14 @@ class AdminAuthController extends Controller
 
         return 'hello';
     }
-
+    
     public function login(LoginRequest $request) {
         
         $credentials = $request->validated();
         
         if(Auth::guard('admin')->attempt($credentials)){
             $request->session()->regenerate();
+            dd(session()->all());
             return redirect()->route('admin.dashboard');
         }
         
@@ -40,15 +44,13 @@ class AdminAuthController extends Controller
         return redirect()->route('admin.login');
     }
     
-    public function create(Request $request) {
+    public function create(AuthRegisterRequest $request) {
         if (!Auth::guard('admin')->check()) {
             return response()->json(['error' => 'Unauthorized'], 401);
         }
-        $validate = $request->validate([
-            'name' => 'required',
-            'email' => 'required|email|unique:admins',
-            'password' => 'required|min:8|confirmed'
-        ]);
+
+        $validate = $request->validated();
+        
         $validate['password'] = Hash::make($validate['password']);
         Admin::create($validate);
         return response()->json(['success' => 'created new admin'], 200);
