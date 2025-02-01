@@ -160,7 +160,7 @@
         </div>
     </section>
 
-    <section class="moving-text-banner w-full">
+    <section class="moving-text-banner w-full my-[5rem]">
         <div class="container mx-auto overflow-hidden">
             <div class="upper-text flex gap-5 justify-center moving-right">
                 <p class="font-mer text-h1 text-[--Pink-Primary] whitespace-nowrap">Freshly Baked</p>
@@ -178,6 +178,44 @@
                 <p class="font-mer text-h1 text-[--Pink-Primary] whitespace-nowrap">Crafted with care and passion</p>
                 <p class="font-mer text-h1 text-[--Pink-Primary] whitespace-nowrap">Perfect for any occasion</p>
             </div>
+        </div>
+    </section>
+
+    <section class="w-full section-ingredients">
+        <div class="xxs-container mx-auto">
+            <div class="flex flex-col items-center gap-6">
+                <p class="max-w-[45rem] text-center">At our patisserie, every creation begins with the finest ingredients. From velvety French butter to rich, artisanal chocolate, each element is carefully selected to ensure exceptional flavor and texture.</p>
+                <p class="text-center text-h1 text-[--Pink-Primary]">Pure. Authentic. Irresistible.</p>
+                <div class="section-standard grid items-center justify-items-center gap-12 md:grid-cols-2 md:gap-6">
+                    <div class="flex flex-col gap-6">
+                        <div class="standard flex-1">
+                            <img class="size-16" src="" alt="">
+                            <div class="standard-content">
+                                <p>Freshness & Quality</p>
+                                <p> Fresh dairy, premium flour, and seasonal fruits ensure rich flavors and perfect textures.</p>
+                            </div>
+                        </div>
+                        <div class="standard flex-1">
+                            <img class="size-16" src="" alt="">
+                            <div class="standard-content">
+                                <p>Authenticity & Origin</p>
+                                <p>Ingredients like French butter, Belgian chocolate, and Madagascar vanilla bring true artisanal taste.</p>
+                            </div>
+                        </div>
+                        <div class="standard flex-1">
+                            <img class="size-16" src="" alt="">
+                            <div class="standard-content">
+                                <p>Purity & Natural Ingredients</p>
+                                <p>No artificial additives—only pure, natural ingredients for the finest pastries.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ingredient-img relative inset-0">
+                        
+                    </div>
+                </div>
+            </div>
+            
         </div>
     </section>
 @endsection

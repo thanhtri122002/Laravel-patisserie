@@ -53,3 +53,28 @@
         animation: slideLeft 20s linear infinite
     }
 }
+
+.section-ingredients {
+    .section-standard {
+        .standard {
+            width: 100%;
+            border-radius: 1.5rem;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            padding: 1.5rem;
+            gap: 1.5rem;
+            background-color: $Pink-Secondary;
+            transform: translateY(0);
+            transition: transform 0.3s ease-in-out;
+        }
+        .standard:hover {
+            transform: translateY(-1rem);
+        }
+        .standard img {
+            border: 1px solid $Pink-Primary;
+            border-radius: 1.5rem;
+
+        }
+    }
+}

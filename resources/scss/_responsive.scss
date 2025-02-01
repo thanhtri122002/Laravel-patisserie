@@ -12,6 +12,10 @@
    .xs-container {
         max-width: 33.5rem; 
     }
+    .xxs-container {
+        max-width: 30rem; 
+    }
+
 
    header .navbar {
         box-shadow:  0 4px 8px rgba(red, 0.5);;
@@ -32,7 +36,9 @@
     .xs-container {
         max-width: 46.25rem;
     }
-
+    .xxs-container {
+        max-width: 40rem; 
+    }
     .burger-menu {
         display: none !important;
     }
@@ -58,6 +64,10 @@
     .xs-container {
         max-width: 60rem;
     }
+    .xxs-container
+    {
+        max-width: 50rem;
+    }
     
 }
 
@@ -72,6 +82,9 @@
     .xs-container {
         max-width: 68rem;
     }
+    .xxs-container {
+        max-width: 60rem; 
+    }
 }
 
 // For widescreens and up
@@ -81,6 +94,9 @@
     }
     .xs-container {
         max-width: 70rem;
+    }
+    .xxs-container {
+        max-width: 65rem; 
     }
 }
 
