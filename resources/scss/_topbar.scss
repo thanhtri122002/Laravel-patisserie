@@ -1,0 +1,98 @@
+@use 'variables' as *; 
+
+#topbar {
+    height: 5rem;
+   
+      .navbar {
+         box-shadow:  0 4px 8px rgba($Pink-Primary, 0.5);
+         
+      }
+      .navbar-nav {
+         display: none;
+      }
+      //make the link relative to position the line below it 
+      .navbar-nav .nav-item a {
+         font-size: 16px;
+         
+         opacity : 1;
+         position: relative;
+         
+      }
+      //the line below the nav link, this is the initial state of the transition so the property which will be transisted will be style at the intial state 
+      .navbar-nav .nav-item a::after {
+         content: '';
+         height: 0.125rem;
+         width: 0px;
+         background-color: $Pink-Primary;
+         position: absolute;
+         bottom: 0;
+         left:0;
+         transition: width 0.3s ease;
+      }
+      // after hover the width will be 100% 
+      .navbar-nav .nav-item a:hover::after {
+         width: 100%;
+      }
+
+      .navbar-nav .nav-item a:focus::after {
+         height: 0.125rem;
+         width: 100%;
+         background-color: $Pink-Primary;
+         position: absolute;
+         bottom: 0;
+         left:0;
+      }
+
+      .navbar-nav .dropdown-toggle::after {
+         position: absolute;
+         top: 50%;
+         right: 0;
+         transform: translateY(-50%);
+         width: 0;
+         height: 0;
+         content: "";
+         color: $Pink-Primary;
+         border-top: 0.3em solid;
+         border-right: 0.3em solid transparent;
+         border-bottom: 0;
+         border-left: 0.3em solid transparent;
+      }
+
+      .burger-menu {
+         display: flex;
+         flex-direction: column;
+         justify-content: space-around; 
+         align-items: center;
+         height: 1.5rem; 
+         margin-right:1.5rem;
+         transition: transform 0.5s
+      }
+      .burger-menu .line {
+            width: 1.5rem;
+            height: 0.25rem;
+            background-color: black;
+      }
+      //hide the mobile menu to the right by its width 100%
+      //When it is click, which mean toggle the active class by javscript it will return to the normal position
+      //which mean transform(0)
+      .mobile-menu {
+         position: fixed;
+         top:0;
+         right:0;
+         bottom: 0;
+         background-color: white;
+         transform: translateX(100%);
+         height: 100dvh;
+         width: 100%;
+         transition: transform 2s ease;
+         z-index: 999;
+      }
+
+      .mobile-menu.active {
+         transform: translateX(0);
+      }
+
+      header .navbar {
+            box-shadow:  0 4px 8px rgba(red, 0.5);;
+      }
+}

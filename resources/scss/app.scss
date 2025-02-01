@@ -2,8 +2,55 @@
 @use 'tailwindcss/components';
 @use 'tailwindcss/utilities';
 
-@use 'variables';
+@use 'variables' as *;
+@use 'fonts';
+@use 'responsive';
+@use 'animation';
+@use 'body';
 @use 'sidebar';
+@use 'topbar';
+@use 'custom-swiper';
+
+:root {
+    --Pink-Primary: $Pink-Primary;
+    --Pink-Secondary: $Pink-Secondary;
+    --Gray-Primary: $Gray-Primary;
+    --Gray-Secondary: $Gray-Secondary;
+    --Gray-Tertiary: $Gray-Tertiary;
+
+    --merriweather-sans: 'Merriweather', sans-serif;
+
+}
+html {
+    overflow-x: hidden;
+}
+
+.navlink-about-us a {
+    padding: 0.5rem 1rem;
+    margin: 0 0.75rem;
+    text-decoration: none
+}
+
+.navlink-about-us a::after {
+    content: '' ;
+    height: 1px;
+    width: 0px;
+    background-color: $Pink-Primary;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    transition: width 1s ease;
+
+}
+
+.navlink-about-us a:hover::after{
+
+    width: 100%;
+    
+}
+
+
+
 
 
 // resources/scss/app.scss
