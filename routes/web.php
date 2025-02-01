@@ -44,7 +44,7 @@ Route::prefix('admin')->name('admin.')->group(function() {
     Route::middleware(['auth:admin'])->get('dashboard', [AdminAuthController::class, 'showDashboard'])->name('dashboard');
 
     // Admin actions inside the dashboard (protected by auth)
-    Route::prefix('dashboard')->name('dashboard.')->group(function () {
+    Route::middleware(['auth:admin'])->prefix('dashboard')->name('dashboard.')->group(function () {
         Route::post('create', [AdminAuthController::class, 'create'])->name('create');
         
     });

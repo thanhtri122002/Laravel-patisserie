@@ -16,15 +16,18 @@ class UserAuthController extends BaseController
 
       
     public function showProfile() {
+        
         return 'hello';
     }
 
-    public function showLogin() {
+    public function showLoginForm() {
+
         return 'hello in log in';
     }
 
     public function login(LoginRequest $request) {
         AuthService::getInstance()->login($request);
+
         return redirect()->route('user.login');
     }
 
@@ -32,5 +35,11 @@ class UserAuthController extends BaseController
 
         AuthService::getInstance()->register($request);
         return redirect()->route('user.profile');
+    }
+
+    public function logout(Request $request) {
+        $user = $this->getCurrentUser();
+        $logOut = AuthService::getInstance()->withUser($user)->logout($request);
+        
     }
 }

@@ -1,6 +1,34 @@
 .section-product {
     .swiper-slide {
-        width: fit-content;
-
+        width: 10rem;
+        height: auto;
     }
+}
+
+.section-special-product {
+    .swiper-slide {
+        width: 100%;
+        height: auto;
+    }
+
+    .special-product-des {
+        position: relative;
+        inset: 0;
+        
+        .dynamic-text {
+            position: absolute;
+            top: 0;
+            left: 0;
+            opacity: 0;
+             /* Hide text completely */
+            transition: opacity 0.5s ease;
+        }
+        .dynamic-text.active {
+            opacity: 1;
+            z-index:1 ;
+            transition: opacity 0.5s ease;
+        }
+    }
+
+    
 }

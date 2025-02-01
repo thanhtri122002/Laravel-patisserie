@@ -18,7 +18,6 @@ class AuthService extends Service {
         }
     }
     
-
     public function logout($request) {
         Auth::guard('admin')->logout();
         $request->session()->invalidate();

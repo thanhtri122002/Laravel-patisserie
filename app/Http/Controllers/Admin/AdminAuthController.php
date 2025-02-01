@@ -36,8 +36,9 @@ class AdminAuthController extends BaseController
 
     public function logout(Request $request) {
         $admin = $this->getCurrentAuthUser();
+        
         $logoutResult = AuthService::getInstance()->withUser($admin)->logout($request);
-
+        
         return redirect()->route('admin.login')->withSuccess(['message' => $logoutResult['message']]);
     }
 
