@@ -9,6 +9,7 @@
 @use 'body';
 @use 'sidebar';
 @use 'topbar';
+@use 'footer';
 @use 'custom-swiper';
 
 :root {
@@ -23,6 +24,11 @@
 }
 html {
     overflow-x: hidden;
+}
+
+.text-h1 {
+    color: $Soft-Rose;
+    
 }
 
 .navlink-about-us a {
