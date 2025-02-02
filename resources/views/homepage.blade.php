@@ -125,7 +125,7 @@
             <div class="flex item-center gap-10">
                 <div class="special-product-imgs  w-[30%]">
                     <div class="swiper mySwiper h-[320px]">
-                        <div class="swiper-wrapper w-full">
+                        <div class="swiper-wrapper w-full z-[-1]">
                             <div class="swiper-slide" data-slide-id="content-1">
                                 <img class="w-full h-full object-cover rounded-2xl shadow-lg border border-gray-300" src="{{ asset('storage/images/elements/special-product-1.jpg') }}" alt="">
                             </div>
@@ -170,7 +170,7 @@
                 <p class="font-mer text-h1 text-[--Pink-Primary] whitespace-nowrap">Decadent Flavors</p>
                 <p class="font-mer text-h1 text-[--Pink-Primary] whitespace-nowrap">Premium Ingredients</p>
             </div>
-            <div class="lower-text flex gap-5 justify-center moving-left">
+            <div class="lower-text flex gap-5 justify-center moving-left mt-[2.625rem]">
                 <p class="font-mer text-h1 text-[--Pink-Primary] whitespace-nowrap">Indulge in our heavenly desserts</p>
                 <p class="font-mer text-h1 text-[--Pink-Primary] whitespace-nowrap">Crafted with care and passion</p>
                 <p class="font-mer text-h1 text-[--Pink-Primary] whitespace-nowrap">Perfect for any occasion</p>
@@ -181,7 +181,7 @@
         </div>
     </section>
 
-    <section class="w-full section-ingredients">
+    <section class="w-full section-ingredients my-[5rem]">
         <div class="xxs-container mx-auto">
             <div class="flex flex-col items-center gap-6">
                 <p class="max-w-[45rem] text-center">At our patisserie, every creation begins with the finest ingredients. From velvety French butter to rich, artisanal chocolate, each element is carefully selected to ensure exceptional flavor and texture.</p>
@@ -189,7 +189,8 @@
                 <div class="section-standard grid items-center justify-items-center gap-12 md:grid-cols-2 md:gap-6">
                     <div class="flex flex-col gap-6">
                         <div class="standard flex-1">
-                            <img class="size-16" src="" alt="">
+                            
+                            <img class="size-16 bg-pink-500" src="{{ asset('storage/images/elements/ingredient-bounce.jpg') }}" alt="">
                             <div class="standard-content">
                                 <p>Freshness & Quality</p>
                                 <p> Fresh dairy, premium flour, and seasonal fruits ensure rich flavors and perfect textures.</p>
@@ -211,11 +212,28 @@
                         </div>
                     </div>
                     <div class="ingredient-img relative inset-0">
-                        
+                        <img src="{{ asset('storage/images/elements/ingredients-big.jpg') }}" alt="">
+                        <img class="absolute right-5 bottom-2 w-[5rem] " src="{{ asset('storage/images/elements/ingredient-bounce-2.jpg') }}" alt="">
                     </div>
                 </div>
             </div>
             
+        </div>
+    </section>
+
+    <section class="w-full section-freqAsked my-[5rem]">
+        <div class="xxs-container mx-auto">
+            <div class="flex flex-col md:flex-row items-center gap-[2.62rem]">
+                <div class="max-w-[40%] flex flex-col gap-6">
+                    <p>Have a sweet question?</p>
+                    <p>FREQUENTLY ASKED QUESTIONS</p>
+                    <p>Our team is here to assist you with any inquiries.
+                    Explore these answers to commonly asked questions about our patisserie, or feel free to reach out to us directly.</p>
+                </div>
+                <div class="flex flex-col gap-4 flex-1 w-full ">
+                    <div class="p-5 flex justify-between items-center"></div>
+                </div>
+            </div>
         </div>
     </section>
 @endsection

@@ -21,8 +21,6 @@ function closingBtn() {
     mobileMenu.classList.remove('active');
 }
 
-
-
 document.querySelectorAll('.navlink-about-us a').forEach(link => {
     link.addEventListener('click', transitionAboutUs);
 });
