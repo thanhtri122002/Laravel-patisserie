@@ -25,7 +25,7 @@
             @yield('content')
         </main>
         
-        <footer>
+        <footer class="w-full">
             @yield('footer')
         </footer>
     </body>

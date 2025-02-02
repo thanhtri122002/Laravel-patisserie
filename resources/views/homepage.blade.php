@@ -27,7 +27,7 @@
     <section class="w-full my-[3rem]">
         <div class="section-wrapper small-container mx-auto ">
             <div class="px-5">
-                <p class="text-center uppercase">About us</p>
+                <p class="text-center uppercase font-mer text-h1">About us</p>
                 <div class="navlink-about-us flex justify-center items-center gap-x-4 py-8">
                     <a class="nav-link relative font-mer" href="#" data-target="mission">Our missions</a>
                     <a class="nav-link relative font-mer" href="#" data-target="values">Our values</a>
@@ -188,23 +188,29 @@
                 <p class="text-center text-h1 text-[--Pink-Primary]">Pure. Authentic. Irresistible.</p>
                 <div class="section-standard grid items-center justify-items-center gap-12 md:grid-cols-2 md:gap-6">
                     <div class="flex flex-col gap-6">
-                        <div class="standard flex-1">
-                            
-                            <img class="size-16 bg-pink-500" src="{{ asset('storage/images/elements/ingredient-bounce.jpg') }}" alt="">
+                        <div class="standard ">
+
+                            <div class="img-icon">
+                                <img class="size-10" src="{{ asset('storage/images/icons/ingredients-1.svg') }}" alt="">
+                            </div>
                             <div class="standard-content">
                                 <p>Freshness & Quality</p>
                                 <p> Fresh dairy, premium flour, and seasonal fruits ensure rich flavors and perfect textures.</p>
                             </div>
                         </div>
-                        <div class="standard flex-1">
-                            <img class="size-16" src="" alt="">
+                        <div class="standard ">
+                             <div class="img-icon">
+                                <img class="size-10" src="{{ asset('storage/images/icons/ingredients-2.svg') }}" alt="">
+                            </div>
                             <div class="standard-content">
                                 <p>Authenticity & Origin</p>
                                 <p>Ingredients like French butter, Belgian chocolate, and Madagascar vanilla bring true artisanal taste.</p>
                             </div>
                         </div>
-                        <div class="standard flex-1">
-                            <img class="size-16" src="" alt="">
+                        <div class="standard">
+                            <div class="img-icon ">
+                                <img class="size-10" src="{{ asset('storage/images/icons/ingredients-3.svg') }}" alt="">
+                            </div>
                             <div class="standard-content">
                                 <p>Purity & Natural Ingredients</p>
                                 <p>No artificial additives—only pure, natural ingredients for the finest pastries.</p>
@@ -224,16 +230,58 @@
     <section class="w-full section-freqAsked my-[5rem]">
         <div class="xxs-container mx-auto">
             <div class="flex flex-col md:flex-row items-center gap-[2.62rem]">
-                <div class="max-w-[40%] flex flex-col gap-6">
+                <div class="md:max-w-[45%] flex flex-col gap-6">
                     <p>Have a sweet question?</p>
-                    <p>FREQUENTLY ASKED QUESTIONS</p>
+                    <p class="font-mer text-h1">FREQUENTLY ASKED QUESTIONS</p>
                     <p>Our team is here to assist you with any inquiries.
                     Explore these answers to commonly asked questions about our patisserie, or feel free to reach out to us directly.</p>
                 </div>
                 <div class="flex flex-col gap-4 flex-1 w-full ">
-                    <div class="p-5 flex justify-between items-center"></div>
+                    <button class="p-5 flex justify-between items-center group gap-6">
+                        <div class="flex flex-col text-left">
+                            <p>Do you offer custom cakes for special occasions?</p>
+                            <div class="h-0 overflow-hidden group-focus:h-[7rem] transition-all">
+                                <p class="pt-2">Yes! We specialize in custom cakes for birthdays, weddings, and other special events. You can choose from a variety of flavors, designs, and decorations. We recommend placing your order at least 48 hours in advance.</p>
+                            </div>
+                        </div>
+                        <img class="size-5" src="{{ asset('storage/images/icons/donut.svg') }}" alt="">
+
+                    </button>
+                    <button class="p-5 flex justify-between items-center group gap-6">
+                        <div class="flex flex-col text-left">
+                            <p>Are your pastries made fresh daily?</p>
+                            <div class="h-0 overflow-hidden group-focus:h-[7rem] transition-all">
+                                <p class="pt-2">Absolutely! All of our pastries, cakes, and breads are made fresh every morning using the finest ingredients to ensure the best quality and taste.</p>
+                            </div>
+                        </div>
+                        <img class="size-5" src="{{ asset('storage/images/icons/donut.svg') }}" alt="">
+                    </button>
+                    <button class="p-5 flex justify-between items-center group gap-6">
+                        <div class="flex flex-col text-left">
+                            <p>Do you have gluten-free or vegan options?</p>
+                            <div class="h-0 overflow-hidden group-focus:h-[7rem] transition-all">
+                                <p class="pt-2">Yes, we offer a selection of gluten-free and vegan pastries. However, since our kitchen handles wheat and dairy, we recommend informing us of any allergies when placing an order.</p>
+                            </div>
+                        </div>
+                        <img class="size-5" src="{{ asset('storage/images/icons/donut.svg') }}" alt="">
+                    </button>
+                    <button class="p-5 flex justify-between items-center group gap-6">
+                        <div class="flex flex-col text-left">
+                            <p>Can I place an order online for pickup or delivery?</p>
+                            <div class="h-0 overflow-hidden group-focus:h-[7rem] transition-all">
+                                <p class="pt-2">Yes, you can order online through our website or call us directly for pickup and delivery options. Delivery availability may vary based on your location.</p>
+                            </div>
+                        </div>
+                        <img class="size-5" src="{{ asset('storage/images/icons/donut.svg') }}" alt="">
+                    </button>
                 </div>
             </div>
         </div>
     </section>
+
+@endsection
+
+
+@section('footer')
+    @include('partials.footer')
 @endsection
