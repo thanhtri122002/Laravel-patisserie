@@ -47,6 +47,7 @@ Route::prefix('admin')->name('admin.')->group(function() {
     Route::middleware(['auth:admin'])->prefix('dashboard')->name('dashboard.')->group(function () {
         Route::post('create', [AdminAuthController::class, 'create'])->name('create');
         
+        
     });
 });
 
