@@ -31,7 +31,7 @@ function transitionAboutUs(event) {
 
         if (section.classList.contains('grid')) {
             
-            section.classList.remove('grid'); // Remove 'grid' class if it exists
+            section.classList.remove('grid');
            
         }
     });

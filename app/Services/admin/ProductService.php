@@ -26,6 +26,7 @@ class ProductService extends Service {
     public function store($data) {
 
         $product = Product::create($data);
+        return $product;
     }
 
     public function update($data, $id) {

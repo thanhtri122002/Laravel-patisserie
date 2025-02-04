@@ -29,10 +29,9 @@ class ProductController extends BaseController
         
         return $this->sendSuccessResponse($listProducts, null, Response::OK);
     }
-    public function detail(Request $request ,$id) {
+    public function detail($id) {
 
         $user = $this->getUser();
-        $validate = $request->validated();
         $detailResult = $this->service->withUser($user)->detail($id);
 
         return $this->sendSuccessResponse($detailResult, "retrived details success", Response::OK);
