@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
+use App\Helpers\Response;
 use App\Http\Requests\admin\Auth\LoginRequest;
 use App\Http\Requests\admin\Auth\RegisterRequest;
 use App\Services\admin\AuthService;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\Admin\BaseController;
 
 class AdminAuthController extends BaseController
 {   
@@ -42,12 +42,12 @@ class AdminAuthController extends BaseController
         return redirect()->route('admin.login')->withSuccess(['message' => $logoutResult['message']]);
     }
 
-    public function create(RegisterRequest $request) {
+    public function store(RegisterRequest $request) {
         
         $admin = $this->getCurrentAuthUser();
         
-        $registerResult = AuthService::getInstance()->withUser($admin)->create($request);
-        return response()->json(['message' => "success"]);
+        $registerResult = AuthService::getInstance()->withUser($admin)->store($request);
+        return $this->sendSuccessResponse($registerResult, "create admin success", Response::OK);
     }
     
 }

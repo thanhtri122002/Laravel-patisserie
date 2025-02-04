@@ -14,7 +14,6 @@ class AuthService extends Service {
         $validate = $request->validated();
         if (Auth::guard('admin')->attempt($validate)) {
             $request->session()->regenerate(); // Regenerate session here
-           
         }
     }
     
@@ -22,14 +21,16 @@ class AuthService extends Service {
         Auth::guard('admin')->logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
+
         return ['success' => true, "message" => "Logout successfully"];
     }
 
-    public function create($request) {
+    public function store($request) {
 
         $validate = $request->validated();
         $validate['password'] = Hash::make($validate['password']);
-        Admin::create($validate);
+        $admin = Admin::create($validate);
+        return $admin;
     }
 
 }

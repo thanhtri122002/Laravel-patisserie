@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests\Admin;
+namespace App\Http\Requests\admin;
 
 use App\Rules\CategoryExists;
 use Illuminate\Foundation\Http\FormRequest;
@@ -26,7 +26,7 @@ class ProductRequest extends FormRequest
             'product_id' => ['required', 'integer', new CategoryExists()],
             'name' => 'required|string',
             'description' => 'required|string',
-            'price' => 'required|nemeric|min:0',
+            'price' => 'required|numeric|min:0',
             'stock' => 'required|integer|min:0',
         ];
     }
