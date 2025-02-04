@@ -3,12 +3,12 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Helpers\Response;
-use App\Http\Controllers\Controller;
+
 use App\Http\Requests\admin\CategoryRequest;
 use App\Services\admin\CategoryService;
 use Illuminate\Http\Request;
 
-class CategoryController extends Controller
+class CategoryController extends BaseController
 {   
     public function getUser() {
         return $this->guard()->user();
@@ -41,5 +41,6 @@ class CategoryController extends Controller
         $user = $this->getUser();
         $deleteResult = CategoryService::getInstance()->withUser($user)->delete($id);
         return $this->sendSuccessResponse($deleteResult, "success deleted", Response::OK);
+        
     }
 }

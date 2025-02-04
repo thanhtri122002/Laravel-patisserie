@@ -35,10 +35,11 @@ Route::prefix('admin')->name('admin.')->group(function() {
 
         Route::controller(ProductController::class)->prefix('products')->name('products.')->group(function() {
 
-            Route::get('/{id}', 'detail')->name('detail');
+            Route::get('/', 'index')->name('index');
             Route::post('/', 'store')->name('store');
-            Route::put('/{id}', 'update')->name('update');
-            Route::delete('/{id}', 'delete')->name('delete');
+            Route::get('/{id}', 'detail')->name('detail');
+            Route::post('/{id}', 'update')->name('update');
+            Route::post('/{id}/delete', 'delete')->name('delete');
         });
 
 

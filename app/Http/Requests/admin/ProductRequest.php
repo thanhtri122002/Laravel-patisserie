@@ -23,7 +23,7 @@ class ProductRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'product_id' => ['required', 'integer', new CategoryExists()],
+            'category_id' => ['required', 'integer', new CategoryExists()],
             'name' => 'required|string',
             'description' => 'required|string',
             'price' => 'required|numeric|min:0',
