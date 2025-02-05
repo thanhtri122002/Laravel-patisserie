@@ -17,6 +17,13 @@ class Invoice extends Model
     public const PAYMENT_METHOD_BANK_TRANSFER = 3;
     public const PAYMENT_METHOD_CASH = 4;
 
+    //constant for status
+
+    public const PENDING = 0;
+    public const UNPAID = 1;
+    public const PAID = 2;
+    public const CANCELLED = 3;
+
     protected $fillable = [
         'phone number',
         'address',
@@ -52,4 +59,15 @@ class Invoice extends Model
             default => 'Unknown',
         };
     }
+
+    public function getStatusName(): string {
+        return match($this->status) {
+            self::PENDING => "Pending",
+            self::UNPAID => "Unpaid",
+            self::PAID => "Paid",
+            self::CANCELLED => "Cancelled"
+        };
+    }
+
+    
 }
