@@ -19,7 +19,7 @@ class Product extends Model
         'stock'
         ];
         
-    protected $guared =['id'];
+    protected $guarded =['id'];
 
     public function category(): BelongsTo
     {
