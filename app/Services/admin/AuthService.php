@@ -13,7 +13,7 @@ class AuthService extends Service {
     public function login($request) {
         $validate = $request->validated();
         if (Auth::guard('admin')->attempt($validate)) {
-            $request->session()->regenerate(); // Regenerate session here
+            $request->session()->regenerate(); 
         }
     }
     

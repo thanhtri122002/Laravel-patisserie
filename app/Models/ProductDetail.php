@@ -27,17 +27,17 @@ class ProductDetail extends Model
         'id'
     ];
 
-    public function products(): BelongsTo
+    public function product(): BelongsTo
     {
         return $this->belongsTo(Product::class);
     }
 
-    public function invoices(): BelongsTo
+    public function invoice(): BelongsTo
     {
         return $this->belongsTo(Invoice::class);
     }
 
-    public function carts(): BelongsTo
+    public function cart(): BelongsTo
     {
         return $this->belongsTo(Cart::class);
     }

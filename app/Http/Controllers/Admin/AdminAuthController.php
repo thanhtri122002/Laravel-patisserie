@@ -22,11 +22,6 @@ class AdminAuthController extends BaseController
         return view('admin.login');
     }
 
-    public function showDashboard () {
-
-        return $this->guard()->user();
-    }
-
     public function login(LoginRequest $request) {
         
         AuthService::getInstance()->login($request);

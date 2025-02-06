@@ -17,8 +17,15 @@ class Invoice extends Model
     public const PAYMENT_METHOD_BANK_TRANSFER = 3;
     public const PAYMENT_METHOD_CASH = 4;
 
+    //constant for status
+
+    public const PENDING = 0;
+    public const UNPAID = 1;
+    public const PAID = 2;
+    public const CANCELLED = 3;
+
     protected $fillable = [
-        'phone number',
+        'phone_number',
         'address',
         'email',
         'payment_method',
@@ -26,7 +33,7 @@ class Invoice extends Model
         'cost'
     ];
 
-    protected $guared = [
+    protected $guarded = [
         'id'
     ];
 
@@ -44,7 +51,7 @@ class Invoice extends Model
 
     public function getPaymentMethodName(): string
     {
-        return match($this->payemnt_method) {
+        return match($this->payment_method) {
             self::PAYMENT_METHOD_CREDIT_CARD => 'Credit Card',
             self::PAYMENT_METHOD_PAYPAL => 'PayPal',
             self::PAYMENT_METHOD_BANK_TRANSFER => 'Bank Transfer',
@@ -52,4 +59,15 @@ class Invoice extends Model
             default => 'Unknown',
         };
     }
+
+    public function getStatusName(): string {
+        return match($this->status) {
+            self::PENDING => "Pending",
+            self::UNPAID => "Unpaid",
+            self::PAID => "Paid",
+            self::CANCELLED => "Cancelled"
+        };
+    }
+
+    
 }
