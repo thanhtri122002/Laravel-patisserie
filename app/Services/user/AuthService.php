@@ -14,12 +14,9 @@ class AuthService extends Service {
     public function login(LoginRequest $request) {
         $credentials = $request->validated();
         if (Auth::guard('web')->attempt($credentials)) {
-
             $request->session()->regenerate();
-
-            return redirect()->route('user.profile');
         }
-        return redirect()->route('user.login')->withErrors('Login Failed');
+       
     }
 
     public function logout(Request $request) {
@@ -30,6 +27,7 @@ class AuthService extends Service {
     }
 
     public function register(RegisterRequest $request) {
+
         $validate = $request->validated();
         $validate['password'] = Hash::make($validate['password']);
         User::create($validate);

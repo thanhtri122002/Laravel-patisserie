@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\AdminAuthController;
 use App\Http\Controllers\admin\ProductController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\User\UserAuthController;
+use App\Models\ProductImage;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function() {
@@ -42,6 +43,13 @@ Route::prefix('admin')->name('admin.')->group(function() {
             Route::post('/{id}/delete', 'delete')->name('delete');
         });
 
+        Route::controller(ProductImage::class)->prefix('productImages')->name('productImages.')->group(function() {
+            Route::get('/', 'index')->name('index');
+            Route::post('/', 'store')->name('store');
+            Route::get('/{id}', 'detail')->name('detail');
+            Route::post('/{id}', 'update')->name('update');
+            Route::post('/{id}/delete', 'delete')->name('delete');
+        });
 
     });
 });
@@ -53,10 +61,13 @@ Route::prefix('admin')->name('admin.')->group(function() {
 
 
 Route::prefix('user')->name('user.')->group(function() {
+
     Route::controller(UserAuthController::class)->group(function() {
+
         Route::get('login', 'showLoginForm')->name('login');
         Route::post('login', 'login')->name('login.submit');
         Route::post('logout', 'logout')->name('logout');
+        Route::post('register', 'register')->name('register');
     });
 
 });

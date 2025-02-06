@@ -1,18 +1,18 @@
 <?php
 
-namespace App\Http\Requests\user\Auth;
+namespace App\Http\Requests\admin;
 
-use App\Rules\Password;
+use App\Rules\ProductExists;
 use Illuminate\Foundation\Http\FormRequest;
 
-class LoginRequest extends FormRequest
+class ProductImageRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
      */
     public function authorize(): bool
     {
-        return true;
+        return false;
     }
 
     /**
@@ -23,8 +23,9 @@ class LoginRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'email' => 'required|string|email',
-            'password' => ['required', new Password()]
+            'product_id' => ['required', 'integer', new ProductExists()],
+            'name' =>  ['required', 'string'],
+            'url' => ['required', 'string', 'unique:product_images'],
         ];
     }
 }
