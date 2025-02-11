@@ -35,7 +35,7 @@ return new class extends Migration
     {
         // Drop the foreign key constraint using dropForeignIdFor
        Schema::table('products', function (Blueprint $table) {
-            $table->dropForeignIdFor(Category::class);
+            $table->dropForeign(['category_id']);
         });
 
         // Drop the 'products' table

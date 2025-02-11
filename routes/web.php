@@ -3,6 +3,8 @@
 use App\Http\Controllers\Admin\AdminAuthController;
 use App\Http\Controllers\admin\ProductController;
 use App\Http\Controllers\Admin\CategoryController;
+use App\Http\Controllers\User\Auth\PasswordResetLinkController;
+use App\Http\Controllers\User\Auth\ResetPasswordController;
 use App\Http\Controllers\User\UserAuthController;
 use App\Models\ProductImage;
 use Illuminate\Support\Facades\Route;
@@ -59,9 +61,14 @@ Route::prefix('admin')->name('admin.')->group(function() {
 
 //Note: prefix user + login => user/login
 
+Route::get('/reset-password/{token}', [ResetPasswordController::class, 'show'])->name('password.reset');
+Route::post('/reset-password', [ResetPasswordController::class, 'handle'])->name('password.create');
 
 Route::prefix('user')->name('user.')->group(function() {
+    Route::get('/forgot-password', [PasswordResetLinkController::class, 'show'])->name('password.request');
+    Route::post('/forgot-password', [PasswordResetLinkController::class, 'handle'])->name('password.email');
 
+    
     Route::controller(UserAuthController::class)->group(function() {
 
         Route::get('login', 'showLoginForm')->name('login');
