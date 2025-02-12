@@ -14,9 +14,9 @@ class PasswordResetLinkService extends Service
         return view('auth.forgot-password');
     }
 
-    public function handle($email) 
-    {
-        $status = Password::sendResetLink(['email' => $email]);
+    public function handle($email, $broker) 
+    {   
+        $status = Password::broker($broker)->sendResetLink(['email' => $email]);
 
         return $status === Password::RESET_LINK_SENT ?
         response()->json(['link' => $status])

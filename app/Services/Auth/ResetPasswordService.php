@@ -15,9 +15,9 @@ class ResetPasswordService extends Service
         return view('auth.reset-password', ['request' => $request]);
     }
 
-    public function handle($data) 
+    public function handle($data, $broker) 
     {
-        $status = Password::reset(collect($data)->only('email', 'password', 'password_confirmation', 'token')->toArray(),
+        $status = Password::broker($broker)->reset(collect($data)->only('email', 'password', 'password_confirmation', 'token')->toArray(),
             function (User $user , string $password) {
                 $user->forceFill([
                     'password' => Hash::make($password),

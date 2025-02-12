@@ -9,17 +9,28 @@ use App\Services\Auth\ResetPasswordService;
 use Illuminate\Http\Request;
 
 class ResetPasswordController extends BaseController
-{
-    public function show(Request $request) {
+{   
+    public function getUser(){
 
-        $ResetFormLink = ResetPasswordService::getInstance()->show($request);
+        return $this->guard()->user();
+    }
+
+    public function show(Request $request) 
+    {   
+        $user = $this->getUser();
+        $ResetFormLink = ResetPasswordService::getInstance()->withUser($user)->show($request);
+
         return $ResetFormLink;
     }
 
     public function handle(ResetPassword $request)
-    {
+    {      
+        $user = $this->getUser();
+        $broker = $this->broker;
         $validate = $request->validated();
-        $resetPasswordService = ResetPasswordService::getInstance()->handle($validate);
+        
+        $resetPasswordService = ResetPasswordService::getInstance()->withUser($user)->handle($validate, $broker);
+
         
     }
 }

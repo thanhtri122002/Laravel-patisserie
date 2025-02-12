@@ -61,13 +61,13 @@ Route::prefix('admin')->name('admin.')->group(function() {
 
 //Note: prefix user + login => user/login
 
-Route::get('/reset-password/{token}', [ResetPasswordController::class, 'show'])->name('password.reset');
-Route::post('/reset-password', [ResetPasswordController::class, 'handle'])->name('password.create');
+
 
 Route::prefix('user')->name('user.')->group(function() {
     Route::get('/forgot-password', [PasswordResetLinkController::class, 'show'])->name('password.request');
     Route::post('/forgot-password', [PasswordResetLinkController::class, 'handle'])->name('password.email');
-
+    Route::get('/reset-password/{token}', [ResetPasswordController::class, 'show'])->name('password.reset');
+    Route::post('/reset-password', [ResetPasswordController::class, 'handle'])->name('password.create');
     
     Route::controller(UserAuthController::class)->group(function() {
 
