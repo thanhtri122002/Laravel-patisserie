@@ -15,7 +15,7 @@ return new class extends Migration
         Schema::create('carts', function (Blueprint $table) {
             $table->id();
             $table->foreignIdFor(User::class)->constrained()->onDelete('cascade');
-            $table->decimal('cost',20 , 2)->nullable(false);
+            $table->decimal('cost',20 , 2)->nullable();
             $table->timestamps();
         });
     }

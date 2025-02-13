@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('product_id');
             $table->unsignedBigInteger('cart_id')->nullable();
-            $table->unsignedBigInteger('invoice_id');
+            $table->unsignedBigInteger('invoice_id')->nullable();
             
             $table->string('name', 255)->unique()->collation('utf8mb4_general_ci')->nullable(false);
             $table->unsignedBigInteger('quantity')->default(0);

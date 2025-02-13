@@ -5,6 +5,7 @@ use App\Http\Controllers\admin\ProductController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\User\Auth\PasswordResetLinkController;
 use App\Http\Controllers\User\Auth\ResetPasswordController;
+use App\Http\Controllers\User\CartController;
 use App\Http\Controllers\User\UserAuthController;
 use App\Models\ProductImage;
 use Illuminate\Support\Facades\Route;
@@ -62,7 +63,6 @@ Route::prefix('admin')->name('admin.')->group(function() {
 //Note: prefix user + login => user/login
 
 
-
 Route::prefix('user')->name('user.')->group(function() {
     Route::get('/forgot-password', [PasswordResetLinkController::class, 'show'])->name('password.request');
     Route::post('/forgot-password', [PasswordResetLinkController::class, 'handle'])->name('password.email');
@@ -75,6 +75,12 @@ Route::prefix('user')->name('user.')->group(function() {
         Route::post('login', 'login')->name('login.submit');
         Route::post('logout', 'logout')->name('logout');
         Route::post('register', 'register')->name('register');
+    });
+
+    Route::middleware("auth:web")->group(function() {
+        Route::controller(CartController::class)->group(function () {
+            Route::post('/', 'addToCart')->name('add');
+        });
     });
 
 });
