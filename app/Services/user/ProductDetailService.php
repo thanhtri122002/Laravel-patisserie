@@ -6,34 +6,8 @@ use App\Models\ProductDetail;
 use App\Services\Service;
 
 class ProductDetailService extends Service
-{
-
-
-    public function create($data)
-    {
-        $productDetail =  ProductDetail::create($data);
-        $cost = $this->calculateCost($productDetail);
-        $productDetail->update(['cost' => $cost]);
-        
-        return $productDetail;
-    }
-
-    public function update($id, $data)
-    {
-        $productDetail = $this->find($id);
-        $productDetail->update($data);
-
-        return $productDetail;
-    }
-
-    public function delete($id)
-    {
-        $productDetail = $this->find($id);
-        $productDetail->delete();
-
-        return true;
-    }
-
+{   
+    
     public function find($id)
     {
         return ProductDetail::findOrFail($id);
@@ -44,9 +18,38 @@ class ProductDetailService extends Service
         return ProductDetail::all();
     }
 
-    public function calculateCost($productDetail)
+    public function create($data)
     {
-        return $productDetail->product->price * $productDetail->quantity;
+        $productDetail =  ProductDetail::create($data);
+        $cost = $this->calculateCost($productDetail);
+        $productDetail->update(['cost' => $cost]);
+        
+        return $productDetail;
+    }
+    /**
+     * this operation use to update the product detail
+     * a product detail can only update the quantity in the cart and adding the invoices id 
+     *  
+     */
+    public function update($data, $productDetail)
+    {
+        $productDetail->update($data);
+        $cost = $this->calculateCost($productDetail);
+        $productDetail->update(['cost' => $cost]);
+
+        return $productDetail;
+    }
+
+    public function delete($productDetail)
+    {
+        $productDetail->delete();
+
+        return true;
+    }
+
+    public function calculateCost(ProductDetail $productDetail)
+    {
+        return $productDetail->calculateTotal();
     }
 
 }

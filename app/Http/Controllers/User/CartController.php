@@ -22,22 +22,38 @@ class CartController extends BaseController
         
     }
 
+    public function getCart()
+    {
+        $user = $this->getUser();
+        $cart = CartService::getInstance()->withUser($user)->getOrCreateCart();
+        
+        return $cart;
+    }
+
     public function addToCart(ProductDetailRequest $request)
     {
-        $validate = $request->validated();
+        $data = $request->safe()->only(['product_id', 'name', 'quantity']);
         $user = $this->getUser();
-        $addProduct = CartService::getInstance()->withUser($user)->addProduct($validate);
+        $addProduct = CartService::getInstance()->withUser($user)->addProduct($data);
         
+        return $addProduct;
     }
 
-    public function update()
+    public function update(ProductDetailRequest $request ,$productDetailId)
     {
+        $user = $this->getUser();
+        $data = $request->safe()->only(['quantity']);
+        $updateProduct = CartService::getInstance()->withUser($user)->update($data, $productDetailId);
 
+        return $updateProduct;
     }
 
-    public function delete()
+    public function deleteProduct($productDetailId)
     {
-
+        $user = $this->getUser();
+        CartService::getInstance()->withUser($user)->deleteProduct($productDetailId);
+        
+        return true;
     }
 
 }
