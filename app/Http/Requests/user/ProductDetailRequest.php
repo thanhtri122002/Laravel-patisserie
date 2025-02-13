@@ -29,7 +29,6 @@ class ProductDetailRequest extends FormRequest
             'quantity' => 'required|min:0|integer',
             'discount' => 'nullable|numeric|min:0',
             'cost' => 'nullable|numeric|min:0'
-
         ];
     }
 }

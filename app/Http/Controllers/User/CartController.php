@@ -30,9 +30,14 @@ class CartController extends BaseController
         
     }
 
-    public function update()
+    public function update(ProductDetailRequest $request ,$productDetailId)
     {
+        $user = $this->getUser();
+        $data = $request->validated();
+        $data = $request->safe()->only(['quantity']);
+        $updateCart = CartService::getInstance()->withUser($user)->update($data, $productDetailId);
 
+        return $updateCart;
     }
 
     public function delete()

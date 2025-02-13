@@ -6,8 +6,17 @@ use App\Models\ProductDetail;
 use App\Services\Service;
 
 class ProductDetailService extends Service
-{
+{   
+    
+    public function find($id)
+    {
+        return ProductDetail::findOrFail($id);
+    }
 
+    public function getAll()
+    {
+        return ProductDetail::all();
+    }
 
     public function create($data)
     {
@@ -17,11 +26,17 @@ class ProductDetailService extends Service
         
         return $productDetail;
     }
-
+    /**
+     * this operation use to update the product detail
+     * a product detail can only update the quantity in the cart and adding the invoices id 
+     *  
+     */
     public function update($id, $data)
     {
         $productDetail = $this->find($id);
         $productDetail->update($data);
+        $cost = $this->calculateCost($productDetail);
+        $productDetail->update(['cost' => $cost]);
 
         return $productDetail;
     }
@@ -34,19 +49,9 @@ class ProductDetailService extends Service
         return true;
     }
 
-    public function find($id)
+    public function calculateCost(ProductDetail $productDetail)
     {
-        return ProductDetail::findOrFail($id);
-    }
-
-    public function getAll()
-    {
-        return ProductDetail::all();
-    }
-
-    public function calculateCost($productDetail)
-    {
-        return $productDetail->product->price * $productDetail->quantity;
+        return $productDetail->calculateTotal();
     }
 
 }

@@ -42,7 +42,7 @@ class ProductDetailController extends Controller
     {
         $user = $this->getUser();
         $deleteDetail = ProductDetailService::getInstance()->withUser($user)->delete($id);
-        
+
     }
     
 
