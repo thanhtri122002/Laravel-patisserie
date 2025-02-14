@@ -22,9 +22,9 @@ class ProductDetailRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'product_id' => 'required|exists:products, id',
-            'cart_id' => 'nullable|exists:carts, id',
-            'invoice_id' => 'nullable|exists:invoices, id',
+            'product_id' => 'required|exists:products,id',
+            'cart_id' => 'nullable|exists:carts,id',
+            'invoice_id' => 'nullable|exists:invoices,id',
             'name' => 'required|string|max:255',
             'quantity' => 'required|min:0|integer',
             'discount' => 'nullable|numeric|min:0',

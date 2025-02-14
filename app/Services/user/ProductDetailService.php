@@ -31,9 +31,8 @@ class ProductDetailService extends Service
      * a product detail can only update the quantity in the cart and adding the invoices id 
      *  
      */
-    public function update($id, $data)
+    public function update($data, $productDetail)
     {
-        $productDetail = $this->find($id);
         $productDetail->update($data);
         $cost = $this->calculateCost($productDetail);
         $productDetail->update(['cost' => $cost]);
@@ -41,9 +40,8 @@ class ProductDetailService extends Service
         return $productDetail;
     }
 
-    public function delete($id)
+    public function delete($productDetail)
     {
-        $productDetail = $this->find($id);
         $productDetail->delete();
 
         return true;

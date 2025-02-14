@@ -16,12 +16,6 @@ class CartService extends Service
         $this->productDetailService = $productDetailService;
     }
 
-    private function getProduct($id)
-    {
-
-        return Product::findOrFail($id);
-    }
-
     private function getUserId()
     {
         return $this->getUser()->id;
@@ -30,7 +24,7 @@ class CartService extends Service
     /**
      * Get the cart if the user already has a cart, if not create the cart for the user 
      */
-    private function getOrCreateCart()
+    public function getOrCreateCart()
     {   
         $userId = $this->getUserId();
         $cart = Cart::where('user_id', $userId)->first();
@@ -43,6 +37,14 @@ class CartService extends Service
 
         return $cart;
  
+    }
+
+    public function getProductDetail($productDetailId)
+    {
+        $cart = $this->getOrCreateCart();
+        $productDetail = $cart->productDetail()->findOrFail($productDetailId);
+
+        return $productDetail;
     }
     /**
      * Add the product into the cart
@@ -59,27 +61,37 @@ class CartService extends Service
             $productDetail = $this->productDetailService->create($data);
         }
         elseif ($productDetail){
-            $productDetail->update(['quantity' => $productDetail->quantity + $data['quantity']]);
+            $productDetail->update([
+                'quantity' => $productDetail->quantity + $data['quantity'],
+                'cost' => $this->productDetailService->calculateCost($productDetail)]);
 
         }
 
-        return $cart;
+        return $productDetail;
     }
     /**
      * Cart update , mainly update when the product detail, including the 
      */
     public function update($data, $productDetailId)
-    {
-        $cart = $this->getOrCreateCart();
-        $productDetail = $this->productDetailService->update($productDetailId, $data);
+    {   
+        $productDetail = $this->getProductDetail($productDetailId);
+        $productDetail = $this->productDetailService->update($data, $productDetail);
         
-        return $cart;
+        return $productDetail;
     }
 
-    public function delete()
+    public function clearCart()
     {
         $cart = $this->getOrCreateCart();
-        $cart->delete();
+        $cart->productDetail->delete();
+        
+        return true;
+    }
+
+    public function deleteProduct($productDetailId)
+    {
+        $productDetail = $this->getProductDetail($productDetailId);
+        $this->productDetailService->delete($productDetail);
         
         return true;
     }

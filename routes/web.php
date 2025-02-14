@@ -64,6 +64,7 @@ Route::prefix('admin')->name('admin.')->group(function() {
 
 
 Route::prefix('user')->name('user.')->group(function() {
+    
     Route::get('/forgot-password', [PasswordResetLinkController::class, 'show'])->name('password.request');
     Route::post('/forgot-password', [PasswordResetLinkController::class, 'handle'])->name('password.email');
     Route::get('/reset-password/{token}', [ResetPasswordController::class, 'show'])->name('password.reset');
@@ -78,8 +79,13 @@ Route::prefix('user')->name('user.')->group(function() {
     });
 
     Route::middleware("auth:web")->group(function() {
-        Route::controller(CartController::class)->group(function () {
-            Route::post('/', 'addToCart')->name('add');
+
+        Route::controller(CartController::class)->prefix('cart')->name('cart.')->group(function () {
+
+            Route::get('/', 'getCart')->name('getCart');
+            Route::post('/', 'addToCart')->name('addProduct');
+            Route::post('/{productDetailId}', 'update')->name('updateProductDetail');
+            Route::post('/{productDetailId}/delete', 'delete')->name('deleteProductDetail');
         });
     });
 
