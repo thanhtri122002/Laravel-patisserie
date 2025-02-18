@@ -26,7 +26,7 @@ class ProductDetailService extends Service
         
         
         $productDetail->update(['cost' => $cost]);
-        dd($productDetail);
+        
         
         return $productDetail;
     }
@@ -35,10 +35,10 @@ class ProductDetailService extends Service
      * a product detail can only update the quantity in the cart and adding the invoices id 
      *  
      */
-    public function update($data, $productDetail)
+    public function update($quantity, $productDetail)
     {
-        $productDetail->update($data);
-        $cost = $productDetail->calculateTotal($productDetail);
+        $productDetail->update(['quantity' => $quantity]);
+        $cost = $productDetail->calculateTotal();
         $productDetail->update(['cost' => $cost]);
 
         return $productDetail;

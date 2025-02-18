@@ -71,9 +71,8 @@ class CartService extends Service
         }
         elseif ($productDetail){
             
-            $productDetail->update([
-                'quantity' => $productDetail->quantity + $data['quantity'],
-                'cost' => $productDetail->calculateTotal($productDetail)]);
+            $newQuantity = $productDetail->quantity += $data['quantity'];
+            $productDetail = $this->productDetailService->update($newQuantity, $productDetail);
 
         }
 
@@ -85,7 +84,7 @@ class CartService extends Service
     public function update($data, $productDetailId)
     {   
         $productDetail = $this->getProductDetail($productDetailId);
-        $productDetail = $this->productDetailService->update($data, $productDetail);
+        $productDetail = $this->productDetailService->update($data['quantity'], $productDetail);
         
         return $productDetail;
     }

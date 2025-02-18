@@ -31,10 +31,7 @@ class ChangeCartProductDetailPrice implements ShouldQueue
         $productDetails = $this->getProductDetail($event->product->id);
 
         foreach ($productDetails as $detail) {
-            $detail->update([
-                'price' => $event->product->price,
-                'cost' => $detail->calculateTotal()]);
+            $detail->update(['cost' => $detail->calculateTotal()]);
         }
-        
     }
 }

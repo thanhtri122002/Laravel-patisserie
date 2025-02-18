@@ -26,10 +26,12 @@ class CartController extends BaseController
     {
         $user = $this->getUser();
         
-        $cart = CartService::getInstance()->withUser($user)->getOrCreateCart();
+        $cart = CartService::getInstance()->withUser($user)->showCart();
         
         return $cart;
     }
+
+    
 
     public function addToCart(ProductDetailRequest $request)
     {
