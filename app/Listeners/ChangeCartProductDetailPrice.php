@@ -6,6 +6,7 @@ use App\Events\PriceChange;
 use App\Models\ProductDetail;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Support\Facades\DB;
 
 class ChangeCartProductDetailPrice implements ShouldQueue
 {
@@ -20,7 +21,7 @@ class ChangeCartProductDetailPrice implements ShouldQueue
 
     private function getProductDetail($id)
     {
-        return ProductDetail::where('product_id', $id)->get();
+        return ProductDetail::where('product_id', $id)->lockForUpdate()->get();
     }
     /**
      * Handle the event.
@@ -28,10 +29,13 @@ class ChangeCartProductDetailPrice implements ShouldQueue
     public function handle(PriceChange $event): void
     {
         //
-        $productDetails = $this->getProductDetail($event->product->id);
+        DB::transaction(function() use ($event) {
+            $productDetails = $this->getProductDetail($event->product->id);
 
-        foreach ($productDetails as $detail) {
-            $detail->update(['cost' => $detail->calculateTotal()]);
-        }
+            foreach ($productDetails as $detail) {
+                $detail->update(['cost' => $detail->calculateTotal()]);
+            }
+        });
+       
     }
 }
