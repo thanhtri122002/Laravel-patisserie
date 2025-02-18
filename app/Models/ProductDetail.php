@@ -43,10 +43,10 @@ class ProductDetail extends Model
     }
 
     public function calculateTotal()
-    {
+    {   
+        
         $cost = $this->product->price * $this->quantity;
         $discount = $this->discount ?? 0;
-        
-        return max(0, $cost - $discount);
+        return $cost - $discount;
     }
 }

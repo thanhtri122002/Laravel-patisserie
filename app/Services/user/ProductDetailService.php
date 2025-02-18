@@ -19,10 +19,14 @@ class ProductDetailService extends Service
     }
 
     public function create($data)
-    {
+    {   
+        
         $productDetail =  ProductDetail::create($data);
-        $cost = $productDetail->calculateTotal($productDetail);
+        $cost = $productDetail->calculateTotal();
+        
+        
         $productDetail->update(['cost' => $cost]);
+        dd($productDetail);
         
         return $productDetail;
     }

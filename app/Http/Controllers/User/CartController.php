@@ -25,6 +25,7 @@ class CartController extends BaseController
     public function getCart()
     {
         $user = $this->getUser();
+        
         $cart = CartService::getInstance()->withUser($user)->getOrCreateCart();
         
         return $cart;

@@ -27,8 +27,9 @@ class CartService extends Service
     public function getOrCreateCart()
     {   
         $userId = $this->getUserId();
+        
         $cart = Cart::where('user_id', $userId)->first();
-
+        
         if (!$cart) {
             $cart = Cart::create([
                         'user_id' => $userId
@@ -46,6 +47,13 @@ class CartService extends Service
 
         return $productDetail;
     }
+
+    public function showCart()
+    {
+        $cart = $this->getOrCreateCart();
+        
+        return $cart->productDetails;
+    }
     /**
      * Add the product into the cart
      * 
@@ -56,11 +64,13 @@ class CartService extends Service
         $data['cart_id'] = $cart->id;
 
         $productDetail = ProductDetail::where('product_id', $data['product_id'])->first();
-
+        
         if(!$productDetail){
+            
             $productDetail = $this->productDetailService->create($data);
         }
         elseif ($productDetail){
+            
             $productDetail->update([
                 'quantity' => $productDetail->quantity + $data['quantity'],
                 'cost' => $productDetail->calculateTotal($productDetail)]);
