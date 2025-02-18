@@ -44,7 +44,4 @@ class ProductDetailController extends Controller
         $deleteDetail = ProductDetailService::getInstance()->withUser($user)->delete($id);
 
     }
-    
-
-    
 }

@@ -21,7 +21,7 @@ class ProductDetailService extends Service
     public function create($data)
     {
         $productDetail =  ProductDetail::create($data);
-        $cost = $this->calculateCost($productDetail);
+        $cost = $productDetail->calculateTotal($productDetail);
         $productDetail->update(['cost' => $cost]);
         
         return $productDetail;
@@ -34,7 +34,7 @@ class ProductDetailService extends Service
     public function update($data, $productDetail)
     {
         $productDetail->update($data);
-        $cost = $this->calculateCost($productDetail);
+        $cost = $productDetail->calculateTotal($productDetail);
         $productDetail->update(['cost' => $cost]);
 
         return $productDetail;
@@ -45,11 +45,6 @@ class ProductDetailService extends Service
         $productDetail->delete();
 
         return true;
-    }
-
-    public function calculateCost(ProductDetail $productDetail)
-    {
-        return $productDetail->calculateTotal();
     }
 
 }

@@ -3,9 +3,11 @@
 namespace App\Providers;
 
 use App\Models\Admin;
+use App\Models\Product;
 use App\Models\ProductDetail;
 use App\Models\User;
 use App\Observers\ProductDetailObserver;
+use App\Observers\ProductObserver;
 use Illuminate\Auth\Notifications\ResetPassword;
 use Illuminate\Support\ServiceProvider;
 
@@ -25,6 +27,8 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         ProductDetail::observe(ProductDetailObserver::class);
+        Product::observe(ProductObserver::class);
+        
         ResetPassword::createUrlUsing(function ($user, string $token) {
             return match (true) {
                 $user instanceof Admin => 'http://localhost:8000/admin/reset-password' . '?token=' . $token . '&email=' . urlencode($user->email),

@@ -2,6 +2,7 @@
 
 namespace App\Observers;
 
+use App\Events\PriceChange;
 use App\Models\Product;
 
 class ProductObserver
@@ -20,6 +21,9 @@ class ProductObserver
     public function updated(Product $product): void
     {
         //
+        if($product->isDirty('price')){
+            PriceChange::dispatch($product);
+        }
     }
 
     /**

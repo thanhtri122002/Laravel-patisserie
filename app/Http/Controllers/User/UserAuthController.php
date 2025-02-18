@@ -33,9 +33,9 @@ class UserAuthController extends BaseController
     }
 
     public function register(RegisterRequest $request) {
-
+        
         AuthService::getInstance()->register($request);
-        return redirect()->route('user.profile');
+        return true;
     }
 
     public function logout(Request $request) {

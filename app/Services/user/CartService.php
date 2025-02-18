@@ -31,8 +31,8 @@ class CartService extends Service
 
         if (!$cart) {
             $cart = Cart::create([
-                    'user_id' => $userId
-                    ,'cost' => 0]);
+                        'user_id' => $userId
+                        ,'cost' => 0]);
         }
 
         return $cart;
@@ -63,7 +63,7 @@ class CartService extends Service
         elseif ($productDetail){
             $productDetail->update([
                 'quantity' => $productDetail->quantity + $data['quantity'],
-                'cost' => $this->productDetailService->calculateCost($productDetail)]);
+                'cost' => $productDetail->calculateTotal($productDetail)]);
 
         }
 
