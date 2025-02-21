@@ -34,9 +34,10 @@ abstract class Service {
      * 
      * @return $this
      */
-     public static function getInstance() {
+    public static function getInstance() {
 
         return app(static::class);
-     }
+    }
+    
 
 }

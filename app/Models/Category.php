@@ -14,7 +14,7 @@ class Category extends Model
         'name'
     ];
 
-    protected $guared = [
+    protected $guarded = [
         'id'
     ];
     

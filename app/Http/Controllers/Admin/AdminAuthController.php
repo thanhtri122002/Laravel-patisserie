@@ -26,7 +26,7 @@ class AdminAuthController extends BaseController
         
         AuthService::getInstance()->login($request);
        
-        return redirect()->route('admin.dashboard');
+        return $this->getCurrentAuthUser();
     }
 
     public function logout(Request $request) {

@@ -7,7 +7,7 @@
 @endsection
 
 @section('content')
-    <section class="w-full min-h-dvh relative">
+    <section class="w-full min-h-[70dvh] relative">
         <div class="absolute inset-0 bg-center bg-cover bg-no-repeat" style="background-image: url('{{ asset('storage/images/elements/banner1.jpg') }}');"></div>
         <div class="absolute top-1/2 md:left-20 transform -translate-y-1/2 max-w-[60dvw]">
             <div class="flex items-center">

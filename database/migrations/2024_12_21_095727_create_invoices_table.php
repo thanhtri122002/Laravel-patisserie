@@ -20,8 +20,8 @@ return new class extends Migration
             $table->string('email', 255)->collation('utf8mb4_general_ci')->nullable(false);
             $table->unsignedInteger('payment_method')->default(0);
             $table->unsignedInteger('status')->default(0);
-            $table->string('order_code',20)->collation('utf8mb4_general_ci')->nullable(false)->index();
-            $table->decimal('cost', 20, 2);
+            $table->string('order_code',20)->collation('utf8mb4_general_ci')->nullable(false)->unique();
+            $table->decimal('cost', 12, 2);
             $table->timestamps();
         });
     }

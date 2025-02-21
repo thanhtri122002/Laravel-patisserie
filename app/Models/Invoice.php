@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Str;
 
 class Invoice extends Model
 {
@@ -25,6 +26,7 @@ class Invoice extends Model
     public const CANCELLED = 3;
 
     protected $fillable = [
+        'user_id',
         'phone_number',
         'address',
         'email',
@@ -69,5 +71,17 @@ class Invoice extends Model
         };
     }
 
-    
+    /**
+     * generate unique code amongs users and each user have unique codes
+     */
+    public static function generateOrderCode($userId) 
+    {
+        do {
+            $orderCode = 'INV-' . now()->format('Ymd') . '-' . Str::upper(Str::random(5));
+
+        } while (self::where('user_id', $userId)->where('order_code', $orderCode)->exists());
+
+        return $orderCode;
+    }
+
 }

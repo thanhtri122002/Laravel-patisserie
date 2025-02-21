@@ -20,13 +20,15 @@
             top: 0;
             left: 0;
             opacity: 0;
+            transform: translateY(20px);
              /* Hide text completely */
             transition: opacity 0.5s ease;
         }
         .dynamic-text.active {
             opacity: 1;
             z-index:1 ;
-            transition: opacity 0.5s ease;
+            transform: translateY(0px);
+            transition: opacity 0.5s ease, transform 0.5s ease;
         }
     }
 

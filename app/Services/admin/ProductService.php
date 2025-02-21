@@ -9,7 +9,7 @@ class ProductService extends Service {
 
     protected function getProduct($id) {
 
-        return Product::findOrFail($id);
+        return Product::with(['category', 'productImages'])->findOrFail($id);
     }
 
     public function index() {

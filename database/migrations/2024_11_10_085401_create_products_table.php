@@ -24,6 +24,10 @@ return new class extends Migration
             $table->longText('description')->nullable(true)->collation('utf8mb4_general_ci');
             $table->decimal('price', 20, 2)->nullable(false);
             $table->unsignedBigInteger('stock')->default(0);
+
+            $table->string('stripe_product_id')->nullable();
+            $table->string('stripe_price_id')->nullable();
+
             $table->timestamps();
         });
     }
@@ -35,7 +39,7 @@ return new class extends Migration
     {
         // Drop the foreign key constraint using dropForeignIdFor
        Schema::table('products', function (Blueprint $table) {
-            $table->dropForeignIdFor(Category::class);
+            $table->dropForeign(['category_id']);
         });
 
         // Drop the 'products' table

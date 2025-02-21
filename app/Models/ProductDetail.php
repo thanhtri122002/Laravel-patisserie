@@ -42,5 +42,11 @@ class ProductDetail extends Model
         return $this->belongsTo(Cart::class);
     }
 
-    
+    public function calculateTotal()
+    {   
+        
+        $cost = $this->product->price * $this->quantity;
+        $discount = $this->discount ?? 0;
+        return $cost - $discount;
+    }
 }

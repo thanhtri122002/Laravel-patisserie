@@ -9,11 +9,12 @@ class ProductImageService extends Service {
 
 
     public function index() {
-        return ProductImage::all();
+        return ProductImage::with('product')->get();
     }
 
+
     public function detail($id) {
-        return ProductImage::findOrFail($id);
+        return ProductImage::with('products')->findOrFail($id);
     }
 
     public function store($data) {
@@ -32,5 +33,4 @@ class ProductImageService extends Service {
         $image->delete();
     }
         
-    
 }

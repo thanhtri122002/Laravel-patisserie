@@ -16,8 +16,8 @@ class ProductExists implements ValidationRule
     public function validate(string $attribute, mixed $value, Closure $fail): void
     {
         //
-        if(!Product::where('id', $id)->exists()) {
-            $fail('The product is not exists !')
+        if(!Product::where('id', $value)->exists()) {
+            $fail('The product is not exists !');
         }
     }
 }
