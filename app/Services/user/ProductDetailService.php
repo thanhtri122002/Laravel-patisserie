@@ -44,6 +44,7 @@ class ProductDetailService extends Service
         return $productDetail;
     }
 
+
     public function delete($productDetail)
     {
         $productDetail->delete();

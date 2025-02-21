@@ -41,5 +41,9 @@ return [
         'endpoint' => env("MAILGUN_ENDPOINT", 'api.mailgun.net'),
         'scheme' => 'https',
     ],
+    'stripe' => [
+        'secret' => env("STRIPE_SECRET"),
+        'public' => env('STRIPE_PUBLIC')
+    ],
 
 ];

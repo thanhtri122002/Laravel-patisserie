@@ -29,6 +29,7 @@ class ReducedProductStock implements ShouldQueue
     {
         //
         DB::transaction(function () use ($event) {
+
             $productDetail = $event->productDetail;
             $quantityPurchased = $event->productDetail->quantity;
             $productId = $productDetail->product_id;
@@ -40,7 +41,6 @@ class ReducedProductStock implements ShouldQueue
                 else {
                     throw new \Exception('Not enough stock available');
                 }
-                
             }
         });
     }

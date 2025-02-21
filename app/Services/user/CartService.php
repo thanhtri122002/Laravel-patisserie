@@ -10,6 +10,7 @@ use App\Services\Service;
 class CartService extends Service 
 {   
     protected $productDetailService ;
+    protected $invoiceService;
 
     public function __construct(ProductDetailService $productDetailService)
     {   
@@ -48,7 +49,7 @@ class CartService extends Service
         return $productDetail;
     }
 
-    public function showCart()
+    public function cartDetail()
     {
         $cart = $this->getOrCreateCart();
         
@@ -78,6 +79,15 @@ class CartService extends Service
 
         return $productDetail;
     }
+
+    public function submitCart($data)
+    {
+        $productInCart = $this->cartDetail();
+        $user = $this->getUser();
+        $invoice = InvoiceService::getInstance()->withUser($user)->makeInvoice($data, $productInCart);
+        
+        $return $invoice;
+    }
     /**
      * Cart update , mainly update when the product detail, including the 
      */
@@ -92,7 +102,7 @@ class CartService extends Service
     public function clearCart()
     {
         $cart = $this->getOrCreateCart();
-        $cart->productDetail->delete();
+        $cart->productDetails->delete();
         
         return true;
     }

@@ -4,6 +4,7 @@ namespace App\Observers;
 
 use App\Events\PriceChange;
 use App\Models\Product;
+use App\Services\StripeService;
 
 class ProductObserver
 {
@@ -13,6 +14,8 @@ class ProductObserver
     public function created(Product $product): void
     {
         //
+        $stripeService = new StripeService();
+        $stripeService->createStripeProduct($product);
     }
 
     /**

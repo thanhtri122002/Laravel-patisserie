@@ -10,11 +10,12 @@ class ProductDetailObserver
 {
     /**
      * Handle the ProductDetail "created" event.
+     * If the product detail is in the cart, no need to reducde the product'stocks
      */
     public function created(ProductDetail $productDetail): void
     {
         //
-        event(new ProductPurchased($productDetail));
+        //event(new ProductPurchased($productDetail));
         
     }
 

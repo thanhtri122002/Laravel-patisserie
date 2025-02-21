@@ -2,11 +2,10 @@
 
 namespace App\Rules;
 
-use App\Models\Product;
 use Closure;
 use Illuminate\Contracts\Validation\ValidationRule;
 
-class ProductExists implements ValidationRule
+class PhoneNumber implements ValidationRule
 {
     /**
      * Run the validation rule.
@@ -15,9 +14,8 @@ class ProductExists implements ValidationRule
      */
     public function validate(string $attribute, mixed $value, Closure $fail): void
     {
-        //
-        if(!Product::where('id', $value)->exists()) {
-            $fail('The product is not exists !');
+        if (!preg_match('/^\+?[0-9\- ]{10,15}$/', $value)) {
+            $fail('Please enter the valid phone number');
         }
     }
 }

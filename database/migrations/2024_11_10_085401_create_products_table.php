@@ -24,6 +24,10 @@ return new class extends Migration
             $table->longText('description')->nullable(true)->collation('utf8mb4_general_ci');
             $table->decimal('price', 20, 2)->nullable(false);
             $table->unsignedBigInteger('stock')->default(0);
+
+            $table->string('stripe_product_id')->nullable();
+            $table->string('stripe_price_id')->nullable();
+
             $table->timestamps();
         });
     }
