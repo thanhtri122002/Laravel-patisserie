@@ -7,15 +7,20 @@ use App\Models\Product;
 use App\Services\StripeService;
 
 class ProductObserver
-{
+{   
+    protected $stripeService;
+
+    public function __construct(StripeService $stripeService)
+    {
+        $this->stripeService = $stripeService;
+    }
     /**
      * Handle the Product "created" event.
      */
     public function created(Product $product): void
     {
         //
-        $stripeService = new StripeService();
-        $stripeService->createStripeProduct($product);
+        $this->stripeService->createStripeProduct($product);
     }
 
     /**
@@ -23,12 +28,16 @@ class ProductObserver
      */
     public function updated(Product $product): void
     {
-        //
+        $this->stripeService->updateStripeProduct($product);
         if($product->isDirty('price')){
             PriceChange::dispatch($product);
         }
     }
 
+    public function deleting(Product $product): void 
+    {
+        $this->stripeService->removeProduct($product);
+    }
     /**
      * Handle the Product "deleted" event.
      */

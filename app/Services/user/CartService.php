@@ -86,7 +86,7 @@ class CartService extends Service
         $user = $this->getUser();
         $invoice = InvoiceService::getInstance()->withUser($user)->makeInvoice($data, $productInCart);
         
-        $return $invoice;
+        return $invoice;
     }
     /**
      * Cart update , mainly update when the product detail, including the 
