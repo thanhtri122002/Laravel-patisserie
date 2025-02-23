@@ -58,9 +58,6 @@ Route::prefix('admin')->name('admin.')->group(function() {
             Route::post('/{id}', 'update')->name('update');
             Route::post('/{id}/delete', 'delete')->name('delete');
         });
-
-        
-
     });
 });
 

@@ -14,17 +14,19 @@ class ProductImageService extends Service {
 
 
     public function detail($id) {
-        return ProductImage::with('products')->findOrFail($id);
+        return ProductImage::with('product')->findOrFail($id);
     }
 
     public function store($data) {
         $image = ProductImage::create($data);
+        
         return $image;
     }
 
     public function update($data, $id) {
         $image = $this->detail($id);
         $image->update($data);
+
         return $image;
     }
 
