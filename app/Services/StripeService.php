@@ -14,7 +14,6 @@ use Stripe\StripeClient;
 class StripeService extends Service
 {   
     protected $stripe;
-    protected $invoice;
 
     /**
      * Initialize the Stripe client globally 
@@ -136,24 +135,24 @@ class StripeService extends Service
         $lineItem = [];
         foreach($invoiceDetails as $detail) {
             $lineItem[] = [
-                'price_data' => [
-                    'price' => $detail->product->stripe_price_id,
-                    'currency' => 'vnd',
-                    'product_data' => [
-                        'name' => $detail->name,
-                    ],
-                    'unit_amount' => $detail->product->price,
-                    'quantity' => $detail->quantity
-                ],
+                'price' => $detail->product->stripe_price_id,
+                'quantity' => $detail->quantity,
             ];
         }
 
         return $lineItem;
     }
 
-    public function checkoutIntent()
+    public function checkoutSession(Invoice $invoice)
     {
+        $checkoutSession = $this->stripe->checkout->sessions->create([
+            'line_items' => $this->getLineItems($invoice),
+            'mode' => 'payment',
+            'success_url' => route('user.cart.getCart') . '?success=true',
+            'cancel_url' => route('user.cart.getCart') . '?canceled=true',
+        ]);
 
+        return $checkoutSession->url;
     }
     
 }

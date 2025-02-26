@@ -120,5 +120,4 @@ class CartService extends Service
      * You can choose which product detail can be have the invoice id 
      * 
      */
-
 }

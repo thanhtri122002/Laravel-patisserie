@@ -28,6 +28,17 @@ class InvoiceService extends Service
         return $invoice->productDetails;
     }
 
+    public function list($search, $perPage)
+    {
+        $userId = $this->getUser()->id;
+        $query = Invoice::where('user_id', $userId);
+
+        if ($search) {
+            $query->where('status_code', 'LIKE', "%{$search}%");
+        }
+
+        return $query->paginate($perPage);
+    }
     /**
      * 
      */
@@ -55,6 +66,4 @@ class InvoiceService extends Service
     }
 
     
-
-
 }
