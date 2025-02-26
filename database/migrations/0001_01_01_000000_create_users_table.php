@@ -19,6 +19,8 @@ return new class extends Migration
             $table->string('password');
             $table->rememberToken();
             $table->string('stripe_id')->nullable();
+            $table->string('pm_type')->nullable();
+            $table->string('pm_last_four')->nullable();
             $table->timestamps();
         });
 

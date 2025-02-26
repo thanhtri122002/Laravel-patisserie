@@ -48,6 +48,4 @@ class ProductImageController extends BaseController
 
         return $this->sendSuccessResponse(null, 'delete successfully', Response::OK);
     }
-
-
 }

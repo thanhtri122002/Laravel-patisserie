@@ -14,12 +14,13 @@
             <li class="nav-item">
                 <a href="#">Product</a>
             </li>
-            <li class="nav-item dropdown-toggle relative">
+            <!-- <li class="nav-item dropdown-toggle relative"> -->
+            <li class="nav-item">
                 <a href="#">Services</a>
-                <div class="dropdown-menu hidden">
+                <!-- <div class="dropdown-menu hidden">
                     <a href=""></a>
                     <a href=""></a>
-                </div>
+                </div> -->
             </li>
             <li class="nav-item">
                 <a href="#">Teams</a>

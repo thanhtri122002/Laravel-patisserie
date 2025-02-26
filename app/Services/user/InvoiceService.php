@@ -3,6 +3,7 @@
 namespace App\Services\user;
 
 use App\Models\Invoice;
+use App\Models\ProductDetail;
 use App\Services\Service;
 use App\Services\StripeService;
 use Illuminate\Support\Facades\DB;
@@ -10,6 +11,7 @@ use Illuminate\Support\Facades\DB;
 class InvoiceService extends Service
 {   
     protected $stripe;
+    
     public function __construct(StripeService $stripe)
     {
         $this->stripe = $stripe;
@@ -20,6 +22,23 @@ class InvoiceService extends Service
         return Invoice::with('productDetails')->findOrFail($id);
     }
 
+    public function getInvoiceProducts($id)
+    {
+        $invoice = $this->detail($id);
+        return $invoice->productDetails;
+    }
+
+    public function list($search, $perPage)
+    {
+        $userId = $this->getUser()->id;
+        $query = Invoice::where('user_id', $userId);
+
+        if ($search) {
+            $query->where('status_code', 'LIKE', "%{$search}%");
+        }
+
+        return $query->paginate($perPage);
+    }
     /**
      * 
      */
@@ -44,8 +63,7 @@ class InvoiceService extends Service
         });
 
         return $invoice;
-       
     }
 
-
+    
 }

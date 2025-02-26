@@ -20,13 +20,13 @@ class CartController extends BaseController
     public function get(Request $request)
     {
         $user = $this->getUser();
-        
+
+        return $user;        
     }
 
     public function getCart()
     {
         $user = $this->getUser();
-        
         $cart = CartService::getInstance()->withUser($user)->cartDetail();
         
         return $cart;
@@ -57,6 +57,7 @@ class CartController extends BaseController
         $data = $request->validated();
         $submitCart = CartService::getInstance()->withUser($user)->submitCart($data);        
 
+        return true;
     }
 
     public function deleteProduct($productDetailId)

@@ -58,9 +58,6 @@ Route::prefix('admin')->name('admin.')->group(function() {
             Route::post('/{id}', 'update')->name('update');
             Route::post('/{id}/delete', 'delete')->name('delete');
         });
-
-        
-
     });
 });
 
@@ -94,6 +91,7 @@ Route::prefix('user')->name('user.')->group(function() {
             Route::post('/{productDetailId}', 'update')->name('updateProductDetail');
             Route::post('/{productDetailId}/delete', 'delete')->name('deleteProductDetail');
             Route::post('/submit', 'submitCart')->name('submit');
+            Route::get('payment/success/{invoice}');
         });
     });
 
