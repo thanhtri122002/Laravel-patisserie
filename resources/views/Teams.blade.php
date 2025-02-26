@@ -14,8 +14,7 @@
                 <p class="font-mer text-h1 text-center">Meet our teams</p>
             </div>
             <div class="people grid grid-cols-1 md:grid-cols-5 gap-[3rem] mt-8 ">
-                
-            <div class="our-team relative">
+                <div class="our-team relative">
                     <div class="picture">
                         <img src="" alt="">
                     </div>
