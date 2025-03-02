@@ -13,7 +13,7 @@
                 <p class="font-mer text-body text-center w-[70%]">Our dedicated team of pastry chefs and artisans pour their passion into every creation, bringing you the finest treats with love and expertise!</p>
                 <p class="font-mer text-h1 text-center">Meet our teams</p>
             </div>
-            <div class="people grid grid-cols-1 md:grid-cols-3 gap-[3rem] mt-8 ">
+            <div class="people grid grid-cols-2 md:grid-cols-3 gap-[3rem] mt-8 ">
                 <div class="our-team relative">
                     <div class="picture">
                         <img src="{{ asset('storage/images/elements/ceo.jpg') }}" alt="">
