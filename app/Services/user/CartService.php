@@ -81,9 +81,11 @@ class CartService extends Service
     }
 
     public function submitCart($data)
-    {
+    {   
+        
         $productInCart = $this->cartDetail();
         $user = $this->getUser();
+        $data['cost'] = $this->getCartCost();
         $invoice = InvoiceService::getInstance()->withUser($user)->makeInvoice($data, $productInCart);
         
         return $invoice;
@@ -113,6 +115,19 @@ class CartService extends Service
         $this->productDetailService->delete($productDetail);
         
         return true;
+    }
+
+    public function getCartCost()
+    {
+        $cart = $this->getOrCreateCart();
+        
+        $productDetails = $cart->productDetails;
+        $cost = 0;
+        foreach($productDetails as $detail) {
+            $cost = $detail->calculateTotal();
+        }
+
+        return $cost;
     }
 
     /**

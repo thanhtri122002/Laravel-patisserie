@@ -52,28 +52,29 @@ class StripeService extends Service
      * 
      */
     public function createStripeProduct(Product $product): array
-    {   
-        if(!$product->stripe_product_id || !$product->stripe_price_id) {
+    {      
+        
+        if(!$product->stripe_product_id && !$product->stripe_price_id) {
 
             $stripeProduct = $this->stripe->products->create([
 
                 'name' => $product->name,
             ]);
-
             $stripePrice = $this->stripe->prices->create([
 
-                'unit_amount' => $product->price * 100,
+                'unit_amount' => $product->price,
                 'currency' => 'vnd',
                 'product' => $stripeProduct->id
             ]);
 
-            $product->update([
-                'stripe_product_id' => $stripeProduct->id,
-                'stripe_price_id' => $stripePrice->id,
-            ]);
-
+            $product->withoutEvents(function () use($product, $stripeProduct, $stripePrice) {
+                $product->update([
+                    'stripe_product_id' => $stripeProduct->id,
+                    'stripe_price_id' => $stripePrice->id,
+                ]);
+            });
         }  
-
+        
         return [
             'stripe_product_id' => $product->stripe_product_id,
             'stripe_price_id' => $product->stripe_price_id,
@@ -81,7 +82,7 @@ class StripeService extends Service
     }
 
     public function updateStripeProduct(Product $product)
-    {
+    {   
         if ($product->isDirty('name')) {
             $this->stripe->products->update($product->stripe_product_id, [
                 'name' => $product->name,
@@ -93,7 +94,7 @@ class StripeService extends Service
                 'active' => false,
             ]);
             $newStripePrice = $this->stripe->prices->create([
-                'unit_amount' => $product->price * 100,
+                'unit_amount' => $product->price,
                 'currency' => 'vnd',
                 'product' => $product->stripe_product_id,
             ]);
@@ -146,6 +147,7 @@ class StripeService extends Service
     public function checkoutSession(Invoice $invoice)
     {
         $checkoutSession = $this->stripe->checkout->sessions->create([
+            
             'line_items' => $this->getLineItems($invoice),
             'mode' => 'payment',
             'success_url' => route('user.cart.getCart') . '?success=true',

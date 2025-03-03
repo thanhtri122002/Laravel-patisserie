@@ -31,7 +31,7 @@
                 </div>
                 <div class="our-team relative">
                     <div class="picture">
-                    <img src="{{ asset('storage/images/elements/ceo.jpg') }}" alt="">
+                        <img src="{{ asset('storage/images/elements/ceo.jpg') }}" alt="">
                     </div>
                     <div class="member">
                         <p>Tri Thanh</p>
