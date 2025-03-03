@@ -25,6 +25,7 @@ class InvoiceService extends Service
     public function getInvoiceProducts($id)
     {
         $invoice = $this->detail($id);
+        
         return $invoice->productDetails;
     }
 

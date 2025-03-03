@@ -82,16 +82,17 @@ Route::prefix('user')->name('user.')->group(function() {
         Route::post('register', 'register')->name('register');
     });
 
-    Route::middleware("auth:web")->group(function() {
+    Route::middleware("auth")->group(function() {
 
         Route::controller(CartController::class)->prefix('cart')->name('cart.')->group(function () {
-
-            Route::get('/', 'getCart')->name('getCart');
-            Route::post('/', 'addToCart')->name('addProduct');
+            
+            Route::post('/submit', 'submitCart')->name('submit'); // ✅ Place before dynamic routes
+            Route::post('/', 'addToCart')->name('addProduct');  
             Route::post('/{productDetailId}', 'update')->name('updateProductDetail');
             Route::post('/{productDetailId}/delete', 'delete')->name('deleteProductDetail');
-            Route::post('/submit', 'submitCart')->name('submit');
-            Route::get('payment/success/{invoice}');
+        
+            Route::get('/', 'getCart')->name('getCart');
+            Route::get('payment/success/{invoice}', 'paymentSuccess')->name('paymentSuccess');
         });
     });
 

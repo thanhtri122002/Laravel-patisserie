@@ -16,7 +16,9 @@ class Product extends Model
         'name',
         'description',
         'price',
-        'stock'
+        'stock',
+        'stripe_product_id',
+        'stripe_price_id'
         ];
         
     protected $guarded =['id'];

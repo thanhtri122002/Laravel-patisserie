@@ -21,8 +21,10 @@ class submitCartRequest extends FormRequest
      * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
      */
     public function rules(): array
-    {
+    {   
+        
         return [
+            
             'phone_number' => ['required', new PhoneNumber()],
             'address' => 'required|string',
             'email' => 'required|email',

@@ -17,7 +17,7 @@ class CartController extends BaseController
         return $this->guard()->user();
     }
 
-    public function get(Request $request)
+    public function get()
     {
         $user = $this->getUser();
 
@@ -25,7 +25,7 @@ class CartController extends BaseController
     }
 
     public function getCart()
-    {
+    {      
         $user = $this->getUser();
         $cart = CartService::getInstance()->withUser($user)->cartDetail();
         
@@ -34,7 +34,8 @@ class CartController extends BaseController
 
     
     public function addToCart(ProductDetailRequest $request)
-    {
+    {   
+       
         $data = $request->safe()->only(['product_id', 'name', 'quantity']);
         $user = $this->getUser();
         $addProduct = CartService::getInstance()->withUser($user)->addProduct($data);
@@ -43,7 +44,8 @@ class CartController extends BaseController
     }
 
     public function update(ProductDetailRequest $request ,$productDetailId)
-    {
+    {   
+        dd('in update method of controller');
         $user = $this->getUser();
         $data = $request->safe()->only(['quantity']);
         $updateProduct = CartService::getInstance()->withUser($user)->update($data, $productDetailId);
@@ -67,5 +69,6 @@ class CartController extends BaseController
         
         return true;
     }
+
 
 }
