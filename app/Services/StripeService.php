@@ -4,6 +4,7 @@ namespace App\Services;
 use App\Models\Invoice;
 use App\Models\Product;
 use App\Models\User;
+use Illuminate\Http\Request;
 use Laravel\Cashier\Cashier;
 use Stripe\Customer;
 use Stripe\Price;
@@ -145,7 +146,8 @@ class StripeService extends Service
     }
 
     public function checkoutSession(Invoice $invoice)
-    {
+    {   
+        
         $checkoutSession = $this->stripe->checkout->sessions->create([
             
             'line_items' => $this->getLineItems($invoice),
@@ -156,5 +158,35 @@ class StripeService extends Service
 
         return $checkoutSession->url;
     }
-    
+
+    public function embededCheckOutForm(Invoice $invoice) 
+    {
+        $checkoutSession = $this->stripe->checkout->sessions->create([
+            'line_items' => $this->getLineItems($invoice),
+            'ui_mode' => 'embedded',
+            'mode' => 'payment',
+            'return_url' => route('user.cart.getCart') . 'return.html?session_id={CHECKOUT_SESSION_ID}'
+
+        ]);
+
+        return $checkoutSession;
+    }
+
+    public function retrieveStatus(Request $request)
+    {
+        try {
+
+            $sessionId = $request->input('session_id');
+            $session = $this->stripe->checkout->sessions->retrieve($sessionId);
+            return [
+                'status' => $session->status,
+                'customer_email' => $session->customer_email
+            ];
+
+        } catch(\Exception $e) {
+            return $e->getMessage();
+        }
+    }
+
+
 }

@@ -19,7 +19,7 @@ class InvoiceObserver
      */
     public function created(Invoice $invoice): void
     {
-        //
+
     }
 
     /**

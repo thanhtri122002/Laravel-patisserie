@@ -7,6 +7,7 @@ use App\Http\Controllers\Admin\ProductImageController;
 use App\Http\Controllers\User\Auth\PasswordResetLinkController;
 use App\Http\Controllers\User\Auth\ResetPasswordController;
 use App\Http\Controllers\User\CartController;
+use App\Http\Controllers\User\PaymentController;
 use App\Http\Controllers\User\UserAuthController;
 use App\Models\ProductImage;
 use Illuminate\Support\Facades\Route;
@@ -83,7 +84,14 @@ Route::prefix('user')->name('user.')->group(function() {
     });
 
     Route::middleware("auth")->group(function() {
+        Route::controller(PaymentController::class)->prefix('payment')->name('payment.')->group(function () {
+            Route::post('/checkout/{invoiceId}', 'checkout')->name('checkout');
+        });
 
+        Route::controller(PaymentController::class)->prefix('embeddedPayment')->name('embeddedpayment.')->group(function () {
+            Route::post('/embeddedCheckoutForm/{invoiceId}', 'embeddedCheckout')->name('embeddedCheckout');
+        });
+        
         Route::controller(CartController::class)->prefix('cart')->name('cart.')->group(function () {
             
             Route::post('/submit', 'submitCart')->name('submit'); // ✅ Place before dynamic routes
@@ -92,9 +100,12 @@ Route::prefix('user')->name('user.')->group(function() {
             Route::post('/{productDetailId}/delete', 'delete')->name('deleteProductDetail');
         
             Route::get('/', 'getCart')->name('getCart');
-            Route::get('payment/success/{invoice}', 'paymentSuccess')->name('paymentSuccess');
+            Route::post('payment/success/{invoice}', 'paymentSuccess')->name('paymentSuccess');
         });
+        
+        
     });
+
 
 });
 

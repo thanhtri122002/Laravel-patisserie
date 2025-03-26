@@ -1,5 +1,7 @@
 import './bootstrap';
-import '../scss/app.scss'
+import '../scss/app.scss';
+import './custom-swiper.js';
+
 import Alpine from 'alpinejs';
 
 window.Alpine = Alpine;
