@@ -7,6 +7,20 @@
 @endsection
 
 @section('content')
+
+    <section class="w-full relative my-[2rem]">
+        <div class="container mx-auto flex flex-col md:flex-row justify-center items-center">
+            <div class="flex flex-col justify-center flex-1">
+                <p class="font-mer text-h1 text-start">Hey,</p>
+                <p class="font-mer text-h1 text-start">We'are glamour</p>
+                <p class="font-mer text-body">Crafting exquisite pastries with passion and precision. Every bite is a taste of elegance and indulgence.</p>
+            </div>
+            <div class="flex justify-center items-center flex-1 relative">
+                <div class="absolute bottom-[-20px] left-1/2 transform -translate-x-1/2 w-3/4 h-[100px] bg-[#F1EAE3] rounded-lg shadow-lg z-0"></div>
+                <img class="w-full max-w-[500px] h-auto object-cover rounded-lg shadow-lg relative z-10" src="{{ asset('storage/about-us-1.jpg') }}" alt="">
+            </div>
+        </div>
+    </section>
     <section class="w-full relative min-h-[70dvh] my-[2rem]">
         <div class="small-container mx-auto flex flex-col justify-center items-center">
             <div class="flex flex-col items-center justify-center">
