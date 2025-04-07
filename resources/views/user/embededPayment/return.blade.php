@@ -4,7 +4,14 @@
 
 
 @section('content')
-    <div>
-        <!-- Nothing worth having comes easy. - Theodore Roosevelt -->
-    </div>
+    
+    <section id="success" class="hidden">
+        <p>
+            We appreciate your business! A confirmation email will be sent to <span id="customer-email"></span>.
+        </p>
+    </section>
 @endsection
+
+@push('scripts')
+    <script src="{{ asset('js/embeddedReturn.js') }}"></script>
+@endpush

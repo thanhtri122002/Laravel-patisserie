@@ -43,7 +43,17 @@ class PaymentController extends BaseController
         $user = $this->getUser();
         $invoice = $this->invoiceService->withUser($user)->detail($id);
 
-        $checkoutSession = $this->stripeService->withUser($user)->embededCheckOutForm($invoice);
+        $clientSecret = $this->stripeService->withUser($user)->embededCheckOutForm($invoice);
         
+        return response()->json(['clientSecret' => $clientSecret]);
+    }
+
+    public function retrieveStatus(Request $request)
+    {
+        $user = $this->getUser();
+        $sessionId = $request->input('session_id');
+        
+        $status = $this->stripeService->withUser($user)->retrieveStatus($sessionId);
+
     }
 }

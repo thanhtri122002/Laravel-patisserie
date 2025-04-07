@@ -90,6 +90,7 @@ Route::prefix('user')->name('user.')->group(function() {
 
         Route::controller(PaymentController::class)->prefix('embeddedPayment')->name('embeddedpayment.')->group(function () {
             Route::post('/embeddedCheckoutForm/{invoiceId}', 'embeddedCheckout')->name('embeddedCheckout');
+            Route::post('/embeddedCheckoutForm', 'retrieveStatus')->name('retrieveStatus');
         });
         
         Route::controller(CartController::class)->prefix('cart')->name('cart.')->group(function () {
@@ -98,14 +99,12 @@ Route::prefix('user')->name('user.')->group(function() {
             Route::post('/', 'addToCart')->name('addProduct');  
             Route::post('/{productDetailId}', 'update')->name('updateProductDetail');
             Route::post('/{productDetailId}/delete', 'delete')->name('deleteProductDetail');
-        
             Route::get('/', 'getCart')->name('getCart');
             Route::post('payment/success/{invoice}', 'paymentSuccess')->name('paymentSuccess');
         });
         
         
     });
-
 
 });
 

@@ -169,14 +169,13 @@ class StripeService extends Service
 
         ]);
 
-        return $checkoutSession;
+        return $checkoutSession->client_secret;
     }
 
-    public function retrieveStatus(Request $request)
+    public function retrieveStatus($sessionId)
     {
         try {
 
-            $sessionId = $request->input('session_id');
             $session = $this->stripe->checkout->sessions->retrieve($sessionId);
             return [
                 'status' => $session->status,
