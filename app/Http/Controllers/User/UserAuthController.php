@@ -22,14 +22,19 @@ class UserAuthController extends BaseController
 
     public function showLoginForm() {
 
-        return 'hello';
+        return view('user.login');
     }
 
     public function login(LoginRequest $request) {
 
         
-        AuthService::getInstance()->login($request);
+        $success = AuthService::getInstance()->login($request);
+        if ($success) {
+            
+            return redirect('/');
+        }
         
+        return 'false';
     }
 
     public function register(RegisterRequest $request) {

@@ -6,5 +6,4 @@
     @else
         <a href="{{ route('user.login') }}">Log in</a>
     @endif
-
 </div>

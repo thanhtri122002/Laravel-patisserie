@@ -23,13 +23,29 @@
                 </div> -->
             </li>
             <li class="nav-item">
-                <a href="#">Teams</a>
+                <a href="/teams">Teams</a>
             </li>
             <li class="nav-item">
                 <a href="#">Contact</a>
             </li>
-            <li class="nav-item">
-                <x-user-name-section />
+            <li class="nav-item relative group">
+                @php
+                    $user = Auth::guard('web')->user();
+                    $admin = Auth::guard('admin')->user();
+                @endphp
+
+                
+                @if ($user)
+                    <x-user-name-section></x-user-name-section>
+                @elseif ($admin)
+                    <x-admin-name-section></x-admin-name-section>
+                @else
+                    <a href="#" class="cursor-pointer">Login</a>
+                    <div class="absolute hidden group-hover:block bg-white p-2 z-50">
+                        <a href="{{ route('user.login') }}" class="block px-4 py-2 hover:bg-gray-100">User Login</a>
+                        <a href="{{ route('admin.login') }}" class="block px-4 py-2 hover:bg-gray-100">Admin Login</a>
+                    </div>
+                @endif
             </li>
         </ul>
     </div>

@@ -19,6 +19,11 @@ Route::get('/teams', function() {
     return view('Teams');
 });
 
+Route::get('/products', function() {
+    return view('products');
+});
+
+
 
 Route::prefix('admin')->name('admin.')->group(function() {
 
@@ -66,6 +71,7 @@ Route::prefix('admin')->name('admin.')->group(function() {
 //All route require to protect sensitive info will need to be implements the authentication of middleware
 
 //Note: prefix user + login => user/login
+
 
 
 Route::prefix('user')->name('user.')->group(function() {

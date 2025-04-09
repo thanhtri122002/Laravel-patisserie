@@ -13,11 +13,42 @@
 @use 'custom-swiper';
 
 :root {
-    --Pink-Primary: $Pink-Primary;
-    --Pink-Secondary: $Pink-Secondary;
-    --Gray-Primary: $Gray-Primary;
-    --Gray-Secondary: $Gray-Secondary;
-    --Gray-Tertiary: $Gray-Tertiary;
+    --sidebar-width: 250px;
+    --sidebar-bg-color: #343a40;
+    --sidebar-text-color: #ffffff;
+    --hover-bg-color: #495057;
+
+    /* 🎨 Brand Colors */
+    --Pink-Primary: #ee76ad;      /* Main brand pink */
+    --Pink-Secondary: #fce7f1;    /* Soft pastel pink */
+
+    /* 🎨 Gray Scale */
+    --Gray-Primary: #def4fb;      /* Light blue-gray */
+    --Gray-Secondary: #c0c0c3;    /* Neutral gray */
+    --Gray-Tertiary: #fdf2ea;     /* Warm beige */
+
+    /* 🎨 Complementary Colors (Deep & Contrasting) */
+    --Deep-Purple: #6b2a5b;       /* Elegant deep purple */
+    --Muted-Blue: #6b8fa6;        /* Subtle cool contrast */
+    --Dark-Teal: #2a5b6b;         /* Sophisticated dark teal */
+
+    /* 🎨 Monochromatic Variations (Shades of Pink) */
+    --Soft-Rose: #ffb6c1;         /* Lighter shade for highlights */
+    --Dusty-Mauve: #b76e79;       /* Deeper, muted pink */
+    --Muted-Blush: #d8a7b1;       /* Neutral pink tone */
+
+    /* 🎨 Neutral Pairings (Warm & Earthy) */
+    --Warm-Beige: #f5e0d6;        /* Soft background color */
+    --Rich-Brown: #8c5a4d;        /* Text, depth, shadows */
+    --Stone-Gray: #a8a8aa;        /* Cool neutral for balance */
+
+    /* 🎨 Accent Colors (For Energy & Highlights) */
+    --Golden-Yellow: #f4b400;     /* Attention-grabbing (CTA, highlights) */
+    --Peach-Orange: #ffcc99;      /* Soft contrast */
+    --Electric-Blue: #1e90ff; 
+
+    /* Layered Visuals */
+    --Layered-Overlay: #2b232d;
 
     --merriweather-sans: 'Merriweather', sans-serif;
 

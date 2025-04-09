@@ -9,20 +9,19 @@
 @section('content')
 
     <section class="w-full relative my-[2rem]">
-        <div class="container mx-auto flex flex-col md:flex-row justify-center items-center">
-            <div class="flex flex-col justify-center flex-1">
+        <div class="relative h-[50rem]">
+            <!-- <div class="flex flex-col justify-center flex-1">
                 <p class="font-mer text-h1 text-start">Hey,</p>
                 <p class="font-mer text-h1 text-start">We'are glamour</p>
                 <p class="font-mer text-body">Crafting exquisite pastries with passion and precision. Every bite is a taste of elegance and indulgence.</p>
             </div>
-            <div class="flex justify-center items-center flex-1 relative">
-                <div class="absolute bottom-[-20px] left-1/2 transform -translate-x-1/2 w-3/4 h-[100px] bg-[#F1EAE3] rounded-lg shadow-lg z-0"></div>
-                <img class="w-full max-w-[500px] h-auto object-cover rounded-lg shadow-lg relative z-10" src="{{ asset('storage/about-us-1.jpg') }}" alt="">
-            </div>
+             -->
+            <div class="absolute inset-0 bg-[--Layered-Overlay] opacity-30 rounded-lg"></div>
+            <img src="{{ asset('storage/images/elements/teams-banner.jpg') }}" class="w-full h-full object-cover">
         </div>
     </section>
     <section class="w-full relative min-h-[70dvh] my-[2rem]">
-        <div class="small-container mx-auto flex flex-col justify-center items-center">
+        <div class="container mx-auto flex flex-col justify-center items-center">
             <div class="flex flex-col items-center justify-center">
                 <p class="font-mer text-body text-center w-[70%]">Our dedicated team of pastry chefs and artisans pour their passion into every creation, bringing you the finest treats with love and expertise!</p>
                 <p class="font-mer text-h1 text-center">Meet our teams</p>
@@ -92,8 +91,9 @@
         </div>
     </section>
     <section class="w-full my-[2rem]">
-        <div class="xxs-container mx-auto">
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div class="xxs-container mx-auto relative">
+            
+            <div class="grid grid-cols-1 md:grid-cols-2">
                 <div class="ceo-picture w-[90%] relative">
                     <img class="w-full h-full object-cover" src="{{ asset('storage/images/elements/ceo.jpg') }}" alt="">
                     <div class="glass absolute top-1/2 -right-5 transform -translate-y-1/2">
