@@ -1,7 +1,8 @@
 import './bootstrap';
 import '../scss/app.scss';
 import './custom-swiper.js';
-
+import './embeddedReturn.js';
+import './checkout.js';
 import Alpine from 'alpinejs';
 
 window.Alpine = Alpine;

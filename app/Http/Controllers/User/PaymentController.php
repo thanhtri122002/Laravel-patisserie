@@ -51,9 +51,11 @@ class PaymentController extends BaseController
     public function retrieveStatus(Request $request)
     {
         $user = $this->getUser();
-        $sessionId = $request->input('session_id');
+        $sessionId = $request->input('sessionId');
+        dd($sessionId);
         
         $status = $this->stripeService->withUser($user)->retrieveStatus($sessionId);
 
+        return $status;
     }
 }

@@ -4,7 +4,8 @@ async function initialize()
 {
     const queryString = window.location.search;
     const urlParams = new URLSearchParams(queryString);
-    const sessionId = urlParams.get('session_id');
+    const rawSessionId = urlParams.get('session_id');
+    const sessionId = rawSessionId ? rawSessionId.trim().replace(/[^a-zA-Z0-9_]/g, '') : null;
     const response = await fetch('/user/embeddedPayment/embeddedCheckoutForm', {
         method: "POST",
         body: JSON.stringify({ sessionId: sessionId}),
@@ -15,6 +16,7 @@ async function initialize()
         },
     });
     const session = await response.json();
+    
 
     if (session.status == 'open') {
         window.location.replace('http://localhost');

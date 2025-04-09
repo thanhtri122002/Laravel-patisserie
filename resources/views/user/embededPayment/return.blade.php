@@ -13,5 +13,5 @@
 @endsection
 
 @push('scripts')
-    <script src="{{ asset('js/embeddedReturn.js') }}"></script>
+    <script src="{{ Vite::asset('js/embeddedReturn.js') }}"></script>
 @endpush
