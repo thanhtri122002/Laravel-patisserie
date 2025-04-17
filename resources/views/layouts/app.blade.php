@@ -18,7 +18,7 @@
     <body class="relative min-h-dvh">
         
         
-        <header id="topbar" class="w-full my-5">
+        <header id="topbar" class="w-full">
             @yield('header')
         </header>
 

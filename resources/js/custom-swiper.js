@@ -21,4 +21,3 @@ function updateTextContent(slideId) {
         
     }
 }
-  

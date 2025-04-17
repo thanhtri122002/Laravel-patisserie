@@ -43,14 +43,23 @@
         display: none !important;
     }
 
-    #topbar .navbar-nav {
-        display: flex !important ;
-        justify-content: center;
-        align-items: center;
-        margin-left: auto;
-    }
+    #topbar {
+        
 
-    
+        .navbar-nav {
+            display: flex !important ;
+            justify-content: center;
+            align-items: center;
+            margin-left: auto;
+        }
+    }    
+}
+
+@media (max-width: $breakpoint-md) 
+{
+    #topbar {
+        height: 5rem !important;
+    }
 }
 
 // For desktops and up
