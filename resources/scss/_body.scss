@@ -168,3 +168,14 @@
     padding: 20px;
     border-radius: 10px;
 }
+
+//products page
+
+.category-title {
+    padding: 3rem 5rem;
+    position: relative;
+    left: 50%;
+    bottom: 0;
+    transform: translateX(-50%);
+    width: 50%;
+}
