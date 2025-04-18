@@ -172,10 +172,11 @@
 //products page
 
 .category-title {
-    padding: 3rem 5rem;
+    
+    padding-bottom: 3rem;
     position: relative;
     left: 50%;
-    bottom: 0;
+    bottom: 20%;
     transform: translateX(-50%);
     width: 50%;
 }
