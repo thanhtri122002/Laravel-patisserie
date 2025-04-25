@@ -17,10 +17,11 @@
     </section>
 
     <section class="products-section w-full relative">
-        <div class="flex gap-10">
+        <div class="flex  gap-10">
             <div class="products-toolbars hidden md:flex gap-auto">
                 <div></div>
             </div>
+            <div class="main-content flex flex-col md:flex-row "></div>
         </div>
     </section>
 @endsection
