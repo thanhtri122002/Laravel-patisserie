@@ -23,6 +23,9 @@ Route::get('/products', function() {
     return view('products');
 });
 
+Route::get('/react-test', function () {
+    return view('react-test');
+});
 
 
 Route::prefix('admin')->name('admin.')->group(function() {

@@ -21,6 +21,12 @@
             <div class="products-toolbars hidden md:flex gap-auto">
                 <div></div>
             </div>
+            <div class="main-content flex flex-col md:flex-row ">
+                <div class="main-content__filter w-full md:w-1/4 p4">
+                    
+                </div>
+                <div class="main-content__products w-full md:w-3/4 p-4"></div>
+            </div>
         </div>
     </section>
 @endsection

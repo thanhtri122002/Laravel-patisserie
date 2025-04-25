@@ -5,19 +5,22 @@
    header .container {
         max-width: 33.74rem;
    }
+   .full-container {
+        max-width: 95dvw;
+   }
+   .huge-container {
+        max-width: 40rem;
+   }
    .small-container {
         max-width: 33.5rem; 
-   }
-
-   .xs-container {
+    }
+    .xs-container {
         max-width: 33.5rem; 
     }
     .xxs-container {
         max-width: 30rem; 
     }
-
-
-   header .navbar {
+    header .navbar {
         box-shadow:  0 4px 8px rgba(red, 0.5);;
   }
 
@@ -28,11 +31,15 @@
     header .container {
         max-width: 46.25rem;
     }
-
+    .full-container {
+        max-width: 95dvw;
+    }
+    .huge-container {
+        max-width: 52rem;
+    }
     .small-container {
         max-width: 48rem; 
     }
-    
     .xs-container {
         max-width: 46.25rem;
     }
@@ -44,8 +51,6 @@
     }
 
     #topbar {
-        
-
         .navbar-nav {
             display: flex !important ;
             justify-content: center;
@@ -67,6 +72,12 @@
     header .container {
         max-width: 60rem;
     }
+    .full-container {
+        max-width: 95dvw;
+    }
+    .huge-container {
+        max-width: 65rem;
+    }
     .small-container {
         max-width: 62rem; 
     }
@@ -77,13 +88,18 @@
     {
         max-width: 50rem;
     }
-    
 }
 
 // For large desktops and up
 @media (min-width: $breakpoint-xl) {
     header .container {
         max-width: 71.25rem;
+    }
+    .full-contaner {
+        max-width: 95dvw;
+    }
+    .huge-container {
+        max-width: 75rem;
     }
     .small-container {
         max-width: 73rem; 
@@ -98,6 +114,12 @@
 
 // For widescreens and up
 @media (min-width: $breakpoint-xxl) {
+    .full-container {
+        max-width: 95dvw;
+    }
+    .huge-container {
+        max-width: 85rem;
+    }
     .small-container {
         max-width: 75rem; 
     }
