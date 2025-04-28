@@ -17,18 +17,15 @@
     </section>
 
     <section class="products-section w-full relative">
-        <div class="flex  gap-10">
+        <div class="flex gap-10">
             <div class="products-toolbars hidden md:flex gap-auto">
                 <div></div>
             </div>
-            <div class="main-content flex flex-colmd:flex-row ">
+            <div class="main-content flex flex-col md:flex-row w-full">
                 <div class="main-content__filter w-full md:w-1/4 p4">
-                    
+                    <p class="text-h1 font-mer">Categories</p>
                 </div>
-                <!--
-                filter section for the mobile
-                
-                -->
+                <!-- filter section for the mobile -->
                 <div class="main-content__filter-dropdown block md:hidden">
 
                 </div>
