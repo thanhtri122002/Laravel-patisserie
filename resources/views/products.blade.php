@@ -29,7 +29,9 @@
                 <div class="main-content__filter-dropdown block md:hidden">
 
                 </div>
-                <div class="main-content__products w-full md:w-3/4 p-4"></div>
+                <div class="main-content__products w-full md:w-3/4 p-4">
+                    
+                </div>
             </div>
         </div>
     </section>
