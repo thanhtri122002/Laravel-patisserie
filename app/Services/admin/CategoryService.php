@@ -10,8 +10,9 @@ class CategoryService extends Service {
     private function getCategory($id) {
         return Category::findOrFail($id);
     }
+
     public function index() {
-        $categories = Category::all();
+        $categories = Category::with('products')->all();
         
         return $categories;
     }

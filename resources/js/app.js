@@ -9,7 +9,6 @@ window.Alpine = Alpine;
 
 Alpine.start();
 
-
 const burgerMenu = document.getElementById('burgerMenu');
 const mobileMenu = document.getElementById('mobileMenu');
 const closeBtnMenu = document.getElementById('closeBtn');

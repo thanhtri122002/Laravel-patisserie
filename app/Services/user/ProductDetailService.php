@@ -24,7 +24,6 @@ class ProductDetailService extends Service
         $productDetail =  ProductDetail::create($data);
         $cost = $productDetail->calculateTotal();
         
-        
         $productDetail->update(['cost' => $cost]);
         
         

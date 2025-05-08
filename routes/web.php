@@ -23,8 +23,15 @@ Route::get('/products', function() {
     return view('products');
 });
 
+
 Route::get('/react-test', function () {
     return view('react-test');
+});
+
+Route::prefix('api/public')->name('public')->group(function () {
+    Route::get('/categories', [CategoryController::class, 'index'])->name('api.public.categories');
+    Route::get('/products', [ProductController::class, 'index'])->name('api.public.products');
+    
 });
 
 
@@ -53,7 +60,6 @@ Route::prefix('admin')->name('admin.')->group(function() {
 
         Route::controller(ProductController::class)->prefix('products')->name('products.')->group(function() {
 
-            Route::get('/', 'index')->name('index');
             Route::post('/', 'store')->name('store');
             Route::get('/{id}', 'detail')->name('detail');
             Route::post('/{id}', 'update')->name('update');
@@ -70,12 +76,9 @@ Route::prefix('admin')->name('admin.')->group(function() {
     });
 });
 
-
 //All route require to protect sensitive info will need to be implements the authentication of middleware
 
 //Note: prefix user + login => user/login
-
-
 
 Route::prefix('user')->name('user.')->group(function() {
     

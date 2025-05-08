@@ -14,7 +14,7 @@ class ProductService extends Service {
 
     public function index() {
 
-        return Product::all();
+        return Product::with(['category', 'productImages'])->get();
     }
 
     public function detail($id) {
