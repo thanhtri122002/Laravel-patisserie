@@ -47,9 +47,9 @@ export default function ProductSection() {
                     <p class="text-h1 font-mer">Categories</p>
                 </div>
                 
-                <!-- filter section for the mobile -->
+
                 <div class="main-content__filter-dropdown block md:hidden">
-                    <Filter></Filter>
+                    <Filter categoryData={categories} isSelected={handleCategoryChange}></Filter>
                 </div>
                 <div class="main-content__products w-full md:w-3/4 p-4">
                     <ProductCard></ProductCard>
