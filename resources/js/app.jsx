@@ -1,7 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import Example from './Components/Example';
-import Product from './Pages/Product/Product';
 
 
-const reactElements = document.querySelectorAll('[data-react=]')
+const reactElements = document.querySelectorAll('[data-react]');
+
+reactElements.forEach(async (element) =>{
+    const component = element.data.react;
+    const module = await import(`./Pages/${element.dataset.react}`);
+})
