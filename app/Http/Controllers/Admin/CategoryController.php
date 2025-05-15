@@ -18,7 +18,7 @@ class CategoryController extends BaseController
         $user = $this->getUser();
         $categorySerice = CategoryService::getInstance()->withUser($user)->index();
 
-        return $this->sendSuccessResponse($categorySerice, "success retrieve", Response::OK);
+        return $this->sendSuccessResponse($categorySerice, "success retrieveeeee", Response::OK);
     }
 
     public function create(CategoryRequest $request) {

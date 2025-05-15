@@ -12,9 +12,15 @@ class ProductService extends Service {
         return Product::with(['category', 'productImages'])->findOrFail($id);
     }
 
-    public function index() {
+    public function index($categoryId = null ,$perPage = null) {
 
-        return Product::with(['category', 'productImages'])->get();
+        $query = Product::with(['category', 'productImages']);
+
+        if($categoryId) {
+            $query->where('category_id', $categoryId);
+        }
+
+        return $query->paginate($perPage);
     }
 
     public function detail($id) {

@@ -22,10 +22,13 @@ class ProductController extends BaseController
         return $this->guard()->user();
     }
 
-    public function index() {
+    public function index(ProductRequest $request) {
 
+        $validate = $request->validated();
+        $categoryId = $validate['category_id'] ?? null;
+        $perPage = $validate['per_page'] ?? config('pagination.default');
         $user = $this->getUser();
-        $listProducts = $this->service->withUser($user)->index();
+        $listProducts = $this->service->withUser($user)->index($categoryId, $perPage);
         
         return $this->sendSuccessResponse($listProducts, null, Response::OK);
     }

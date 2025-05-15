@@ -2,11 +2,11 @@ import axios from "axios";
 import api from "./api/axios";
 import getCategories from "./category.service";
 
-const getProductsByCategories = async (categoryIds) => {
+const getProductsByCategories = async (categoryIds = []) => {
     try {
         const products = await axios.get('/api/public/products', {
             params: {
-                category_id: categoryIds
+                category_id: categoryIds.join(",")
             }
         });
         return products.data;
