@@ -12,7 +12,7 @@ class CategoryService extends Service {
     }
 
     public function index() {
-        $categories = Category::with('products')->all();
+        $categories = Category::with('products')->get();
         
         return $categories;
     }
