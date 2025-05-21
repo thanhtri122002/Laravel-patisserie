@@ -12,12 +12,12 @@ class ProductService extends Service {
         return Product::with(['category', 'productImages'])->findOrFail($id);
     }
 
-    public function index($categoryId = null ,$perPage = null) {
+    public function index($categoryIds = [] ,$perPage = null) {
 
         $query = Product::with(['category', 'productImages']);
-
-        if($categoryId) {
-            $query->where('category_id', $categoryId);
+        //logger()->info('Category IDs received:', ['categoryIds' => $categoryIds]);
+        if(!empty($categoryIds)) {
+            $query->whereIn('category_id', $categoryIds);
         }
 
         return $query->paginate($perPage);

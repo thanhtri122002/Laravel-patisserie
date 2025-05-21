@@ -25,7 +25,8 @@ class ProductController extends BaseController
     public function index(ProductRequest $request) {
 
         $validate = $request->validated();
-        $categoryId = $validate['category_id'] ?? null;
+        logger()->info('Category IDs received:', $validate);
+        $categoryId = $validate['category_id'] ?? [];
         $perPage = $validate['per_page'] ?? config('pagination.default');
         $user = $this->getUser();
         $listProducts = $this->service->withUser($user)->index($categoryId, $perPage);

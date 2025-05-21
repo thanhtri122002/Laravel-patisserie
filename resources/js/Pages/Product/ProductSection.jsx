@@ -1,7 +1,7 @@
 import { useState, useCallback, useEffect } from "react";
 import Filter from "./Component/FilterCategories";
 import getCategories from "../../Services/category.service";
-import getProductsByCategories from "../../Services/product.service";
+import { getProductsByCategories } from "../../Services/product.service";
 import ProductCard from "./Component/ProductCard";
 
 
@@ -10,39 +10,53 @@ export default function ProductSection() {
     const [categories , setCategories] = useState([]);
     const [selectedCategories, setSelectedCategories] = useState([]);
     const [products, setProducts] = useState([]);
-    
+    const [pagination, setPagination] = useState({
+        current_page: 1,
+        last_page: 1,
+        next_page_url: null,
+        prev_page_url: null
+    });
+
     const handleCategoryChange = useCallback((category, isChecked) => {
-        if (isChecked) {
-            setSelectedCategories(prev => [...prev, category]);
-        }
-        else {
-            setSelectedCategories((prev) => prev.filter((id) => id !== category));
-        }
-    },[])
+        setSelectedCategories((prev) => 
+            isChecked ? [...prev, category] : prev.filter((id) => id !== category)
+        );
+    },[]);
+
+    const onPageChange = useCallback((pageNumber) => {
+
+    })
     
+    // console.log("selectedCategories:", selectedCategories);
+    // console.log('products', products);
+    // console.log('pagination', pagination);
     useEffect(() => {
         const fetchCategories = async () => {
             const allCategories =  await getCategories();
-            console.log("allCategories has been retrieved:", allCategories);
             setCategories(allCategories.data);
         };
         fetchCategories();
     }, []);
-
     
     useEffect(() => {
         const fetchProducts = async () => {
             if (selectedCategories.length === 0) {
-                setProducts([]); // Clear products if no categories are selected
+                setProducts([]); 
                 return;
             }
-
-            const allProducts = await getProductsByCategories(selectedCategories);
-            console.log("allProducts has been retrieved:", allProducts);
-            setProducts(allProducts.data.data);
+            
+            const productResponse = await getProductsByCategories(selectedCategories, pagination.current_page);
+            setProducts(productResponse.data.data);
+            setPagination({
+                current_page: productResponse.data.current_page,
+                last_page: productResponse.data.last_page,
+                total_items: productResponse.data.total,
+                next_page_url: productResponse.data.next_page_url,
+                prev_page_url: productResponse.data.prev_page_url,
+            });
         };
         fetchProducts();
-    },[selectedCategories]);
+    },[selectedCategories, pagination.current_page]);
     
     return (
         <div className="flex gap-10">
@@ -64,6 +78,7 @@ export default function ProductSection() {
                         {products.map((product) => (
                            <ProductCard productData={product} key={product.id}></ProductCard>
                         ))}
+                        <Pagination paginationData={pagination} onPageChange={onPageChange}></Pagination>
                     </div>
                 ) : (
                     <div className="flex justify-center items-center h-full">
@@ -74,3 +89,14 @@ export default function ProductSection() {
         </div>
     );
 }
+
+/**
+ * Note:
+ * 1/ The key attribute is used to give each element a unique identifier, 
+ *    which helps React identify which items have changed, are added, or are removed.
+ * 2/ UseCallback hook is used to cachced a function instance, so if the function is CALLED AGAIN
+ *    with the SAME PARAMETERS, it will return the cached instance instead of creating a new one.
+ * 3/ Memoization is a technique  used to cached the result of a function, value of a variable 
+ *    or the return value of a component, so that it doesn't have to be recalculated every time. 
+ * 4/ 
+ */

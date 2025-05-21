@@ -23,7 +23,8 @@ class ProductRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'category_id' => ['integer', new CategoryExists()],
+            'category_id' => ['array'],
+            'category_id.*' => ['integer', new CategoryExists()],  // Validate each item in the array
             'name' => 'string',
             'description' => 'string',
             'price' => 'numeric|min:0',

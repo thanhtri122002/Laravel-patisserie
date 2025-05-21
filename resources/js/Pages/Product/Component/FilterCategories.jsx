@@ -1,7 +1,6 @@
 import React from 'react';
 
 const Filter = React.memo(function Filter({categoryData = [], isSelected}) {
-    console.log("categoryData in the filter component:", categoryData);
     return (
         <>
             <ul>
