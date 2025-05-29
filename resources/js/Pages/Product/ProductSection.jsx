@@ -3,7 +3,7 @@ import Filter from "./Component/FilterCategories";
 import getCategories from "../../Services/category.service";
 import { getProductsByCategories } from "../../Services/product.service";
 import ProductCard from "./Component/ProductCard";
-
+import Pagination from "./Component/Pagination";
 
 export default function ProductSection() {
 
@@ -24,8 +24,11 @@ export default function ProductSection() {
     },[]);
 
     const onPageChange = useCallback((pageNumber) => {
-
-    })
+        setPagination(prev => ({
+            ...prev,
+            current_page: pageNumber
+        }));
+    },[]);
     
     // console.log("selectedCategories:", selectedCategories);
     // console.log('products', products);
