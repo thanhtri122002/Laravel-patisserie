@@ -3,7 +3,7 @@ import Filter from "./Component/FilterCategories";
 import getCategories from "../../Services/category.service";
 import { getProductsByCategories } from "../../Services/product.service";
 import ProductCard from "./Component/ProductCard";
-import Pagination from "./Component/Pagination";
+import Pagination from "../../Components/Pagination";
 
 export default function ProductSection() {
 
@@ -43,12 +43,13 @@ export default function ProductSection() {
     
     useEffect(() => {
         const fetchProducts = async () => {
+            const justFirstImage = true;
             if (selectedCategories.length === 0) {
                 setProducts([]); 
                 return;
             }
             
-            const productResponse = await getProductsByCategories(selectedCategories, pagination.current_page);
+            const productResponse = await getProductsByCategories(selectedCategories, pagination.current_page, justFirstImage);
             setProducts(productResponse.data.data);
             setPagination({
                 current_page: productResponse.data.current_page,
@@ -60,7 +61,9 @@ export default function ProductSection() {
         };
         fetchProducts();
     },[selectedCategories, pagination.current_page]);
-    
+
+    console.log('products ádfasdfasd', products);
+
     return (
         <div className="flex gap-10">
             <div className="products-toolbars hidden md:flex gap-auto">
@@ -75,19 +78,25 @@ export default function ProductSection() {
                 <div className="main-content__filter-dropdown block md:hidden">
                     
                 </div>
-                {products.length > 0 ? (
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-
-                        {products.map((product) => (
-                           <ProductCard productData={product} key={product.id}></ProductCard>
-                        ))}
-                        <Pagination paginationData={pagination} onPageChange={onPageChange}></Pagination>
-                    </div>
-                ) : (
-                    <div className="flex justify-center items-center h-full">
-                        <p className="text-h1 font-mer text-center">No Products Found</p>
-                    </div>
-                )}
+                <div className="flex flex-col gap-3">
+                    {products.length > 0 && products ? (
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            
+                            {products.map((product) => (
+                                
+                                <ProductCard productData={product} key={product.id}></ProductCard>
+                            ))}
+                            
+                        </div>
+                        
+                    ) : (
+                        <div className="flex justify-center items-center h-full">
+                            <p className="text-h1 font-mer text-center">No Products Found</p>
+                        </div>
+                    )}
+                    <Pagination paginationData={pagination} onPageChange={onPageChange}></Pagination>
+                </div>
+            
             </div>
         </div>
     );
