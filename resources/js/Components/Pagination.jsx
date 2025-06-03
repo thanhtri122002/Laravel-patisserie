@@ -1,5 +1,14 @@
 import { memo } from "react";
 
+/**
+ * Generates a pagination range with optional ellipses for skipped pages.
+ *
+ * @param {number} currentPage - The current active page number.
+ * @param {number} lastPage - The total number of pages.
+ * @param {number} [delta=2] - The number of pages to display on either side of the current page.
+ * @returns {Array<number|string>} An array representing the pagination range, where numbers represent page numbers
+ * and strings ('...') represent skipped ranges.
+ */
 function getPages(currentPage, lastPage, delta = 2) {
     const range = [];
     const rangewithDots = [];
@@ -25,6 +34,21 @@ function getPages(currentPage, lastPage, delta = 2) {
 
     return rangewithDots;
 }
+
+/**
+ * Pagination component for rendering a paginated navigation interface.
+ * 
+ * @component
+ * @param {Object} props - The props object.
+ * @param {Object} props.paginationData - The pagination data object.
+ * @param {number} props.paginationData.current_page - The current active page number.
+ * @param {number} props.paginationData.last_page - The total number of pages.
+ * @param {string|null} props.paginationData.next_page_url - The URL for the next page (if available).
+ * @param {string|null} props.paginationData.prev_page_url - The URL for the previous page (if available).
+ * @param {Function} props.onPageChange - Callback function to handle page changes. Receives the new page number as an argument.
+ * 
+ * @returns {JSX.Element|null} The rendered pagination component or null if there is only one page.
+ */
 
 const Pagination = memo(({paginationData, onPageChange}) => {
     const {current_page, last_page, next_page_url, prev_page_url} = paginationData;

@@ -31,9 +31,8 @@ const getProductsByCategories = async (categoryIds = [], page = 1, justFirstImag
             ).join('&');
 
         const url = `/api/public/products?${queryString}`;
-        console.log('url', url)
         const response = await axios.get(url);
-        console.log('response', response.data);
+    
         if (justFirstImage) {
             response.data.data.data.map((product) =>( {
                 ...product,

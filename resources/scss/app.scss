@@ -57,6 +57,10 @@ html {
     overflow-x: hidden;
 }
 
+p {
+    font-variant-numeric: tabular-nums;
+}
+
 .text-h1 {
     color: $Soft-Rose;
     

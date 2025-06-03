@@ -32,7 +32,7 @@ export default function ProductSection() {
     
     // console.log("selectedCategories:", selectedCategories);
     // console.log('products', products);
-    // console.log('pagination', pagination);
+    console.log('pagination', pagination);
     useEffect(() => {
         const fetchCategories = async () => {
             const allCategories =  await getCategories();
@@ -44,6 +44,7 @@ export default function ProductSection() {
     useEffect(() => {
         const fetchProducts = async () => {
             const justFirstImage = true;
+            
             if (selectedCategories.length === 0) {
                 setProducts([]); 
                 return;
@@ -78,23 +79,23 @@ export default function ProductSection() {
                 <div className="main-content__filter-dropdown block md:hidden">
                     
                 </div>
-                <div className="flex flex-col gap-3">
+                <div className="flex flex-col gap-3 md:w-auto ">
                     {products.length > 0 && products ? (
-                        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                            
-                            {products.map((product) => (
-                                
-                                <ProductCard productData={product} key={product.id}></ProductCard>
-                            ))}
-                            
+                        <div className="flex flex-col">
+                            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                                {products.map((product) => (
+                                    
+                                    <ProductCard productData={product} key={product.id}></ProductCard>
+                                ))} 
+                            </div>
+                            <Pagination className="" paginationData={pagination} onPageChange={onPageChange}></Pagination>
                         </div>
-                        
                     ) : (
                         <div className="flex justify-center items-center h-full">
                             <p className="text-h1 font-mer text-center">No Products Found</p>
                         </div>
                     )}
-                    <Pagination paginationData={pagination} onPageChange={onPageChange}></Pagination>
+                    
                 </div>
             
             </div>
