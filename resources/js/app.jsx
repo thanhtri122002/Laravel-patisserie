@@ -1,11 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import Example from './Components/Example';
 
 
-const reactElements = document.querySelectorAll('[data-react]');
-
-reactElements.forEach(async (element) =>{
-    const component = element.data.react;
-    const module = await import(`./Pages/${element.dataset.react}`);
-})
+const App = () => {
+    return (
+        <div className='p-4'>
+            <h1 className='text-xl font-bold mb-4'>React Sidebar</h1>
+        </div>
+        
+    )
+}

@@ -24,8 +24,8 @@ Route::get('/products', function() {
 });
 
 
-Route::get('/react-test', function () {
-    return view('react-test');
+Route::get('/test-component', function () {
+    return view('test-component');
 });
 
 Route::prefix('api/public')->name('public')->group(function () {
