@@ -13,8 +13,10 @@ abstract class Service {
     protected $user = null;
 
     /**
+     * A function that will attached the instance with a specifiec user
+     * 
      * @param User|Admin|null
-     * @return $this
+     * @return $this the current instance that is attached with the user
      */
     public function withUser($user) {
 
@@ -22,6 +24,8 @@ abstract class Service {
         return $this;
     }
     /**
+     * Get the current user of that is attached to the service
+     * 
      * @return User|Admin|null
      */
     public function getUser() {
@@ -30,7 +34,7 @@ abstract class Service {
     }
 
     /**
-     * Create new service instance
+     * Create new service instance from Laravel's service container 
      * 
      * @return $this
      */

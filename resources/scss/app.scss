@@ -2,15 +2,15 @@
 @use 'tailwindcss/components';
 @use 'tailwindcss/utilities';
 
-@use 'variables' as *;
-@use 'fonts';
-@use 'responsive';
+@use './utils/variables' as *;
+@use './utils/fonts';
+@use './responsive/responsive';
 @use 'animation';
 @use 'body';
-@use 'sidebar';
-@use 'topbar';
-@use 'footer';
-@use 'custom-swiper';
+@use './layout/sidebar';
+@use './layout/topbar';
+@use './layout/footer';
+@use './components/custom-swiper';
 
 :root {
     --sidebar-width: 250px;

@@ -42,6 +42,13 @@ class ProductDetail extends Model
         return $this->belongsTo(Cart::class);
     }
 
+    /**
+     * Caluculate the total cost of a productDetail
+     * 
+     * ProductDetail cost = product's price x quantity - discount (if have)
+     * 
+     * @return float the final cost of a product detail 
+     */
     public function calculateTotal()
     {   
         

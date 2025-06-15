@@ -14,7 +14,8 @@ class CategoryController extends BaseController
         return $this->guard()->user();
     }
 
-    public function index() {
+    public function index(CategoryRequest $request) 
+    {   
         $user = $this->getUser();
         $categorySerice = CategoryService::getInstance()->withUser($user)->index();
 

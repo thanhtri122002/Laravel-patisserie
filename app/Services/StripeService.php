@@ -136,6 +136,7 @@ class StripeService extends Service
         $invoiceDetails = $invoice->productDetails;
         $lineItem = [];
         foreach($invoiceDetails as $detail) {
+            
             $lineItem[] = [
                 'price' => $detail->product->stripe_price_id,
                 'quantity' => $detail->quantity,

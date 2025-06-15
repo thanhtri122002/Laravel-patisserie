@@ -17,11 +17,14 @@ class Product extends Model
         'description',
         'price',
         'stock',
-        'stripe_product_id',
-        'stripe_price_id'
+        
         ];
         
-    protected $guarded =['id'];
+    protected $guarded = [
+        'id',
+        'stripe_product_id',
+        'stripe_price_id'
+    ];
 
     public function category(): BelongsTo
     {

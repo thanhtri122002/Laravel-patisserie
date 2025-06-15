@@ -1,12 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
+import ExampleSideBar from './Example/TestSideBar';
+import '../scss/app.scss'
 
+const element = document.getElementById('react-root');
+const root = ReactDOM.createRoot(element);
+root.render(<ExampleSideBar></ExampleSideBar>);
 
-const App = () => {
-    return (
-        <div className='p-4'>
-            <h1 className='text-xl font-bold mb-4'>React Sidebar</h1>
-        </div>
-        
-    )
-}

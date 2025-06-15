@@ -15,6 +15,7 @@ const closeBtnMenu = document.getElementById('closeBtn');
 
 burgerMenu.addEventListener('click', visualBurgerMenu);
 closeBtnMenu.addEventListener('click', closingBtn);
+
 function visualBurgerMenu () {
     mobileMenu.classList.toggle('active');
 }

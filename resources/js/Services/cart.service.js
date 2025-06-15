@@ -1,0 +1,75 @@
+import api from './api/axios';
+
+export const addProductToCart = async (productId, quantity = 1, productImage) => {
+    try {
+        const params = {
+            product_id: productId,
+            quantity: quantity,
+        };
+
+        const response = await api.post("user/cart", params);
+        response.data = {
+            ...response.data,
+            image: productImage
+        };
+
+        return response.data;
+
+    } catch (error) {
+        console.log('Occcured an error in the adding product function', error);
+    }
+}
+
+export const removeProductFromCart = async (productDetailId) => {
+    try {
+
+        const response = await api.post(`user/cart/${productDetailId}/delete`)
+        
+        return response.data;
+
+    } catch (error) {
+
+        console.log('Occured an error in the removing product from cart function', error);
+    }
+}
+
+export const updateProductQuantity = async (productDetailId, quantity) => {
+    try {
+        const params = {
+            id: productDetailId,
+            quantity: quantity,
+        }
+
+        const response = await api.post(`user/cart/${productDetailId}`, params);
+
+        return response.data;
+
+    } catch (error) {
+        
+        console.log("Occured an error in the updating product's quantity function", error);
+    }
+}
+
+
+export const getCart = async () => {
+    try {
+
+        const response = await api.get('user/cart');
+
+        return response.data; 
+
+    } catch (error) {
+        console.log('Occured an error in the getCart function', error);
+    }
+}
+
+export const submitCart = async () => {
+    try {
+
+        const response = await api.post('user/cart/submit');
+
+        return response.data;
+    } catch (error) {
+        console.log('Occured an error in submitCart function', error);
+    }
+}

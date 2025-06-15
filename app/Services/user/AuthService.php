@@ -13,7 +13,7 @@ class AuthService extends Service {
   
     public function login(LoginRequest $request) {
         $credentials = $request->validated();
-        $user = \App\Models\User::where('email', $credentials['email'])->first();
+        $user = User::where('email', $credentials['email'])->first();
         if (!$user) {
             dd('❌ User not found');
         }

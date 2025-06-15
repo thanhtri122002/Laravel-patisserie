@@ -35,13 +35,34 @@ class ProductService extends Service {
         return $product;
     }
 
+    /**
+     * A function used to update an existing product
+     * 
+     * This function takes an array data which contains the update information
+     * of an existing product which will be find by the id
+     * 
+     * @param array $data
+     * @param int $id
+     */
     public function update($data, $id) {
         $product = $this->getProduct($id);
         $updateProduct = $product->update($data);
+
+        return $updateProduct;
     }
 
-    public function delete($id){
+    /**
+     * A function used to delete a product 
+     * 
+     * @param int $id id of the product
+     * 
+     * @return bool
+     */
+    public function delete($id): bool
+    {
         $product = $this->getProduct($id);
         $product->delete();
+
+        return true;
     }
 }

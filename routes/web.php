@@ -23,7 +23,6 @@ Route::get('/products', function() {
     return view('products');
 });
 
-
 Route::get('/test-component', function () {
     return view('test-component');
 });
@@ -31,7 +30,7 @@ Route::get('/test-component', function () {
 Route::prefix('api/public')->name('public')->group(function () {
     Route::get('/categories', [CategoryController::class, 'index'])->name('api.public.categories');
     Route::get('/products', [ProductController::class, 'index'])->name('api.public.products');
-    
+
 });
 
 
@@ -116,7 +115,7 @@ Route::prefix('user')->name('user.')->group(function() {
             Route::post('/{productDetailId}', 'update')->name('updateProductDetail');
             Route::post('/{productDetailId}/delete', 'delete')->name('deleteProductDetail');
             Route::get('/', 'getCart')->name('getCart');
-            Route::post('payment/success/{invoice}', 'paymentSuccess')->name('paymentSuccess');
+            Route::post('/payment/success/{invoice}', 'paymentSuccess')->name('paymentSuccess');
         });
         
         

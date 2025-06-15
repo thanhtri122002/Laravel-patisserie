@@ -1,3 +1,5 @@
+import { addProductToCart } from '../../../Services/cart.service';
+
 export default function ProductCard({ productData }) {
     const formatedprice = Number(productData.price).toLocaleString('vi-VN', {
         style: 'currency',
@@ -17,7 +19,7 @@ export default function ProductCard({ productData }) {
             <p className="product-card__detail text-center font-mer">{truncatedDescription}</p>
             <div className="product-card__footer flex justify-between">
                 <p className="product-card__price">{formatedprice}</p>
-                <button>Add to cart</button>
+                <button onClick={() => addProductToCart({productid: productData.id, productImage: productData.img})}>Add to cart</button>
             </div>
         </div>
     );

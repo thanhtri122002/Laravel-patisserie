@@ -1,5 +1,6 @@
 import { Transition } from '@headlessui/react';
 import { useContext, useState, useReducer } from 'react';
+import { createContext } from 'react';
 
 
 const SideBarContext = createContext();
@@ -13,23 +14,18 @@ const SideBar = ({children}) => {
 
     return (
         <SideBarContext.Provider value={{open, toggleOpen, setOpen}}>
-            <div className="relative">{children}</div>
+            <div className="relative hidden md:block bg-red-800 ">{children}</div>
         </SideBarContext.Provider>
     )
 }
 
-const Trigger = ({children}) => {
+const Trigger = ({children, ...props}) => {
     const { open, toggleOpen, setOpen } = useContext(SideBarContext);
     
     return (
-        <>enterFrom="opacity-0"
-            <div onClick={toggleOpen}>{children}</div>
-            {
-                open && (
-                    <div className='fixed inset-0 z-40' onClick={setOpen(false)}></div>
-                )
-            }
-        </>
+        
+        <div {...props} onClick={toggleOpen}>{children}</div>
+        
     )
 }
 
@@ -48,9 +44,17 @@ const Content = ({children}) => {
                 leaveTo='translate-x-full'
                 >
                 
-                    <div className='fix'></div>
+                    <div className='fixed inset-0 z-50 mt-2 shadow-lg' onClick={() => setOpen(false)}>
+                        <div className='bg-red'>{children}</div>
+                    </div>  
             </Transition>
         </>
     )
 }
+
+
+SideBar.Trigger = Trigger;
+SideBar.Content = Content;
+
+export default SideBar;
 

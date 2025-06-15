@@ -18,13 +18,15 @@
 
     <section class="products-section w-full relative">
         <div class="container mx-auto">
-            <div data-react-component="ProductSection"></div>
+            <div react-component="ProductSection"></div>
         </div>    
     </section>
+
+    <div react-component="CartButton"></div>
 @endsection
 
 @section('footer')
     @viteReactRefresh
-    @vite(['resources/js/Pages/Product/index.jsx'])
+    @vite(['resources/js/entries/ProductPageIndex.jsx'])
     @include('partials.footer')
 @endsection

@@ -1,6 +1,7 @@
 <?php
 
 return [
-    'default' => 10,
+    'default' => 12,
+    'min' => 9, 
     'max' => 100,
 ];

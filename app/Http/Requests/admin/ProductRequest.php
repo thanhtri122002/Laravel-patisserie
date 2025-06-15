@@ -3,6 +3,7 @@
 namespace App\Http\Requests\admin;
 
 use App\Rules\CategoryExists;
+use App\Rules\ProductExists;
 use Illuminate\Foundation\Http\FormRequest;
 
 class ProductRequest extends FormRequest
@@ -23,12 +24,15 @@ class ProductRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'category_id' => ['array'],
+            'category_id' => ['sometimes' ,'array'],
             'category_id.*' => ['integer', new CategoryExists()],  // Validate each item in the array
-            'name' => 'string',
+            'name' => 'sometimes|string',
+            'id' => ['sometimes', 'array'],
+            'id.*' => ['integer', new ProductExists()],
             'description' => 'string',
-            'price' => 'numeric|min:0',
-            'stock' => 'integer|min:0',
+            'price' => 'sometimes|numeric|min:0',
+            'stock' => 'sometimes|integer|min:0',
+            'per_page' => 'nullable|integer|min:1'
         ];
     }
 }
