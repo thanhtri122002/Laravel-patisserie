@@ -2,12 +2,11 @@
 
 namespace App\Http\Controllers\User;
 
-use App\Http\Controllers\Controller;
 use App\Http\Requests\user\AddToCartRequest;
 use App\Http\Requests\user\ProductDetailRequest;
 use App\Http\Requests\user\submitCartRequest;
 use App\Services\user\CartService;
-
+use Illuminate\Support\Facades\Log;
 
 class CartController extends BaseController
 {
@@ -52,6 +51,7 @@ class CartController extends BaseController
        
         $data = $request->safe()->only(['product_id', 'quantity']);
         $user = $this->getUser();
+        Log::info($data);
         $addProduct = CartService::getInstance()->withUser($user)->addProduct($data);
         
         return $addProduct;

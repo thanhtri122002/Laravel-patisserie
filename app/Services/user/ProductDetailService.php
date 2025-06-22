@@ -4,6 +4,7 @@ namespace App\Services\user;
 
 use App\Models\ProductDetail;
 use App\Services\Service;
+use Illuminate\Support\Facades\Log;
 
 class ProductDetailService extends Service
 {   
@@ -41,7 +42,7 @@ class ProductDetailService extends Service
      */
     public function create($data): ProductDetail
     {   
-        
+        Log::info($data);
         $productDetail =  ProductDetail::create($data);
         $cost = $productDetail->calculateTotal();
         

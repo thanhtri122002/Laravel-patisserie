@@ -19,7 +19,7 @@ export default function ProductCard({ productData }) {
             <p className="product-card__detail text-center font-mer">{truncatedDescription}</p>
             <div className="product-card__footer flex justify-between">
                 <p className="product-card__price">{formatedprice}</p>
-                <button onClick={() => addProductToCart({productid: productData.id, productImage: productData.img})}>Add to cart</button>
+                <button onClick={() => addProductToCart(productData.id, 1, productData.img)}>Add to cart</button>
             </div>
         </div>
     );

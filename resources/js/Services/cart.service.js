@@ -6,8 +6,9 @@ export const addProductToCart = async (productId, quantity = 1, productImage) =>
             product_id: productId,
             quantity: quantity,
         };
-
+        console.log(params);
         const response = await api.post("user/cart", params);
+
         response.data = {
             ...response.data,
             image: productImage

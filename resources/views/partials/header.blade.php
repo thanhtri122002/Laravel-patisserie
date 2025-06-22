@@ -19,9 +19,9 @@
                     <x-admin-name-section></x-admin-name-section>
                 @else
                     <a href="#" class="cursor-pointer">My Account</a>
-                    <div class="absolute hidden group-hover:block bg-white p-2 z-50">
-                        <a href="{{ route('user.login') }}" class="block px-4 py-2 hover:bg-gray-100">User Login</a>
-                        <a href="{{ route('admin.login') }}" class="block px-4 py-2 hover:bg-gray-100">Admin Login</a>
+                    <div class="absolute top-0 hidden group-hover:flex group-hover:flex-col group-hover:space-y-5 bg-white p-2 z-50">
+                        <a href="{{ route('user.login') }}" class="block  hover:bg-gray-100">User Login</a>
+                        <a href="{{ route('admin.login') }}" class="block  hover:bg-gray-100">Admin Login</a>
                     </div>
                 @endif
             </div>
@@ -29,13 +29,13 @@
         <div class="navbar-nav flex w-full">
             <ul class="flex gap-x-11">
                 <li class="nav-item">
-                    <a href="#">Home</a>
+                    <a href="/">Home</a>
                 </li>
                 <li class="nav-item">
                     <a href="#">About</a>
                 </li>
                 <li class="nav-item">
-                    <a href="#">Product</a>
+                    <a href="/products">Product</a>
                 </li>
                 <!-- <li class="nav-item dropdown-toggle relative"> -->
                 <li class="nav-item">

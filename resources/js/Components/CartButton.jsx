@@ -27,18 +27,18 @@ export default function CartButton () {
         }
     }
    
-    // useEffect(() => {
-    //     const fetchCart = async () => {
-    //         const fetchedProductDetail = await getCart();
-    //         setCartItems(fetchedProductDetail);
+    useEffect(() => {
+        const fetchCart = async () => {
+            const fetchedProductDetail = await getCart();
+            setCartItems(fetchedProductDetail);
 
-    //         if (cartItems.length === 0 ) {
-    //             setIsOpen(false);
-    //         } 
-    //     };
-    //     fetchCart();        
-    // }, []);
-
+            if (fetchedProductDetail.length === 0 ) {
+                setIsOpen(false);
+            } 
+        };
+        fetchCart();        
+    }, []);
+    console.log(IsOpen);
     return (
         <>
             <button className="cart-button" onClick={toggleCart}>

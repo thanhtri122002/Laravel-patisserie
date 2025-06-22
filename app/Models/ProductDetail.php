@@ -56,4 +56,6 @@ class ProductDetail extends Model
         $discount = $this->discount ?? 0;
         return $cost - $discount;
     }
+
+
 }

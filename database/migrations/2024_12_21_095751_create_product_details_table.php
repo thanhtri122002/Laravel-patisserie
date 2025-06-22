@@ -16,13 +16,10 @@ return new class extends Migration
             $table->unsignedBigInteger('product_id');
             $table->unsignedBigInteger('cart_id')->nullable();
             $table->unsignedBigInteger('invoice_id')->nullable();
-            
-            $table->string('name', 255)->unique()->collation('utf8mb4_general_ci')->nullable(false);
             $table->unsignedBigInteger('quantity')->default(0);
             $table->decimal('discount', 20, 2)->default(0.0);
             $table->decimal('cost', 20, 2)->default(0.0);
             $table->timestamps();
-
             // Foreign Keys
             $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade');
             $table->foreign('cart_id')->references('id')->on('carts')->onDelete('set null');
