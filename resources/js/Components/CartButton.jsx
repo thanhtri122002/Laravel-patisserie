@@ -1,6 +1,7 @@
-import { useState, useEffect } from "react"
+import { useState, useEffect, use } from "react"
 import { getCart } from '../Services/cart.service';
 import { ShoppingBasket } from "lucide-react";
+import { useCart } from "../context/CartContext";
  
 /**
  * A Cart button which is fixed in the bottom right of pages which hold the chosen products of the authenticated user
@@ -17,28 +18,21 @@ import { ShoppingBasket } from "lucide-react";
  */
 export default function CartButton () {
     const [ IsOpen, setIsOpen ] = useState(false);
-    const [ cartItems, setCartItems ] = useState([]);
+    const { cartItems, fetchCart } = useCart();
 
-    const toggleCart = () => {<ShoppingBasket />
-
+    const toggleCart = () => {
         if (cartItems.length > 0) {
-            setIsOpen(prevState => !prevState);
-
+            setIsOpen(prev => !prev);
         }
     }
    
     useEffect(() => {
-        const fetchCart = async () => {
-            const fetchedProductDetail = await getCart();
-            setCartItems(fetchedProductDetail);
+        if (cartItems.length > 0) {
+            setIsOpen(false);
+        }
+    }, [cartItems]);
+   
 
-            if (fetchedProductDetail.length === 0 ) {
-                setIsOpen(false);
-            } 
-        };
-        fetchCart();        
-    }, []);
-    console.log(IsOpen);
     return (
         <>
             <button className="cart-button" onClick={toggleCart}>
@@ -49,7 +43,7 @@ export default function CartButton () {
                         !IsOpen ? (
                             <span className="cart-badge">{cartItems.length}</span>
                         ) : (
-                            <span className="cart-open-indicator">Cart is open</span>
+                            <p>Cart is open</p>
                         )
                     ) : null}
                 </div>

@@ -15,14 +15,14 @@
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
-    <body class="relative min-h-dvh">
+    <body  class="relative min-h-dvh">
         
         
         <header id="topbar" class="w-full">
             @yield('header')
         </header>
 
-        <main>
+        <main id="react-root">
             @yield('content')
         </main>
         

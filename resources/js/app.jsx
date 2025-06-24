@@ -1,9 +1,9 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import ExampleSideBar from './Example/TestSideBar';
-import '../scss/app.scss'
+import React from "react";
 
-const element = document.getElementById('react-root');
-const root = ReactDOM.createRoot(element);
-root.render(<ExampleSideBar></ExampleSideBar>);
+import { createRoot } from "react-dom/client";
 
+import { CartProvider } from "./context/CartContext";
+
+const modules = import.meta.glob([/
+    '../Pages'
+])

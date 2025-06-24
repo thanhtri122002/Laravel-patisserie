@@ -1,6 +1,14 @@
+import { useCart } from '../../../context/CartContext';
 import { addProductToCart } from '../../../Services/cart.service';
 
 export default function ProductCard({ productData }) {
+
+    const { fetchCart } = useCart();
+    
+    const handleProductToCart = async () => {
+        await addProductToCart(productData.id, 1, productData.img);
+        await fetchCart();
+    }
     const formatedprice = Number(productData.price).toLocaleString('vi-VN', {
         style: 'currency',
         currency: 'VND',
@@ -19,7 +27,7 @@ export default function ProductCard({ productData }) {
             <p className="product-card__detail text-center font-mer">{truncatedDescription}</p>
             <div className="product-card__footer flex justify-between">
                 <p className="product-card__price">{formatedprice}</p>
-                <button onClick={() => addProductToCart(productData.id, 1, productData.img)}>Add to cart</button>
+                <button onClick={handleProductToCart}>Add to cart</button>
             </div>
         </div>
     );

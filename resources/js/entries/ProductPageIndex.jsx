@@ -1,27 +1,14 @@
 import React from 'react';
-import { createRoot } from 'react-dom/client';  
+import { createRoot } from 'react-dom/client';
+import ProductPage from '../Pages/Product/ProductPage';
+import { CartProvider } from '../context/CartContext';
 
-/**
- * When using the dynamic
- */
-const modules = import.meta.glob(['../Pages/Product/*.jsx', '../Components/*.jsx']);
+const container = document.getElementById('product-page-root');
 
-const reactComponents = document.querySelectorAll('[react-component]');
-
-reactComponents.forEach(async (element) => {
-    const componentName = element.getAttribute('react-component');
-    
-    const paths = Object.keys(modules);
-    
-    const path = paths.find((p) => p.endsWith(`/${componentName}.jsx`));
-    
-    try {
-        const module = await modules[path]();
-        const Component = module.default;
-        const root = createRoot(element);
-        root.render(<Component />);
-    } catch (err) {
-        console.error(`Failed to render ${componentName}:`, err);
-    }
-
-})
+if (container) {
+  createRoot(container).render(
+    <CartProvider>
+      <ProductPage />
+    </CartProvider>
+  );
+}
