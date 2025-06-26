@@ -17,7 +17,7 @@ import { useCart } from "../context/CartContext";
  * @return {JSX.Element} Rendered CartButton 
  */
 export default function CartButton () {
-    const [ IsOpen, setIsOpen ] = useState(false);
+    const [ isOpen, setIsOpen ] = useState(false);
     const { cartItems, fetchCart } = useCart();
 
     const toggleCart = () => {
@@ -32,22 +32,25 @@ export default function CartButton () {
         }
     }, [cartItems]);
    
-
+    console.log(isOpen);
     return (
         <>
-            <button className="cart-button" onClick={toggleCart}>
-                <div className="relative inset-0">
-                    <ShoppingBasket/>
-                    
-                    {cartItems.length > 0 ? (
-                        !IsOpen ? (
-                            <span className="cart-badge">{cartItems.length}</span>
-                        ) : (
-                            <p>Cart is open</p>
-                        )
-                    ) : null}
+            {isOpen ? (
+                <div className="cart-content open">
+                    <button className="close-cart" onClick={toggleCart}>X</button>
                 </div>
-            </button>
+            ) : (
+                <button className="cart-button" onClick={toggleCart}>
+                    <div className="relative inset-0">
+                        {cartItems.length > 0 && (
+                            <>
+                            <ShoppingBasket></ShoppingBasket>
+                            <span className="cart-badge">{cartItems.length}</span>
+                            </>
+                        )}
+                    </div>
+                </button>
+            )}
         </>
     );
 }

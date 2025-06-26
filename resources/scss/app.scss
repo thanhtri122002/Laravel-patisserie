@@ -7,6 +7,7 @@
 @use './responsive/responsive';
 @use 'animation';
 @use 'body';
+@use './components/index.scss';
 @use './layout/sidebar';
 @use './layout/topbar';
 @use './layout/footer';

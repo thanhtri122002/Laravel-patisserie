@@ -152,6 +152,9 @@ class CartService extends Service
      * 
      * @param array $data a data array containing
      *                          - quantity: int
+     *                          - mode: relative or absolute, 
+     *                              1/ Relative means the data will minus or plus the quantity
+     *                              2/ Absolute means directly set the quantity 
      * @param int $productDetailId
      * @return \App\Models\ProductDetail
      */
