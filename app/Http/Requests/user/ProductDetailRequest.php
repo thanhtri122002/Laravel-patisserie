@@ -27,7 +27,8 @@ class ProductDetailRequest extends FormRequest
             'invoice_id' => 'nullable|exists:invoices,id',
             'quantity' => 'required|min:0|integer',
             'discount' => 'nullable|numeric|min:0',
-            'cost' => 'nullable|numeric|min:0'
+            'cost' => 'nullable|numeric|min:0',
+            'mode' => 'sometimes|string|in:absolute, relative'
         ];
     }
 }

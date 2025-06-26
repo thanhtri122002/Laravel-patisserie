@@ -49,7 +49,7 @@ class CartController extends BaseController
     public function addToCart(ProductDetailRequest $request)
     {   
        
-        $data = $request->safe()->only(['product_id', 'quantity']);
+        $data = $request->safe()->only(['product_id', 'quantity', 'mode']);
         $user = $this->getUser();
         Log::info($data);
         $addProduct = CartService::getInstance()->withUser($user)->addProduct($data);
@@ -70,7 +70,7 @@ class CartController extends BaseController
     public function update(ProductDetailRequest $request ,$productDetailId)
     {   
         $user = $this->getUser();
-        $data = $request->safe()->only(['quantity']);
+        $data = $request->safe()->only(['quantity', 'mode']);
         $updateProduct = CartService::getInstance()->withUser($user)->update($data, $productDetailId);
 
         return $updateProduct;

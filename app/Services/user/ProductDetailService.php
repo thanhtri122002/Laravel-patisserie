@@ -55,16 +55,27 @@ class ProductDetailService extends Service
      * this operation use to update the product detail
      *
      * The function update the quantity and the cost of the product detail
+     * The expected keys in the data array are:
+     * - quantity: the number of the product detail based on the mode
+     * - mode: relative for the minus plus operation on the productDetail's current quantity, 
+     *         absolute mode for replacing the current quantity with the new quantity
      * 
-     * @param int $quantity the amount added or subtract from the product detail
+     * @param array $data the data that is necessary for updating a productDetail instance
      * @param object $productDetail the product detail to update
      * 
      * @return \App\Models\ProductDetail the updated product detail
      */
-    public function update($quantity, $productDetail): ProductDetail
-    {
-        $productDetail->quantity += $quantity;
+    public function update($data, $productDetail): ProductDetail
+    {   
+        if ($data['mode'] === 'relative') {
+            $productDetail->quantity += $data['quantity'];
+
+        } elseif ($data['mode'] === 'absolute') {
+            $productDetail->quantity = $data['quantity'];
+        }
+        
         $cost = $productDetail->calculateTotal();
+
         $productDetail->update([
             'quantity' => $productDetail->quantity,
             'cost' => $cost

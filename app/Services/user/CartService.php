@@ -105,17 +105,15 @@ class CartService extends Service
     {
         $cart = $this->getOrCreateCart();
         $data['cart_id'] = $cart->id;
+        $data['mode'] = 'relative';
 
         $productDetail = ProductDetail::where('product_id', $data['product_id'])->first();
         
         if(!$productDetail){
-            
-            $productDetail = $this->productDetailService->create($data);
+            $productDetail = $this->productDetailService->create($data); 
         }
         elseif ($productDetail){
-            
-            $newQuantity = $productDetail->quantity += $data['quantity'];
-            $productDetail = $this->productDetailService->update($newQuantity, $productDetail);
+            $productDetail = $this->productDetailService->update($data, $productDetail);
 
         }
 
@@ -153,15 +151,15 @@ class CartService extends Service
      * @param array $data a data array containing
      *                          - quantity: int
      *                          - mode: relative or absolute, 
-     *                              1/ Relative means the data will minus or plus the quantity
-     *                              2/ Absolute means directly set the quantity 
+     *                              1/ relative means the data will minus or plus the quantity
+     *                              2/ absolute means directly set the quantity 
      * @param int $productDetailId
      * @return \App\Models\ProductDetail
      */
     public function update($data, $productDetailId)
     {   
         $productDetail = $this->getProductDetail($productDetailId);
-        $productDetail = $this->productDetailService->update($data['quantity'], $productDetail);
+        $productDetail = $this->productDetailService->update($data, $productDetail);
         
         return $productDetail;
     }
@@ -173,8 +171,10 @@ class CartService extends Service
      */
     public function clearCart()
     {
-        $cart = $this->getOrCreateCart();
-        $cart->productDetails->delete();
+        $productsInCart = $this->cartDetail();
+        foreach($productsInCart as $detail) {
+            $detail->delete();
+        }
         
         return true;
     }
@@ -209,6 +209,7 @@ class CartService extends Service
         
         $productDetails = $cart->productDetails;
         $cost = 0;
+
         foreach($productDetails as $detail) {
             $cost = $detail->calculateTotal();
         }
