@@ -1,7 +1,7 @@
 import { useState, useEffect, use } from "react"
-import { getCart } from '../Services/cart.service';
 import { ShoppingBasket } from "lucide-react";
 import { useCart } from "../context/CartContext";
+import CartProductDetail from "./CartProductDetail";
  
 /**
  * A Cart button which is fixed in the bottom right of pages which hold the chosen products of the authenticated user
@@ -18,8 +18,12 @@ import { useCart } from "../context/CartContext";
  */
 export default function CartButton () {
     const [ isOpen, setIsOpen ] = useState(false);
-    const { cartItems, fetchCart } = useCart();
-
+    const { cartItems, total } = useCart();
+    
+    const formatedTotal = Number(total).toLocaleString('vi-vn', {
+        style: 'currency',
+        currency: 'VND'
+    })
     const toggleCart = () => {
         if (cartItems.length > 0) {
             setIsOpen(prev => !prev);
@@ -32,12 +36,39 @@ export default function CartButton () {
         }
     }, [cartItems]);
    
-    console.log(isOpen);
+    console.log(cartItems);
     return (
         <>
+            {cartItems.length > 0 ? (
+                isOpen ? (
+                    <div className="cart-content open">
+                        <button className="close-cart" onClick={toggleCart}>X</button>
+                        {cartItems.map((cartItem) => (
+                            <CartProductDetail cartItemData={cartItem} key={cartItem.id}></CartProductDetail>
+                        ))}
+                        <p className="font-mer text-body self-end">Total: {formatedTotal}</p>
+                        <button className=""></button>
+                    </div>
+                ) : (
+                    <button className="cart-button" onClick={toggleCart}>
+                        <div className="relative inset-0">
+                        <ShoppingBasket className="" />
+                        <span className="cart-badge">{cartItems.length}</span>
+                    </div>
+                </button>
+                )
+            ) : null}
+        </>
+    );
+}
+
+/**
+ * 
+ * <>
             {isOpen ? (
                 <div className="cart-content open">
                     <button className="close-cart" onClick={toggleCart}>X</button>
+                    
                 </div>
             ) : (
                 <button className="cart-button" onClick={toggleCart}>
@@ -52,5 +83,4 @@ export default function CartButton () {
                 </button>
             )}
         </>
-    );
-}
+ */

@@ -58,6 +58,8 @@
             margin-left: auto;
         }
     }    
+
+    
 }
 
 @media (max-width: $breakpoint-md) 
@@ -65,6 +67,7 @@
     #topbar {
         height: 5rem !important;
     }
+    
 }
 
 // For desktops and up

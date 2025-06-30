@@ -26,7 +26,7 @@ class CartController extends BaseController
      * This method get the current authenticated user and the call the CartService 
      * to retrieve the cart which contains all the ProductDetail instance of that cart
      * 
-     * @return @return Illuminate\Database\Eloquent\Collection|\App\Models\productDetail[]
+     * @return Illuminate\Database\Eloquent\Collection|\App\Models\productDetail[]
      */
     public function getCart()
     {      
@@ -46,7 +46,7 @@ class CartController extends BaseController
      * 
      * @return \App\Models\ProductDetail
      */
-    public function addToCart(ProductDetailRequest $request)
+    public function addToCart(ProductDetailRequest $request): \App\Models\ProductDetail
     {   
        
         $data = $request->safe()->only(['product_id', 'quantity', 'mode']);
@@ -86,11 +86,11 @@ class CartController extends BaseController
      * 
      * @return boolean
      */
-    public function submitCart(submitCartRequest $request)
+    public function submitCart(submitCartRequest $request): bool
     {
         $user = $this->getUser();
         $data = $request->validated();
-        $submitCart = CartService::getInstance()->withUser($user)->submitCart($data);        
+        CartService::getInstance()->withUser($user)->submitCart($data);        
 
         return true;
     }
@@ -102,7 +102,7 @@ class CartController extends BaseController
      * 
      * @return boolean
      */
-    public function deleteProduct($productDetailId)
+    public function deleteProduct($productDetailId): bool
     {
         $user = $this->getUser();
         CartService::getInstance()->withUser($user)->deleteProduct($productDetailId);

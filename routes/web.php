@@ -115,6 +115,7 @@ Route::prefix('user')->name('user.')->group(function() {
             Route::post('/{productDetailId}', 'update')->name('updateProductDetail');
             Route::post('/{productDetailId}/delete', 'delete')->name('deleteProductDetail');
             Route::get('/', 'getCart')->name('getCart');
+            Route::get('/cost', 'getCartCost')->name('cost');
             Route::post('/payment/success/{invoice}', 'paymentSuccess')->name('paymentSuccess');
         });
         

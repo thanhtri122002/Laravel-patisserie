@@ -80,13 +80,15 @@ class CartService extends Service
      * if it does, the function returns the cart
      * if it does not, create a new cart for the user
      * 
-     * @return Illuminate\Database\Eloquent\Collection|\App\Models\productDetail[] A Collection containing ProductDetail objects.
+     * @return array $detail the detail which contains the products in the carts and the total cost of the cart
      */
     public function cartDetail()
     {
         $cart = $this->getOrCreateCart();
+        $detail['cart'] = $cart->productDetails()->with('product.productImages')->get();
+        $detail['total'] = $this->getCartCost();
         
-        return $cart->productDetails;
+        return $detail;
     }
     /**
      * Add the product into the cart

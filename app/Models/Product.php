@@ -28,16 +28,19 @@ class Product extends Model
 
     public function category(): BelongsTo
     {
+        
         return $this->belongsTo(Category::class);
     }
 
     public function productDetails(): HasMany
     {
-        return $this->hasMany(ProductDetail::class);
+
+        return $this->hasMany(ProductDetail::class)->chaperone();
     }
 
     public function productImages(): HasMany
     {
-        return $this->hasMany(ProductImage::class);
+
+        return $this->hasMany(ProductImage::class)->chaperone();
     }
 }

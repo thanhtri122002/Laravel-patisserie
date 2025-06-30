@@ -7,25 +7,39 @@ const CartContext = createContext();
 export const CartProvider = ({children}) => {
 
     const [cartItems, setCartItems] = useState([]);
-
+    const [total, setTotal] = useState(0);
     const fetchCart = async () => {
         
-        const items = await getCart();
-        if (items) setCartItems(items);
+        const cartInfo = await getCart();
+        
+        if (cartInfo.cart) {
+            setCartItems(cartInfo.cart);
+            setTotal(cartInfo.total);
+        } 
     };
 
+    console.log(total);
     useEffect(() => {
         fetchCart();
     }, []);
 
-    const updateItem = async (productDetailId, quantity) => {
-        await updateProductQuantity(productDetailId, quantity);
+    const updateItem = async (productDetailId, quantity, mode) => {
+        await updateProductQuantity(productDetailId, quantity, mode);
 
-        setCartItems((prev) => 
-            prev.map((item) => 
-                item.id === productDetailId ? {...item, quantity} : item
-            )    
-        )
+        setCartItems((prev) => {
+
+            return prev.map((item) => {
+                
+                if (item.id !== productDetail) return item;
+
+                const newQuantity = 
+                    mode === 'relative' 
+                        ? Math.max(1, item.quantity + amount)
+                        : Math.max(1, amount);
+                
+                return {...item, quantity: newQuantity};
+            });
+        });
     }
 
     const removeItem = async (productDetail) => {
@@ -37,11 +51,12 @@ export const CartProvider = ({children}) => {
     }
 
     const submitCart = async() => {
+        
         await submitCart();
     }
 
     return (
-        <CartContext.Provider value={{ cartItems, setCartItems, fetchCart, updateItem, removeItem}}>
+        <CartContext.Provider value={{ cartItems, total, setCartItems, fetchCart, updateItem, removeItem}}>
             {children}
         </CartContext.Provider>
     );

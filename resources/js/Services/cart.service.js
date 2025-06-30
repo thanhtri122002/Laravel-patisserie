@@ -6,9 +6,7 @@ export const addProductToCart = async (productId, quantity = 1, productImage) =>
             product_id: productId,
             quantity: quantity,
         };
-        console.log(params);
         const response = await api.post("user/cart", params);
-
         response.data = {
             ...response.data,
             image: productImage
@@ -17,7 +15,7 @@ export const addProductToCart = async (productId, quantity = 1, productImage) =>
         return response.data;
 
     } catch (error) {
-        console.log('Occcured an error in the adding product function', error);
+        console.error('Occcured an error in the adding product function', error);
     }
 }
 
@@ -30,15 +28,16 @@ export const removeProductFromCart = async (productDetailId) => {
 
     } catch (error) {
 
-        console.log('Occured an error in the removing product from cart function', error);
+        console.error('Occured an error in the removing product from cart function', error);
     }
 }
 
-export const updateProductQuantity = async (productDetailId, quantity) => {
+export const updateProductQuantity = async (productDetailId, quantity, mode) => {
     try {
         const params = {
             id: productDetailId,
             quantity: quantity,
+            mode: mode
         }
 
         const response = await api.post(`user/cart/${productDetailId}`, params);
@@ -47,7 +46,7 @@ export const updateProductQuantity = async (productDetailId, quantity) => {
 
     } catch (error) {
         
-        console.log("Occured an error in the updating product's quantity function", error);
+        console.error("Occured an error in the updating product's quantity function", error);
     }
 }
 
@@ -57,10 +56,11 @@ export const getCart = async () => {
 
         const response = await api.get('user/cart');
 
+        console.log(response.data);
         return response.data; 
 
     } catch (error) {
-        console.log('Occured an error in the getCart function', error);
+        console.error('Occured an error in the getCart function', error);
     }
 }
 
@@ -71,6 +71,6 @@ export const submitCart = async () => {
 
         return response.data;
     } catch (error) {
-        console.log('Occured an error in submitCart function', error);
+        console.error('Occured an error in submitCart function', error);
     }
 }
