@@ -68,7 +68,7 @@ class CartService extends Service
     public function getProductDetail($productDetailId)
     {
         $cart = $this->getOrCreateCart();
-        $productDetail = $cart->productDetail()->findOrFail($productDetailId);
+        $productDetail = $cart->productDetails()->findOrFail($productDetailId);
 
         return $productDetail;
     }
@@ -213,7 +213,7 @@ class CartService extends Service
         $cost = 0;
 
         foreach($productDetails as $detail) {
-            $cost = $detail->calculateTotal();
+            $cost += $detail->calculateTotal();
         }
 
         return $cost;

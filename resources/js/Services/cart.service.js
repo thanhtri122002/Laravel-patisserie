@@ -39,7 +39,7 @@ export const updateProductQuantity = async (productDetailId, quantity, mode) => 
             quantity: quantity,
             mode: mode
         }
-
+        console.log(params);
         const response = await api.post(`user/cart/${productDetailId}`, params);
 
         return response.data;

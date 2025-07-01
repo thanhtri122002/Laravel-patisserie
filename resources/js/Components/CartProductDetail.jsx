@@ -4,7 +4,7 @@ import { Trash2Icon } from "lucide-react";
 export default function CartProductDetail ({cartItemData}) {
 
     const { updateItem, removeItem } = useCart();
-    const formatedprice = Number(cartItemData.cost).toLocaleString('vi-vn', {
+    const formatedprice = Number(cartItemData.cost).toLocaleString('vi-VN', {
         style: 'currency',
         currency: 'VND',
     });

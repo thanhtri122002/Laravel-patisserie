@@ -71,6 +71,7 @@ class CartController extends BaseController
     {   
         $user = $this->getUser();
         $data = $request->safe()->only(['quantity', 'mode']);
+        
         $updateProduct = CartService::getInstance()->withUser($user)->update($data, $productDetailId);
 
         return $updateProduct;

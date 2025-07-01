@@ -18,19 +18,18 @@ export const CartProvider = ({children}) => {
         } 
     };
 
-    console.log(total);
     useEffect(() => {
         fetchCart();
     }, []);
 
-    const updateItem = async (productDetailId, quantity, mode) => {
-        await updateProductQuantity(productDetailId, quantity, mode);
+    const updateItem = async (productDetailId, amount, mode) => {
+        await updateProductQuantity(productDetailId, amount, mode);
 
         setCartItems((prev) => {
 
             return prev.map((item) => {
                 
-                if (item.id !== productDetail) return item;
+                if (item.id !== productDetailId) return item;
 
                 const newQuantity = 
                     mode === 'relative' 

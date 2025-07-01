@@ -1,4 +1,4 @@
-import { useState, useEffect, use } from "react"
+import { useState, useEffect } from "react"
 import { ShoppingBasket } from "lucide-react";
 import { useCart } from "../context/CartContext";
 import CartProductDetail from "./CartProductDetail";
@@ -18,25 +18,23 @@ import CartProductDetail from "./CartProductDetail";
  */
 export default function CartButton () {
     const [ isOpen, setIsOpen ] = useState(false);
-    const { cartItems, total } = useCart();
+    const { cartItems, total, fetchCart } = useCart();
     
-    const formatedTotal = Number(total).toLocaleString('vi-vn', {
+    const formatedTotal = total.toLocaleString('vi-VN', {
         style: 'currency',
         currency: 'VND'
     })
+
     const toggleCart = () => {
         if (cartItems.length > 0) {
             setIsOpen(prev => !prev);
         }
     }
-   
+    
     useEffect(() => {
-        if (cartItems.length > 0) {
-            setIsOpen(false);
-        }
-    }, [cartItems]);
-   
-    console.log(cartItems);
+        fetchCart()
+    }, []);
+
     return (
         <>
             {cartItems.length > 0 ? (
@@ -46,7 +44,7 @@ export default function CartButton () {
                         {cartItems.map((cartItem) => (
                             <CartProductDetail cartItemData={cartItem} key={cartItem.id}></CartProductDetail>
                         ))}
-                        <p className="font-mer text-body self-end">Total: {formatedTotal}</p>
+                        <p className="font-mer text-body self-end text-right">Total: {formatedTotal}</p>
                         <button className=""></button>
                     </div>
                 ) : (

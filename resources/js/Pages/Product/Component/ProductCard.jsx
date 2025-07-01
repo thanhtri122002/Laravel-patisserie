@@ -26,7 +26,7 @@ export default function ProductCard({ productData }) {
             <p className="product-card__name text-center font-mer">{productData.name}</p>
             <p className="product-card__detail text-center font-mer">{truncatedDescription}</p>
             <div className="product-card__footer flex justify-between">
-                <p className="product-card__price">{formatedprice}</p>
+                <p className="product-card__price font-mer text-body">{formatedprice}</p>
                 <button onClick={handleProductToCart}>Add to cart</button>
             </div>
         </div>

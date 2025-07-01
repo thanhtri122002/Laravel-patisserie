@@ -22,13 +22,13 @@ class ProductDetailRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'product_id' => 'required|exists:products,id',
+            'product_id' => 'sometimes|exists:products,id',
             'cart_id' => 'nullable|exists:carts,id',
             'invoice_id' => 'nullable|exists:invoices,id',
-            'quantity' => 'required|min:0|integer',
+            'quantity' => 'required|integer',
             'discount' => 'nullable|numeric|min:0',
             'cost' => 'nullable|numeric|min:0',
-            'mode' => 'sometimes|string|in:absolute, relative'
+            'mode' => 'sometimes|string|in:absolute,relative'
         ];
     }
 }
