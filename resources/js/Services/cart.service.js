@@ -6,6 +6,7 @@ export const addProductToCart = async (productId, quantity = 1, productImage) =>
             product_id: productId,
             quantity: quantity,
         };
+        console.log('we are calling the user/cart to get make a cart');
         const response = await api.post("user/cart", params);
         response.data = {
             ...response.data,
@@ -53,7 +54,7 @@ export const updateProductQuantity = async (productDetailId, quantity, mode) => 
 
 export const getCart = async () => {
     try {
-
+    
         const response = await api.get('user/cart');
 
         console.log(response.data);

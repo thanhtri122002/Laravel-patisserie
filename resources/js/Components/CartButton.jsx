@@ -30,11 +30,12 @@ export default function CartButton () {
             setIsOpen(prev => !prev);
         }
     }
-    
-    useEffect(() => {
-        fetchCart()
-    }, []);
 
+    useEffect(() => {
+        fetchCart();
+    }, [cartItems]);
+
+    console.log(cartItems);
     return (
         <>
             {cartItems.length > 0 ? (

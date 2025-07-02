@@ -3,11 +3,15 @@ import { addProductToCart } from '../../../Services/cart.service';
 
 export default function ProductCard({ productData }) {
 
-    const { fetchCart } = useCart();
+    const {cartItems, fetchCart } = useCart();
     
     const handleProductToCart = async () => {
+
         await addProductToCart(productData.id, 1, productData.img);
-        await fetchCart();
+        
+        if (cartItems.length === 0) {
+            await fetchCart()
+        }
     }
     const formatedprice = Number(productData.price).toLocaleString('vi-VN', {
         style: 'currency',

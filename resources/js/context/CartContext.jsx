@@ -8,10 +8,13 @@ export const CartProvider = ({children}) => {
 
     const [cartItems, setCartItems] = useState([]);
     const [total, setTotal] = useState(0);
+    console.log(cartItems);
+
+    
     const fetchCart = async () => {
         
         const cartInfo = await getCart();
-        
+
         if (cartInfo.cart) {
             setCartItems(cartInfo.cart);
             setTotal(cartInfo.total);
@@ -19,6 +22,7 @@ export const CartProvider = ({children}) => {
     };
 
     useEffect(() => {
+        
         fetchCart();
     }, []);
 

@@ -52,7 +52,6 @@ class CartService extends Service
                         ,'cost' => 0
                     ]);
         }
-
         return $cart;
  
     }

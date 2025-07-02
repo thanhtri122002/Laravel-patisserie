@@ -69,6 +69,11 @@ class ProductDetailService extends Service
     {   
         if ($data['mode'] === 'relative') {
             $productDetail->quantity += $data['quantity'];
+            if ($productDetail->quantity === 0) {
+                $productDetail->delete();
+                
+                return $productDetail;
+            }
 
         } elseif ($data['mode'] === 'absolute') {
             $productDetail->quantity = $data['quantity'];

@@ -2,7 +2,7 @@ import { CartProvider, useCart } from "../context/CartContext";
 import { Trash2Icon } from "lucide-react";
 
 export default function CartProductDetail ({cartItemData}) {
-
+    
     const { updateItem, removeItem } = useCart();
     const formatedprice = Number(cartItemData.cost).toLocaleString('vi-VN', {
         style: 'currency',
