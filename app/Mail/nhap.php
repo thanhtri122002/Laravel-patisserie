@@ -14,14 +14,14 @@ class OrderPurchased extends Mailable
 {
     use Queueable, SerializesModels;
 
-    protected $invoice;
     /**
      * Create a new message instance.
      */
-    public function __construct(Invoice $invoice)
-    {   
-        $this->invoice = $invoice;
-    }
+    public function __construct(
+        protected Invoice $invoice,
+        
+        )
+    {}
 
     /**
      * Get the message envelope.
@@ -30,25 +30,24 @@ class OrderPurchased extends Mailable
     {
         return new Envelope(
             subject: 'Order Purchased',
-            tags: ['invoice'],
+            tags : ['invoice '],
             metadata: [
                 'invoice_id' => $this->invoice->id,
                 'user_id' => $this->invoice->user->id,
-                'order_code' => $this->invoice->order_code
-            ],
+                'order_code' => $this->invoice->order_code,
+            ], 
         );
     }
-
     /**
      * Get the message content definition.
      */
     public function content(): Content
     {
         return new Content(
-            markdown: 'mail.orders.purchased',
+            view: 'view.name',
             with: [
                 'customer' => $this->invoice->user->name,
-                'invoice' => $this->invoice->order_code,
+                'invoice'=> $this->invoice->order_code,
             ]
         );
     }

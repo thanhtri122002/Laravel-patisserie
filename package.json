@@ -19,6 +19,8 @@
     "dependencies": {
         "@headlessui/react": "^2.2.4",
         "@inertiajs/react": "^2.0.11",
+        "@stripe/react-stripe-js": "^3.7.0",
+        "@stripe/stripe-js": "^7.4.0",
         "autoprefixer": "^10.4.20",
         "lucide-react": "^0.518.0",
         "postcss": "^8.4.49",
