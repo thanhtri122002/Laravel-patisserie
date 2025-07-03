@@ -113,7 +113,7 @@ Route::prefix('user')->name('user.')->group(function() {
             Route::post('/submit', 'submitCart')->name('submit'); // ✅ Place before dynamic routes
             Route::post('/', 'addToCart')->name('addProduct');  
             Route::post('/{productDetailId}', 'update')->name('updateProductDetail');
-            Route::post('/{productDetailId}/delete', 'delete')->name('deleteProductDetail');
+            Route::post('/{productDetailId}/delete', 'deleteProduct')->name('deleteProductDetail');
             Route::get('/', 'getCart')->name('getCart');
             Route::get('/cost', 'getCartCost')->name('cost');
             Route::post('/payment/success/{invoice}', 'paymentSuccess')->name('paymentSuccess');

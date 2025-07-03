@@ -1,4 +1,4 @@
-<div class="h-full navbar container py-2 mx-auto flex items-center sm:rounded-3xl ">
+<div class="h-full navbar py-2 flex items-center">
     
     <div class="h-full w-full flex-1 flex items-center justify-between md:flex-col gap-8">
         <div class="flex w-full my-auto justify-between ml-0 h-1/2 ">

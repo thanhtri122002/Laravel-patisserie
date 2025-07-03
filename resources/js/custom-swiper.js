@@ -4,6 +4,7 @@ var swiper = new Swiper(".mySwiper", {
     on: {
       slideChange: function() {
         let activeIndex = this.slides[this.activeIndex];
+        
         let slideId = activeIndex.getAttribute('data-slide-id');
         updateTextContent(slideId);
       },

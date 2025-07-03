@@ -235,7 +235,7 @@
                     <p class="font-mer text-h1">FREQUENTLY ASKED QUESTIONS</p>
                     <p>Our team is here to assist you with any inquiries.
                     Explore these answers to commonly asked questions about our patisserie, or feel free to reach out to us directly.</p>
-                </div>s
+                </div>
                 <div class="flex flex-col gap-4 flex-1 w-full ">
                     <button class="p-5 flex justify-between items-center group gap-6">
                         <div class="flex flex-col text-left">
