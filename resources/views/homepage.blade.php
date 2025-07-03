@@ -245,7 +245,6 @@
                             </div>
                         </div>
                         <img class="size-5" src="{{ asset('storage/images/icons/donut.svg') }}" alt="">
-
                     </button>
                     <button class="p-5 flex justify-between items-center group gap-6">
                         <div class="flex flex-col text-left">

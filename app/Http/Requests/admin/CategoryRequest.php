@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\admin;
 
+use App\Rules\CategoryExists;
 use Illuminate\Foundation\Http\FormRequest;
 
 class CategoryRequest extends FormRequest
@@ -22,8 +23,9 @@ class CategoryRequest extends FormRequest
     public function rules(): array
     {   
         return [
-            'name' => "required|string|unique:categories",
-            
+            'id' => ['sometimes', 'array'],
+            'id.*' => ['integer', new CategoryExists],
+            'name' => "sometimes|string|unique:categories",
         ];
     }
 }

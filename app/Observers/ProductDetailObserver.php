@@ -63,6 +63,8 @@ class ProductDetailObserver
         if ($productDetail->invoice->status == Invoice::PAID) {
             throw new \Exception('you can not update the product detail of the paid invoice');
         }
+
+        
         
     
     }

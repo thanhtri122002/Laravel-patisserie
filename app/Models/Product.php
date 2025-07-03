@@ -21,20 +21,27 @@ class Product extends Model
         'stripe_price_id'
         ];
         
-    protected $guarded =['id'];
+    protected $guarded = [
+        'id',
+        'stripe_product_id',
+        'stripe_price_id'
+    ];
 
     public function category(): BelongsTo
     {
+        
         return $this->belongsTo(Category::class);
     }
 
     public function productDetails(): HasMany
     {
-        return $this->hasMany(ProductDetail::class);
+
+        return $this->hasMany(ProductDetail::class)->chaperone();
     }
 
     public function productImages(): HasMany
     {
-        return $this->hasMany(ProductImage::class);
+
+        return $this->hasMany(ProductImage::class)->chaperone();
     }
 }

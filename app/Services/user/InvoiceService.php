@@ -18,7 +18,7 @@ class InvoiceService extends Service
     }
 
     public function detail($id)
-    {
+    {   
         return Invoice::with('productDetails')->findOrFail($id);
     }
 
@@ -41,12 +41,13 @@ class InvoiceService extends Service
         return $query->paginate($perPage);
     }
     /**
-     * 
+     * Create the unpaid invoice for the submitted cart
+     * Linked the products details to the newly created invoice
      */
     public function makeInvoice($data, $productsInCart)
     {   
         $data['user_id'] = $this->getUser()->id;
-
+        
         if(!$this->getUser()->stripe_id) {
             $this->stripe->createStripeCustomer($this->getUser());
 
@@ -58,8 +59,10 @@ class InvoiceService extends Service
     
             foreach($productsInCart as $detail) {
                 $detail->invoice_id = $invoice->id;
+                $detail->cart_id = null;
                 $detail->save();
             }
+
             return $invoice;
         });
 

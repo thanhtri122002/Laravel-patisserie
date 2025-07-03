@@ -1,38 +1,62 @@
-<div class="h-full navbar container py-2 mx-auto flex items-center sm:rounded-3xl ">
-    <div class="logo flex items-center h-full ml-4">
-        <img class="w-auto h-full object-cover" src="{{ asset('storage/images/icons/patisserie.svg') }}" alt="">
-        <p class="">Glamour</p>
+<div class="h-full navbar py-2 flex items-center">
+    
+    <div class="h-full w-full flex-1 flex items-center justify-between md:flex-col gap-8">
+        <div class="flex w-full my-auto justify-between ml-0 h-1/2 ">
+            <div class="h-full logo place-self-center ml-5">
+                <img class="w-auto h-full object-cover" src="{{ asset('storage/images/icons/patisserie.svg') }}" alt="">
+            </div>
+            
+            <div class="nav-item relative group flex items-center mr-5">
+                @php
+                    $user = Auth::guard('web')->user();
+                    $admin = Auth::guard('admin')->user();
+                @endphp
+
+                
+                @if ($user)
+                    <x-user-name-section></x-user-name-section>
+                @elseif ($admin)
+                    <x-admin-name-section></x-admin-name-section>
+                @else
+                    <a href="#" class="cursor-pointer">My Account</a>
+                    <div class="absolute top-0 hidden group-hover:flex group-hover:flex-col group-hover:space-y-5 bg-white p-2 z-50">
+                        <a href="{{ route('user.login') }}" class="block  hover:bg-gray-100">User Login</a>
+                        <a href="{{ route('admin.login') }}" class="block  hover:bg-gray-100">Admin Login</a>
+                    </div>
+                @endif
+            </div>
+        </div>
+        <div class="navbar-nav flex w-full">
+            <ul class="flex gap-x-11">
+                <li class="nav-item">
+                    <a href="/">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#">About</a>
+                </li>
+                <li class="nav-item">
+                    <a href="/products">Product</a>
+                </li>
+                <!-- <li class="nav-item dropdown-toggle relative"> -->
+                <li class="nav-item">
+                    <a href="#">Services</a>
+                    <!-- <div class="dropdown-menu hidden">
+                        <a href=""></a>
+                        <a href=""></a>
+                    </div> -->
+                </li>
+                <li class="nav-item">
+                    <a href="/teams">Teams</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#">Contact</a>
+                </li>
+                
+            </ul>
+        </div>
     </div>
-    <div class="navbar-nav mr-4">
-        <ul class="flex gap-x-4">
-            <li class="nav-item">
-                <a href="#">Home</a>
-            </li>
-            <li class="nav-item">
-                <a href="#">About</a>
-            </li>
-            <li class="nav-item">
-                <a href="#">Product</a>
-            </li>
-            <!-- <li class="nav-item dropdown-toggle relative"> -->
-            <li class="nav-item">
-                <a href="#">Services</a>
-                <!-- <div class="dropdown-menu hidden">
-                    <a href=""></a>
-                    <a href=""></a>
-                </div> -->
-            </li>
-            <li class="nav-item">
-                <a href="#">Teams</a>
-            </li>
-            <li class="nav-item">
-                <a href="#">Contact</a>
-            </li>
-            <li class="nav-item">
-                <x-user-name-section />
-            </li>
-        </ul>
-    </div>
+
+
     <div id="burgerMenu" class="burger-menu ml-auto">
         <span class="line"></span>
         <span class="line"></span>

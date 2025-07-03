@@ -14,11 +14,12 @@ class CategoryController extends BaseController
         return $this->guard()->user();
     }
 
-    public function index() {
+    public function index(CategoryRequest $request) 
+    {   
         $user = $this->getUser();
         $categorySerice = CategoryService::getInstance()->withUser($user)->index();
 
-        return $this->sendSuccessResponse($categorySerice, "success retrieve", Response::OK);
+        return $this->sendSuccessResponse($categorySerice, "success retrieveeeee", Response::OK);
     }
 
     public function create(CategoryRequest $request) {

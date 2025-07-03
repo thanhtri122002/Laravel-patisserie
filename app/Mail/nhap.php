@@ -1,0 +1,64 @@
+<?php
+
+namespace App\Mail;
+
+use App\Models\Invoice;
+use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Mail\Mailable;
+use Illuminate\Mail\Mailables\Content;
+use Illuminate\Mail\Mailables\Envelope;
+use Illuminate\Queue\SerializesModels;
+
+class OrderPurchased extends Mailable
+{
+    use Queueable, SerializesModels;
+
+    /**
+     * Create a new message instance.
+     */
+    public function __construct(
+        protected Invoice $invoice,
+        
+        )
+    {}
+
+    /**
+     * Get the message envelope.
+     */
+    public function envelope(): Envelope
+    {
+        return new Envelope(
+            subject: 'Order Purchased',
+            tags : ['invoice '],
+            metadata: [
+                'invoice_id' => $this->invoice->id,
+                'user_id' => $this->invoice->user->id,
+                'order_code' => $this->invoice->order_code,
+            ], 
+        );
+    }
+    /**
+     * Get the message content definition.
+     */
+    public function content(): Content
+    {
+        return new Content(
+            view: 'view.name',
+            with: [
+                'customer' => $this->invoice->user->name,
+                'invoice'=> $this->invoice->order_code,
+            ]
+        );
+    }
+
+    /**
+     * Get the attachments for the message.
+     *
+     * @return array<int, \Illuminate\Mail\Mailables\Attachment>
+     */
+    public function attachments(): array
+    {
+        return [];
+    }
+}

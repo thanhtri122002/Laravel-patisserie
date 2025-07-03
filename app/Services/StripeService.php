@@ -4,6 +4,7 @@ namespace App\Services;
 use App\Models\Invoice;
 use App\Models\Product;
 use App\Models\User;
+use Illuminate\Http\Request;
 use Laravel\Cashier\Cashier;
 use Stripe\Customer;
 use Stripe\Price;
@@ -66,8 +67,6 @@ class StripeService extends Service
                 'currency' => 'vnd',
                 'product' => $stripeProduct->id
             ]);
-
-
 
             $product->withoutEvents(function () use($product, $stripeProduct, $stripePrice) {
                 $product->update([
@@ -137,6 +136,7 @@ class StripeService extends Service
         $invoiceDetails = $invoice->productDetails;
         $lineItem = [];
         foreach($invoiceDetails as $detail) {
+            
             $lineItem[] = [
                 'price' => $detail->product->stripe_price_id,
                 'quantity' => $detail->quantity,
@@ -147,8 +147,10 @@ class StripeService extends Service
     }
 
     public function checkoutSession(Invoice $invoice)
-    {
+    {   
+        
         $checkoutSession = $this->stripe->checkout->sessions->create([
+            
             'line_items' => $this->getLineItems($invoice),
             'mode' => 'payment',
             'success_url' => route('user.cart.getCart') . '?success=true',
@@ -157,5 +159,35 @@ class StripeService extends Service
 
         return $checkoutSession->url;
     }
-    
+
+    public function embededCheckOutForm(Invoice $invoice) 
+    {
+        $checkoutSession = $this->stripe->checkout->sessions->create([
+            'line_items' => $this->getLineItems($invoice),
+            'ui_mode' => 'embedded',
+            'mode' => 'payment',
+            'return_url' => route('user.embeddedpayment.embeddedpayment.return') . '?session_id={CHECKOUT_SESSION_ID}'
+
+        ]);
+
+        return $checkoutSession->client_secret;
+    }
+
+    public function retrieveStatus($sessionId)
+    {
+        try {
+            
+            $session = $this->stripe->checkout->sessions->retrieve($sessionId);
+            
+            return [
+                'status' => $session->status,
+                'customer_email' => $session->customer_email
+            ];
+
+        } catch(\Exception $e) {
+            return $e->getMessage();
+        }
+    }
+
+
 }

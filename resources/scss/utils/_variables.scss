@@ -1,0 +1,100 @@
+@use 'sass:color';
+
+$sidebar-width: 250px;
+$sidebar-bg-color: #343a40;
+$sidebar-text-color: #ffffff;
+$hover-bg-color: #495057;
+
+//Colors
+$Pink-Primary: #ee76ad;      // Main brand pink
+$Pink-Secondary: #fce7f1;    // Soft pastel pink
+
+// 🎨 Gray Scale
+$Gray-Primary: #def4fb;      // Light blue-gray
+$Gray-Secondary: #c0c0c3;    // Neutral gray
+$Gray-Tertiary: #fdf2ea;     // Warm beige
+
+// 🎨 Complementary Colors (Deep & Contrasting)
+$Deep-Purple: #6b2a5b;       // Elegant deep purple
+$Muted-Blue: #6b8fa6;        // Subtle cool contrast
+$Dark-Teal: #2a5b6b;         // Sophisticated dark teal
+
+// 🎨 Monochromatic Variations (Shades of Pink)
+$Soft-Rose: #ffb6c1;         // Lighter shade for highlights
+$Dusty-Mauve: #b76e79;       // Deeper, muted pink
+$Muted-Blush: #d8a7b1;       // Neutral pink tone
+
+// 🎨 Neutral Pairings (Warm & Earthy)
+$Warm-Beige: #f5e0d6;        // Soft background color
+$Rich-Brown: #8c5a4d;        // Text, depth, shadows
+$Stone-Gray: #a8a8aa;        // Cool neutral for balance
+
+// 🎨 Accent Colors (For Energy & Highlights)
+$Golden-Yellow: #f4b400;     // Attention-grabbing (CTA, highlights)
+$Peach-Orange: #ffcc99;      // Soft contrast
+$Electric-Blue: #1e90ff; 
+
+$notification-badge: #ff3b30;
+
+//BUTTON COLOR
+$btn-primary-bg: $Pink-Primary;       // Use for primary CTAs
+$btn-primary-hover: $Dusty-Mauve;     // On hover, a richer pink
+
+$btn-secondary-bg: $Muted-Blue;       // Calm, secondary button
+$btn-secondary-hover: $Dark-Teal;     // Slightly deeper on hover
+
+$btn-outline-bg: transparent;
+$btn-outline-border: $Stone-Gray;
+$btn-outline-text: $Stone-Gray;
+$btn-outline-hover-bg: $Gray-Tertiary; // Subtle hover
+
+$btn-danger-bg: $notification-badge;   // Destructive actions
+$btn-danger-hover: color.adjust($notification-badge, $lightness: -10%);
+
+$btn-success-bg: $Golden-Yellow;      // Confirm actions or promotions
+$btn-success-hover: color.adjust($Golden-Yellow, $lightness: -10%);
+
+//SECTION BACKGROUND COLOR
+$section-light: $Warm-Beige;          // Neutral soft section
+$section-accent: $Pink-Secondary;     // Highlight section (e.g. testimonial)
+$section-dark: $sidebar-bg-color;     // Footer / Dark section
+$section-muted: $Gray-Tertiary;       // Light neutral area
+$section-focus: $Electric-Blue;       // Call-to-action, promo area
+
+//ALERT COLOR
+$alert-success-bg: color.adjust($Golden-Yellow, $lightness: 25%);
+$alert-success-border: $Golden-Yellow;
+
+$alert-error-bg: color.adjust($notification-badge, $lightness: 25%);
+$alert-error-border: $notification-badge;
+
+$alert-warning-bg: color.adjust($Peach-Orange, $lightness: 15%);
+$alert-warning-border: $Peach-Orange;
+
+$alert-info-bg: color.adjust($Muted-Blue, $lightness: 25%);
+$alert-info-border: $Muted-Blue;
+
+//INPUT / FORM COLORS
+$input-bg: #ffffff;
+$input-border: $Gray-Secondary;
+$input-focus-border: $Muted-Blue;
+$input-disabled-bg: $Gray-Tertiary;
+$input-placeholder-color: $Stone-Gray;
+
+
+//OTHER 
+$text-muted: $Stone-Gray;               // For secondary text
+$text-default: $Rich-Brown;             // Base body text color
+$text-contrast: #ffffff;                // For dark backgrounds
+
+$badge-highlight: $Electric-Blue;       // Notification badges or tags
+$highlight-bg: $Soft-Rose;              // Subtle highlights (e.g., active tab)
+
+
+// Breakpoints (mobile-first approach)
+$breakpoint-xs: 0;       // Extra small (mobile)
+$breakpoint-sm: 576px;   // Small (mobile)
+$breakpoint-md: 768px;   // Medium (tablet)
+$breakpoint-lg: 992px;   // Large (desktop)
+$breakpoint-xl: 1200px;  // Extra large (large desktop)
+$breakpoint-xxl: 1400px; // Extra extra large (widescreens)

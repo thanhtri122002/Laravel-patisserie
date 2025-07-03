@@ -1,7 +1,7 @@
-@use 'variables' as *; 
-@use 'animation' as *;
+@use '../utils/variables' as *; 
+@use '../animation' as *;
 #topbar {
-    height: 5rem;
+      height: 10rem;
    
       .navbar {
          box-shadow:  0 4px 8px rgba($Pink-Primary, 0.5);
@@ -13,7 +13,6 @@
       //make the link relative to position the line below it 
       .navbar-nav .nav-item a {
          font-size: 16px;
-         
          opacity : 1;
          position: relative;
          
@@ -33,8 +32,8 @@
       .navbar-nav .nav-item a:hover::after {
          width: 100%;
       }
-
-      .navbar-nav .nav-item a:focus::after {
+o
+      .navbar-nav .nav-item a:fcus::after {
          height: 0.125rem;
          width: 100%;
          background-color: $Pink-Primary;

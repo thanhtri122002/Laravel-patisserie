@@ -1,4 +1,4 @@
-@use 'variables' as *;
+@use './utils/variables' as *;
 @use 'animation';
 
 .section-inf {
@@ -167,4 +167,15 @@
     border: 1px solid rgba(255, 255, 255, 0.3);
     padding: 20px;
     border-radius: 10px;
+}
+
+//products page
+
+.category-title {
+    padding-bottom: 3rem;
+    position: relative;
+    left: 50%;
+    bottom: 20%;
+    transform: translateX(-50%);
+    width: 50%;
 }

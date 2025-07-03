@@ -2,6 +2,7 @@
 
 namespace App\View\Components;
 
+use App\Models\User;
 use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\Auth;
@@ -24,5 +25,10 @@ class UserNameSection extends Component
     public function render(): View|Closure|string
     {
         return view('components.user-name-section', ['user' => $this->user]);
+    }
+
+    public function shouldRender(): bool
+    {
+        return Auth::guard('web')->check();
     }
 }

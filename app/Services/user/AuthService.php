@@ -13,9 +13,22 @@ class AuthService extends Service {
   
     public function login(LoginRequest $request) {
         $credentials = $request->validated();
+        $user = User::where('email', $credentials['email'])->first();
+        if (!$user) {
+            dd('❌ User not found');
+        }
+
+        // Step 3: Check password
+        if (!\Hash::check($credentials['password'], $user->password)) {
+            dd('❌ Password does not match');
+        }
+            
         if (Auth::guard('web')->attempt($credentials)) {
             $request->session()->regenerate();
+
+            return true;
         }
+        return false;
        
     }
 

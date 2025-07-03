@@ -7,6 +7,7 @@ use App\Http\Controllers\Admin\ProductImageController;
 use App\Http\Controllers\User\Auth\PasswordResetLinkController;
 use App\Http\Controllers\User\Auth\ResetPasswordController;
 use App\Http\Controllers\User\CartController;
+use App\Http\Controllers\User\PaymentController;
 use App\Http\Controllers\User\UserAuthController;
 use App\Models\ProductImage;
 use Illuminate\Support\Facades\Route;
@@ -16,6 +17,20 @@ Route::get('/', function() {
 });
 Route::get('/teams', function() {
     return view('Teams');
+});
+
+Route::get('/products', function() {
+    return view('products');
+});
+
+Route::get('/test-component', function () {
+    return view('test-component');
+});
+
+Route::prefix('api/public')->name('public')->group(function () {
+    Route::get('/categories', [CategoryController::class, 'index'])->name('api.public.categories');
+    Route::get('/products', [ProductController::class, 'index'])->name('api.public.products');
+
 });
 
 
@@ -44,7 +59,6 @@ Route::prefix('admin')->name('admin.')->group(function() {
 
         Route::controller(ProductController::class)->prefix('products')->name('products.')->group(function() {
 
-            Route::get('/', 'index')->name('index');
             Route::post('/', 'store')->name('store');
             Route::get('/{id}', 'detail')->name('detail');
             Route::post('/{id}', 'update')->name('update');
@@ -61,11 +75,9 @@ Route::prefix('admin')->name('admin.')->group(function() {
     });
 });
 
-
 //All route require to protect sensitive info will need to be implements the authentication of middleware
 
 //Note: prefix user + login => user/login
-
 
 Route::prefix('user')->name('user.')->group(function() {
     
@@ -82,18 +94,29 @@ Route::prefix('user')->name('user.')->group(function() {
         Route::post('register', 'register')->name('register');
     });
 
-    Route::middleware("auth")->group(function() {
 
+    Route::middleware("auth")->group(function() {
+        Route::controller(PaymentController::class)->prefix('embeddedPayment')->name('embeddedpayment.')->group(function () {
+            Route::post('/embeddedCheckoutForm/{invoiceId}', 'embeddedCheckout')->name('embeddedCheckout');
+            Route::get('/user/embeddedPayment/return', function () {
+                return view('user.embededPayment.return');
+            })->name('embeddedpayment.return');
+            Route::post('/embeddedCheckoutForm', 'retrieveStatus')->name('retrieveStatus');
+        });
+        
         Route::controller(CartController::class)->prefix('cart')->name('cart.')->group(function () {
             
             Route::post('/submit', 'submitCart')->name('submit'); // ✅ Place before dynamic routes
             Route::post('/', 'addToCart')->name('addProduct');  
             Route::post('/{productDetailId}', 'update')->name('updateProductDetail');
-            Route::post('/{productDetailId}/delete', 'delete')->name('deleteProductDetail');
-        
+            Route::post('/{productDetailId}/delete', 'deleteProduct')->name('deleteProductDetail');
             Route::get('/', 'getCart')->name('getCart');
-            Route::get('payment/success/{invoice}', 'paymentSuccess')->name('paymentSuccess');
+            Route::get('/cost', 'getCartCost')->name('cost');
+            Route::post('/payment/success/{invoice}', 'paymentSuccess')->name('paymentSuccess');
+
         });
+        
+        
     });
 
 });
