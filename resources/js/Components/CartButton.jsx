@@ -33,8 +33,7 @@ export default function CartButton () {
 
     useEffect(() => {
         fetchCart();
-    }, [cartItems]);
-
+    }, []);
     console.log(cartItems);
     return (
         <>

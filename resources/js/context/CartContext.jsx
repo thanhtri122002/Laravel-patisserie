@@ -22,36 +22,40 @@ export const CartProvider = ({children}) => {
     };
 
     useEffect(() => {
-        
         fetchCart();
     }, []);
 
     const updateItem = async (productDetailId, amount, mode) => {
-        await updateProductQuantity(productDetailId, amount, mode);
+        const updatedItem = await updateProductQuantity(productDetailId, amount, mode);
 
         setCartItems((prev) => {
+            const newCartItems = prev
+                .map((item) => {
+                    if (item.id !== productDetailId) return item;
 
-            return prev.map((item) => {
-                
-                if (item.id !== productDetailId) return item;
+                    return { ...item, quantity: updatedItem.quantity, cost: updatedItem.cost };
+                })
+                .filter((item) => item.quantity > 0);
 
-                const newQuantity = 
-                    mode === 'relative' 
-                        ? Math.max(1, item.quantity + amount)
-                        : Math.max(1, amount);
-                
-                return {...item, quantity: newQuantity};
-            });
+            const newTotal = newCartItems.reduce((sum, currentItem) => sum + currentItem.cost, 0.0);
+            setTotal(newTotal);
+
+            return newCartItems;
         });
-    }
+    };
 
-    const removeItem = async (productDetail) => {
-        await removeProductFromCart(productDetail);
+    const removeItem = async (productDetailId) => {
+        await removeProductFromCart(productDetailId);
 
-        setCartItems((prev) =>
-            prev.filter((item) => item.id !== productDetailId)
-        )
-    }
+        setCartItems((prev) => {
+            const updatedCartItems = prev.filter((item) => item.id !== productDetailId);
+            const newTotal = updatedCartItems.reduce((sum, currentItem) => sum + currentItem.cost, 0.0);
+            setTotal(newTotal);
+
+            return updatedCartItems;
+        });
+    };
+    
 
     const submitCart = async() => {
         
