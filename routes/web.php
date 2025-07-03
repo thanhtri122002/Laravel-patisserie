@@ -94,12 +94,8 @@ Route::prefix('user')->name('user.')->group(function() {
         Route::post('register', 'register')->name('register');
     });
 
-   
-    Route::middleware("auth")->group(function() {
-        Route::controller(PaymentController::class)->prefix('payment')->name('payment.')->group(function () {
-            Route::post('/checkout/{invoiceId}', 'checkout')->name('checkout');
-        });
 
+    Route::middleware("auth")->group(function() {
         Route::controller(PaymentController::class)->prefix('embeddedPayment')->name('embeddedpayment.')->group(function () {
             Route::post('/embeddedCheckoutForm/{invoiceId}', 'embeddedCheckout')->name('embeddedCheckout');
             Route::get('/user/embeddedPayment/return', function () {
@@ -117,6 +113,7 @@ Route::prefix('user')->name('user.')->group(function() {
             Route::get('/', 'getCart')->name('getCart');
             Route::get('/cost', 'getCartCost')->name('cost');
             Route::post('/payment/success/{invoice}', 'paymentSuccess')->name('paymentSuccess');
+
         });
         
         
