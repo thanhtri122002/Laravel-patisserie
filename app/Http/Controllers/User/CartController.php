@@ -5,6 +5,8 @@ namespace App\Http\Controllers\User;
 use App\Http\Requests\user\AddToCartRequest;
 use App\Http\Requests\user\ProductDetailRequest;
 use App\Http\Requests\user\submitCartRequest;
+use App\Models\ProductDetail;
+use App\Models\User;
 use App\Services\user\CartService;
 use Illuminate\Support\Facades\Log;
 
@@ -15,7 +17,7 @@ class CartController extends BaseController
      *
      * @return Illuminate\Contracts\Auth\Guard::user
      */
-    public function getUser()
+    public function getUser(): User
     {
         return $this->guard()->user();
     }
@@ -25,16 +27,16 @@ class CartController extends BaseController
      * A function to get the cart of a specific user 
      * 
      * This method get the current authenticated user and the call the CartService 
-     * to retrieve the cart which contains all the ProductDetail instance of that cart
+     * to retrieve the products in the cart and the total cost of all product
      * 
-     * @return Illuminate\Database\Eloquent\Collection|\App\Models\productDetail[]
+     * @return array $cartDetail 
      */
-    public function getCart()
+    public function getCart(): array
     {      
         $user = $this->getUser();
-        $cart = CartService::getInstance()->withUser($user)->cartDetail();
+        $cartDetail = CartService::getInstance()->withUser($user)->cartDetail();
         
-        return $cart;
+        return $cartDetail;
     }
 
 
@@ -48,7 +50,7 @@ class CartController extends BaseController
      * 
      * @return \App\Models\ProductDetail
      */
-    public function addToCart(ProductDetailRequest $request): \App\Models\ProductDetail
+    public function addToCart(ProductDetailRequest $request): ProductDetail
     {   
        
         $data = $request->safe()->only(['product_id', 'quantity', 'mode']);
@@ -69,7 +71,7 @@ class CartController extends BaseController
      * 
      * @return \App\Models\ProductDetail
      */
-    public function update(ProductDetailRequest $request ,$productDetailId)
+    public function update(ProductDetailRequest $request ,$productDetailId): ProductDetail
     {   
         $user = $this->getUser();
         $data = $request->safe()->only(['quantity', 'mode']);
