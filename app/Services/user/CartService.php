@@ -196,6 +196,19 @@ class CartService extends Service
         return true;
     }
 
+    public function getCartCost()
+    {
+        $cart = $this->getOrCreateCart();
+        
+        $productDetails = $cart->productDetails;
+        $cost = 0;
+        foreach($productDetails as $detail) {
+            $cost = $detail->calculateTotal();
+        }
+
+        return $cost;
+    }
+
     /**
      * A function to get the total price of the cart
      * 

@@ -20,6 +20,7 @@ class CartController extends BaseController
         return $this->guard()->user();
     }
 
+
     /**
      * A function to get the cart of a specific user 
      * 
@@ -35,6 +36,7 @@ class CartController extends BaseController
         
         return $cart;
     }
+
 
     /**
      * A function to add a ProductDetail into the cart

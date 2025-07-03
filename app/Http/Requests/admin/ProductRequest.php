@@ -33,6 +33,7 @@ class ProductRequest extends FormRequest
             'price' => 'sometimes|numeric|min:0',
             'stock' => 'sometimes|integer|min:0',
             'per_page' => 'nullable|integer|min:1'
+
         ];
     }
 }
