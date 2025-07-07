@@ -22,7 +22,6 @@ class ProductFilterService extends Service {
                     ->get();
     }
 
-
     public function getProductsInPriceRange($priceLimit, $order = 'asc') 
     {
         return Product::where('price' , '>', $priceLimit)
@@ -30,11 +29,11 @@ class ProductFilterService extends Service {
                     ->get();
     }
 
-    public function getTheTopSellingProduct($limit)
+    public function getTheTopSellingProduct($limit, )
     {
         return Product::join('product_details', 'products.id', 'product_details.id')
-                    ->join('invoices', 'product_details.invoice_id', 'invoices.id')
-                    ->where('invoices.status', Invoice::PAID)
+                    ->join('invoice', 'product_details.invoice_id', 'invoice.id')
+                    ->where('invoice.status', Invoice::PAID)
                     ->selectRaw('SUM(product_details.quantity) as total_sold')
                     ->groupBy('products.id')
                     ->orderby('total_sold', 'desc')
