@@ -7,7 +7,7 @@ const ModalContext = createContext();
 const Modal = ({ children, open, setIsOpen, toggleOpen }) => {
     
     return (
-        <ModalContext.Provider value={{open, setIsOpen, toggleOpen }}>
+        <ModalContext.Provider value={{open, setIsOpen, toggleOpen }} className="z-20">
             {children}
         </ModalContext.Provider>
     )
@@ -29,9 +29,9 @@ const Trigger = ({ children , ...props }) => {
     )
 }
 
-const Content = ({ children }) => {
+const Content = ({ children, ...props }) => {
     const { open, setIsOpen } = useContext(ModalContext);
-    console.log(open);
+
     return (
       <Transition show={open}>
         <TransitionChild
@@ -56,7 +56,7 @@ const Content = ({ children }) => {
           leaveFrom="opacity-100 translate-y-0 sm:scale-100"
           leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
         >
-          <div className="fixed inset-0 flex items-center justify-center p-4">
+          <div className="fixed inset-0 flex items-center justify-center p-4" {...props}>
             <div className="bg-white rounded-lg shadow-xl p-6 w-full max-w-md">
               {children}
             </div>
