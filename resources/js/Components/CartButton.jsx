@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react"
 import { ShoppingBasket } from "lucide-react";
 import { useCart } from "../context/CartContext";
+import Modal from "../Components/MyCustomModal";
 import CartProductDetail from "./CartProductDetail";
  
 /**
@@ -35,18 +36,37 @@ export default function CartButton () {
         fetchCart();
     }, []);
     console.log(cartItems);
+
     return (
         <>
             {cartItems.length > 0 ? (
                 isOpen ? (
-                    <div className="cart-content open">
-                        <button className="close-cart" onClick={toggleCart}>X</button>
-                        {cartItems.map((cartItem) => (
-                            <CartProductDetail cartItemData={cartItem} key={cartItem.id}></CartProductDetail>
-                        ))}
-                        <p className="font-mer text-body self-end text-right">Total: {formatedTotal}</p>
-                        <button className=""></button>
-                    </div>
+                    <>
+                        <div className="hidden md:block">
+                            <div className={`cart-content ${isOpen ? "open" : ""}`}>
+                                <button className="close-cart" onClick={toggleCart}>X</button>
+                                {cartItems.map((cartItem) => (
+                                    <CartProductDetail cartItemData={cartItem} key={cartItem.id}></CartProductDetail>
+                                ))}
+                                <p className="font-mer text-body self-end text-right">Total: {formatedTotal}</p>
+                                <button className=""></button>
+                            </div>
+                            
+                        </div>
+                        <div className="block md:hidden">
+                                <Modal open={isOpen} setIsOpen={setIsOpen} toggleOpen={toggleCart}>
+                                    <Modal.Content>
+                                        <button className="close-cart" onClick={toggleCart}>X</button>
+                                        {cartItems.map((cartItem) => (
+                                            <CartProductDetail cartItemData={cartItem} key={cartItem.id}></CartProductDetail>
+                                        ))}
+                                        <p className="font-mer text-body self-end text-right">Total: {formatedTotal}</p>
+                                    </Modal.Content>
+                                </Modal>
+                        </div>
+                    </>
+                    
+                    
                 ) : (
                     <button className="cart-button" onClick={toggleCart}>
                         <div className="relative inset-0">
