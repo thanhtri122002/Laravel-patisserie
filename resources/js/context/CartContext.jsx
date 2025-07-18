@@ -9,12 +9,9 @@ export const CartProvider = ({children}) => {
     const [cartItems, setCartItems] = useState([]);
     const [total, setTotal] = useState(0.0);
 
-    
-    
     const fetchCart = async () => {
-        
         const cartInfo = await getCart();
-        
+
         if (cartInfo.cart) {
             setCartItems(cartInfo.cart);
             setTotal(cartInfo.total);
@@ -29,13 +26,12 @@ export const CartProvider = ({children}) => {
         const updatedItem = await updateProductQuantity(productDetailId, amount, mode);
 
         setCartItems((prev) => {
-            const newCartItems = prev
-                .map((item) => {
+            const newCartItems = prev.map((item) => {
                     if (item.id !== productDetailId) return item;
 
                     return { ...item, quantity: updatedItem.quantity, cost: updatedItem.cost };
-                })
-                .filter((item) => item.quantity > 0);
+
+                }).filter((item) => item.quantity > 0);
 
             const newTotal = newCartItems.reduce((sum, currentItem) => sum + currentItem.cost, 0.0);
             setTotal(newTotal);

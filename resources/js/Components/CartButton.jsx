@@ -35,7 +35,6 @@ export default function CartButton () {
     useEffect(() => {
         fetchCart();
     }, []);
-    console.log(cartItems);
 
     return (
         <>
@@ -55,7 +54,7 @@ export default function CartButton () {
                         </div>
                         <div className="block md:hidden">
                                 <Modal open={isOpen} setIsOpen={setIsOpen} toggleOpen={toggleCart}>
-                                    <Modal.Content className="z-20flex items-center justify-center">
+                                    <Modal.Content className="z-20 flex items-center justify-center">
                                         <button className="close-cart" onClick={toggleCart}>X</button>
                                         {cartItems.map((cartItem) => (
                                             <CartProductDetail cartItemData={cartItem} key={cartItem.id}></CartProductDetail>

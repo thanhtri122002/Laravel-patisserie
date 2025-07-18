@@ -51,14 +51,15 @@ function getPages(currentPage, lastPage, delta = 2) {
  */
 
 const Pagination = memo(({paginationData, onPageChange}) => {
-    const {current_page, last_page, next_page_url, prev_page_url} = paginationData;
+
+    const { current_page, last_page } = paginationData;
 
     if (last_page <=1 ) {
         return null;
     }
 
     const pages = getPages(current_page, last_page);
-    console.log('get pages', pages);
+
     if (pages.length === 0) {
         return null;
     }
@@ -66,6 +67,7 @@ const Pagination = memo(({paginationData, onPageChange}) => {
     return (
         <div className="flex gap-2 justify-center my-4">
             <button disabled={current_page === 1} onClick={() => onPageChange(current_page - 1)}>Previous</button>
+            
             {pages.map((page, index) => (
                 page === "..." ? (
                     <span key={`dot-${index}`} className="px-4 py-2 text-gray-500">
@@ -77,6 +79,7 @@ const Pagination = memo(({paginationData, onPageChange}) => {
                     }`}>{page}</button>
                 )
             ))}
+
             <button disabled={current_page === last_page} onClick={() => onPageChange(current_page + 1)}>Next</button>
         </div>
     );

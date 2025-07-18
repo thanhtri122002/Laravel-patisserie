@@ -34,11 +34,13 @@ const getProductsByCategories = async (categoryIds = [], page = 1, justFirstImag
         const response = await axios.get(url);
     
         if (justFirstImage) {
-            response.data.data.data.map((product) =>( {
+
+            response.data.data.data.map((product) => (
+                {
                 ...product,
                 firstImage: product.productImages?.[0] || null,
             }))
-        }
+        };
         
         return response.data;
             
@@ -48,5 +50,4 @@ const getProductsByCategories = async (categoryIds = [], page = 1, justFirstImag
     }
 }
 
-
-export {getProductsByCategories};
+export { getProductsByCategories };
