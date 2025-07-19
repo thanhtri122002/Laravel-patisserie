@@ -6,10 +6,11 @@
     <div id="auth-form-toggle-root"></div>
 @endsection
 
-@section('footer')
+
+@push('scripts')
     @viteReactRefresh
-    @vite(['resources/js/entries/AuthFormToggle.jsx'])
-@endsection
+    @vite(['resources/js/entries/AuthFormToggleIndex.jsx'])
+@endpush
 
 
 
