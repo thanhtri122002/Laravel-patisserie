@@ -20,34 +20,34 @@ class UserAuthController extends BaseController
         return 'hello';
     }
 
-    public function showLoginForm() {
-
+    public function showLoginForm() 
+    {
         return view('user.login');
     }
 
-    public function login(LoginRequest $request) {
-
-        
+    public function login(LoginRequest $request) 
+    {
         $success = AuthService::getInstance()->login($request);
         if ($success) {
             
             return redirect('/');
         }
         
-        return 'false';
+        return false;
     }
 
-    public function register(RegisterRequest $request) {
-        
+    public function register(RegisterRequest $request) 
+    {
         AuthService::getInstance()->register($request);
+
         return true;
     }
 
-    public function logout(Request $request) {
-
+    public function logout(Request $request) 
+    {
         $user = $this->getCurrentUser();
-        dd($user);
-        $logOut = AuthService::getInstance()->withUser($user)->logout($request);
-        
+        AuthService::getInstance()->withUser($user)->logout($request);
+
+        return redirect('/');
     }
 }

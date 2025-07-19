@@ -33,6 +33,13 @@ Route::prefix('api/public')->name('public')->group(function () {
 
 });
 
+Route::get('/authToggle', function () {
+    return view('auth_form_toggle', [
+        'hideHeader' => true,
+        'hideFooter' => true,
+    ]);
+});
+
 
 Route::prefix('admin')->name('admin.')->group(function() {
 

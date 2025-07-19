@@ -1,5 +1,4 @@
 <div class="h-full navbar py-2 flex items-center">
-    
     <div class="h-full w-full flex-1 flex items-center justify-between md:flex-col gap-8">
         <div class="flex w-full my-auto justify-between ml-0 h-1/2 ">
             <div class="h-full logo place-self-center ml-5">
@@ -81,5 +80,7 @@
         </ul>
     </div>
 </div>
+
+
 
     
