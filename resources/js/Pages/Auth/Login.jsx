@@ -20,7 +20,7 @@ export default function Login({ status, canResetPassword }) {
             onFinish: () => reset('password'),
         });
     };
-
+    
     return (
         <GuestLayout>
             <Head title="Log in" />
@@ -51,7 +51,6 @@ export default function Login({ status, canResetPassword }) {
 
                 <div className="mt-4">
                     <InputLabel htmlFor="password" value="Password" />
-
                     <TextInput
                         id="password"
                         type="password"

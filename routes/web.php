@@ -40,6 +40,13 @@ Route::get('/authToggle', function () {
     ]);
 });
 
+Route::get('forgot-password', function () {
+    return view('auth.forgot-password',
+    [
+        'hideHeader' => true,
+        'hideFooter' => true,
+    ]);
+});
 
 Route::prefix('admin')->name('admin.')->group(function() {
 

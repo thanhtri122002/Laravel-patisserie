@@ -8,7 +8,6 @@
             @include('layouts.partials.header')
         @endif
         
-
         <main id="react-root">
             @yield('content')
         </main>
@@ -16,6 +15,7 @@
         @if (empty($hideFooter))
             @include('layouts.partials.footer')
         @endif
+        
         
         @stack('scripts')
         @stack('styles')

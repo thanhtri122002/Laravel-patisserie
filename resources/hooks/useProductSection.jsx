@@ -3,6 +3,7 @@ import getCategories from '../js/Services/category.service';
 import { getProductsByCategories } from '../js/Services/product.service';
 
 export default function useProductSection() {
+
   const [categories, setCategories] = useState([]);
   const [selectedCategoryId, setSelectedCategoryId] = useState([]);
   const [products, setProducts] = useState([]);
@@ -48,8 +49,10 @@ export default function useProductSection() {
   }, []);
 
   useEffect(() => {
+
     const justFirstImage = true;
     if (selectedCategoryId.length === 0) {
+
       setProducts([]);
       return;
     }
@@ -80,6 +83,7 @@ export default function useProductSection() {
     return () => {
       isMounted = false;
     };
+    
   }, [selectedCategoryId, pagination.current_page]);
 
   return {

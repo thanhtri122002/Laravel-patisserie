@@ -30,6 +30,7 @@ class ChangeCartProductDetailPrice implements ShouldQueue
     {
         //
         DB::transaction(function() use ($event) {
+            
             $productDetails = $this->getProductDetail($event->product->id);
 
             foreach ($productDetails as $detail) {

@@ -29,6 +29,7 @@ class ProductObserver
     public function updated(Product $product): void
     {
         $this->stripeService->updateStripeProduct($product);
+        
         if($product->isDirty('price')){
             PriceChange::dispatch($product);
         }

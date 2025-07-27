@@ -18,9 +18,10 @@ abstract class Service {
      * @param User|Admin|null
      * @return $this the current instance that is attached with the user
      */
-    public function withUser($user) {
-
+    public function withUser($user) 
+    {
         $this->user = $user;
+        
         return $this;
     }
     /**
@@ -28,8 +29,8 @@ abstract class Service {
      * 
      * @return User|Admin|null
      */
-    public function getUser() {
-
+    public function getUser() 
+    {
         return $this->user;
     }
 
@@ -38,10 +39,9 @@ abstract class Service {
      * 
      * @return $this
      */
-    public static function getInstance() {
-
+    public static function getInstance() 
+    {
         return app(static::class);
     }
-    
 
 }
