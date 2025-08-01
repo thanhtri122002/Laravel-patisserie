@@ -19,7 +19,7 @@
                 @else
                     <a href="#" class="cursor-pointer">My Account</a>
                     <div class="absolute top-0 hidden group-hover:flex group-hover:flex-col group-hover:space-y-5 bg-white p-2 z-50">
-                        <a href="{{ route('user.login') }}" class="block  hover:bg-gray-100">User Login</a>
+                        <a href="{{ route('user.auth') }}" class="block  hover:bg-gray-100">User Login</a>
                         <a href="{{ route('admin.login') }}" class="block  hover:bg-gray-100">Admin Login</a>
                     </div>
                 @endif

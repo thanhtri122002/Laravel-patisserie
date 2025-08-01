@@ -38,7 +38,7 @@ Route::get('/authToggle', function () {
         'hideHeader' => true,
         'hideFooter' => true,
     ]);
-});
+})->name('user.auth');
 
 Route::get('forgot-password', function () {
     return view('auth.forgot-password',

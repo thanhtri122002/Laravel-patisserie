@@ -3,9 +3,8 @@ import TextInput from "../../Components/TextInput";
 import InputError from "../../Components/InputError";
 import PrimaryButton from "../../Components/PrimaryButton";
 import { useForm, Link } from "@inertiajs/react";
-import { register } from "../../Services/auth/login";
+import { register } from "../../Services/auth/auth";
 import { useState } from "react";
-
 
 export default function RegisterForm () {
     const [formData, setFormData] = useState({
@@ -14,7 +13,7 @@ export default function RegisterForm () {
         password: "",
     });
 
-    const [error, setErrors] = useState({});
+    const [errors, setErrors] = useState({});
 
     const handleChange = (event) => {
         const { name, value } = event.target;

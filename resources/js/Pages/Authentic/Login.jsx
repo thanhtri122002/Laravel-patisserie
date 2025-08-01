@@ -4,7 +4,7 @@ import InputError from "../../Components/InputError";
 import PrimaryButton from "../../Components/PrimaryButton";
 import { useState } from "react";
 import { useForm, Link } from "@inertiajs/react";
-import { login } from "../../Services/auth/login";
+import { login } from "../../Services/auth/auth";
 
 export default function LoginForm ( { children, ...props } ) {
     
@@ -29,7 +29,7 @@ export default function LoginForm ( { children, ...props } ) {
         if (errors) {
             setErrors(errors);
         } else {
-            console.log(formData);
+            
             window.location.href = '/';
         }
     }
@@ -51,16 +51,17 @@ export default function LoginForm ( { children, ...props } ) {
                 <div className="flex flex-col gap-y-2">
                     <div className="flex justify-between items-center">
                         <InputLabel value="password" htmlFor="login_password" className="font-mer"></InputLabel>
-                        <a href="/user/forgot-password" className="custom-link">Forgot your password?</a>
+                        <a href="/forgot-password" className="custom-link">Forgot your password?</a>
                     </div>
                     
                     <TextInput id="login_password" name="password" value={formData.password} onChange={handleChange}></TextInput>
                     <InputError className="font-mer text-[--alert-error]"></InputError>
                 </div>
-                <div className="flex flex-col justify-end  items-start">
+                <div className="flex flex-row justify-end  items-start">
                     <PrimaryButton className="w-full justify-center" type="submit" >
                         <p className="font-mer text-body text-center">Log In</p>
                     </PrimaryButton>
+                    
                 </div>
             </form>
         </div>

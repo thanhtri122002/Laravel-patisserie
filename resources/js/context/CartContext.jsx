@@ -17,7 +17,7 @@ export const CartProvider = ({children}) => {
             setTotal(cartInfo.total);
         } 
     };
-
+    console.log('this is the cart total', total);
     useEffect(() => {
         fetchCart();
     }, []);
@@ -27,13 +27,14 @@ export const CartProvider = ({children}) => {
 
         setCartItems((prev) => {
             const newCartItems = prev.map((item) => {
+                
                     if (item.id !== productDetailId) return item;
 
                     return { ...item, quantity: updatedItem.quantity, cost: updatedItem.cost };
 
                 }).filter((item) => item.quantity > 0);
 
-            const newTotal = newCartItems.reduce((sum, currentItem) => sum + currentItem.cost, 0.0);
+            const newTotal = newCartItems.reduce((sum, currentItem) => sum + parseFloat(currentItem.cost), 0.0);
             setTotal(newTotal);
 
             return newCartItems;
@@ -45,7 +46,7 @@ export const CartProvider = ({children}) => {
 
         setCartItems((prev) => {
             const updatedCartItems = prev.filter((item) => item.id !== productDetailId);
-            const newTotal = updatedCartItems.reduce((sum, currentItem) => sum + currentItem.cost, 0.0);
+            const newTotal = updatedCartItems.reduce((sum, currentItem) => sum + parseFloat(currentItem.cost), 0.0);
             setTotal(newTotal);
 
             return updatedCartItems;

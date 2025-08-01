@@ -19,22 +19,18 @@ import CartProductDetail from "./CartProductDetail";
  */
 export default function CartButton () {
     const [ isOpen, setIsOpen ] = useState(false);
-    const { cartItems, total, fetchCart } = useCart();
+    const { cartItems, total } = useCart();
     
     const formatedTotal = total.toLocaleString('vi-VN', {
         style: 'currency',
         currency: 'VND'
     })
-
+    console.log("this is the cost", total);
     const toggleCart = () => {
         if (cartItems.length > 0) {
             setIsOpen(prev => !prev);
         }
     }
-
-    useEffect(() => {
-        fetchCart();
-    }, []);
 
     return (
         <>
