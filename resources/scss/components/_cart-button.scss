@@ -53,16 +53,7 @@
     padding: 1rem;
     overflow-y: auto;
     transform-origin: bottom right;
-    opacity: 0;
-    transform: scaleY(0);
-    transition: opacity 0.3s ease, transform 0.3s ease;
-  
-    &.open {
-        display: flex;
-        opacity: 1;
-        transform: scaleY(1);
-        z-index: 30;
-    }
+
 
     .close-cart {
         width: fit-content;
