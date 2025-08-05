@@ -114,9 +114,10 @@ export default function CartButton () {
                     <div className="hidden md:block">
                         <motion.div
                             key="desktop-cart"
-                            initial={{ opacity: 0, y: 0 }}
-                            animate={{ opacity: 1, y: 1 }}
-                            exit={{ opacity: 0, y: 0 }}
+                            initial={{ scale: 0 }}
+                            animate={{ scale: 1 }}
+                            exit={{ scale: 0 }}
+                            style={{ transformOrigin: "bottom-right" }}
                             transition={{ duration: 0.3 }}
                             className="cart-content">
                                 <button className="close-cart" onClick={toggleCart}>X</button>
@@ -137,9 +138,10 @@ export default function CartButton () {
                             <Modal.Content className="z-20 flex items-center justify-center">
                                 <motion.div
                                     key="mobile-cart"
-                                    initial={{ opacity: 0, y: 50 }}
-                                    animate={{ opacity: 1, y: 0 }}
-                                    exit={{ opacity: 0, y: 50 }}
+                                    initial={{ scale: 0 }}
+                                    animate={{ scale: 1 }}
+                                    exit={{ scale: 0 }}
+                                    style={{ transformOrigin: "bottom-right" }}
                                     transition={{ duration: 0.3 }}
                                     className="w-full"
                                 >

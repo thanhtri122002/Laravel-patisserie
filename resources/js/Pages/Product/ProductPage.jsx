@@ -1,4 +1,3 @@
-import React from 'react';
 import HeroBanner from '../../Components/HeroBanner';
 import ProductSection from './ProductSection';
 import CartButton from '../../Components/CartButton';

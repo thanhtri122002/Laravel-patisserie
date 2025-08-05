@@ -12,6 +12,4 @@ export const slideUpVariant = {
     transition: { duration: 0.4 },
 };
 
-export const bounce transition = {
-    
-}
+
