@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\AdminAuthController;
 use App\Http\Controllers\admin\ProductController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\ProductImageController;
+use App\Http\Controllers\ProductFilterController;
 use App\Http\Controllers\User\Auth\PasswordResetLinkController;
 use App\Http\Controllers\User\Auth\ResetPasswordController;
 use App\Http\Controllers\User\CartController;
@@ -46,6 +47,21 @@ Route::get('forgot-password', function () {
         'hideHeader' => true,
         'hideFooter' => true,
     ]);
+});
+
+Route::get('cart', function () {
+    return view('cart');
+});
+
+Route::prefix('products/filter')->controller(ProductFilterController::class)->group(function () {
+    Route::get('/new/{limit?}', 'getNewProduct');
+    Route::get('/price-range', 'getProductsInPriceRange');
+    Route::get('/top-selling/{limit}', 'getTopSellingProducts');
+    Route::get('/search/{inputString}', 'getProductsBySearching');
+    Route::get('/most-profitable/{limit}', 'getMostProfitableProducts');
+    Route::get('/current-month', 'getCurrentMonthNewProduct');
+    Route::get('/out-of-stock', 'getOutOfStockProducts');
+    Route::get('/discount', 'getDisCountProduct');
 });
 
 Route::prefix('admin')->name('admin.')->group(function() {
@@ -120,7 +136,7 @@ Route::prefix('user')->name('user.')->group(function() {
         
         Route::controller(CartController::class)->prefix('cart')->name('cart.')->group(function () {
             
-            Route::post('/submit', 'submitCart')->name('submit'); // ✅ Place before dynamic routes
+            Route::post('/submit', 'submitCart')->name('submit'); //Place before dynamic routes
             Route::post('/', 'addToCart')->name('addProduct');  
             Route::post('/{productDetailId}', 'update')->name('updateProductDetail');
             Route::post('/{productDetailId}/delete', 'deleteProduct')->name('deleteProductDetail');

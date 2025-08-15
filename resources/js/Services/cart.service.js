@@ -41,7 +41,7 @@ export const updateProductQuantity = async (productDetailId, quantity, mode) => 
             quantity: quantity,
             mode: mode
         }
-        console.log(params);
+      
         const response = await api.post(`user/cart/${productDetailId}`, params);
 
         return response.data;
@@ -66,7 +66,7 @@ export const getCart = async () => {
     }
 }
 
-export const submitCart = async () => {
+export const createInvoice = async () => {
     try {
 
         const response = await api.post('user/cart/submit');

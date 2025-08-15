@@ -1,5 +1,5 @@
 import { useState, createContext, useEffect, useContext, Children} from 'react';
-import { getCart, removeProductFromCart, updateProductQuantity } from '../Services/cart.service';
+import { getCart, removeProductFromCart, updateProductQuantity, createInvoice } from '../Services/cart.service';
 
 
 const CartContext = createContext();
@@ -54,13 +54,12 @@ export const CartProvider = ({children}) => {
     };
     
 
-    const submitCart = async() => {
-        
-        await submitCart();
+    const  submitCart = async () => {
+        await createInvoice()
     }
 
     return (
-        <CartContext.Provider value={{ cartItems, total, setCartItems, fetchCart, updateItem, removeItem}}>
+        <CartContext.Provider value={{ cartItems, total, setCartItems, fetchCart, updateItem, removeItem, submitCart }}>
             {children}
         </CartContext.Provider>
     );

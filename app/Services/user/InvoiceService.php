@@ -17,12 +17,27 @@ class InvoiceService extends Service
         $this->stripe = $stripe;
     }
 
-    public function detail($id)
+    /**
+     * Get the Invoice based on the invoide id
+     * 
+     * @param int $id
+     * 
+     * @return App\Models\Invoice
+     */
+    public function detail(int $id)
     {   
         return Invoice::with('productDetails')->findOrFail($id);
     }
 
-    public function getInvoiceProducts($id)
+    /**
+     * Get the products in the invoice based on the id of the invoice
+     * Note: 
+     *  
+     * @param int $id
+     * 
+     * @return Collection<int, \App\Models\ProductDetail>
+     */
+    public function getInvoiceProducts(int $id)
     {
         $invoice = $this->detail($id);
         
@@ -43,6 +58,11 @@ class InvoiceService extends Service
     /**
      * Create the unpaid invoice for the submitted cart
      * Linked the products details to the newly created invoice
+     * 
+     * @param array @data
+     * @param array $productsInCart
+     * 
+     * @return App\Models\Invoice
      */
     public function makeInvoice($data, $productsInCart)
     {   

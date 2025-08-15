@@ -126,19 +126,11 @@ class CartService extends Service
      * 
      * First get all the productDetails in the cart then calculate the total cost of the cart
      * then create the invoice instance for the cart
-     * 
-     * The expected keys in the $data array are:
-     *  - phone_number: string
-     *  - address: string
-     *  - email: string
-     * 
-     * @param array $data: the data containing 
-     *                    
+     *                   
      * @return \App\Models\Invoice
      */
-    public function submitCart($data)
+    public function submitCart()
     {   
-        
         $productInCart = $this->cartDetail();
         $user = $this->getUser();
         $data['cost'] = $this->getCartCost();

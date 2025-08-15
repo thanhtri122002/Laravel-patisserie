@@ -12,10 +12,11 @@
       }
       //make the link relative to position the line below it 
       .navbar-nav .nav-item a {
-         font-size: 16px;
          opacity : 1;
          position: relative;
-         
+         font-family: var( --merriweather-sans);
+         color: var(--Pink-Primary);
+         font-size: 1.5rem;
       }
       //the line below the nav link, this is the initial state of the transition so the property which will be transisted will be style at the intial state 
       .navbar-nav .nav-item a::after {

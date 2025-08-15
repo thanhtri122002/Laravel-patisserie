@@ -3,7 +3,6 @@ import TextInput from "../../Components/TextInput";
 import InputError from "../../Components/InputError";
 import PrimaryButton from "../../Components/PrimaryButton";
 import { useState } from "react";
-import { useForm, Link } from "@inertiajs/react";
 import { login } from "../../Services/auth/auth";
 
 export default function LoginForm ( { children, ...props } ) {
@@ -17,6 +16,7 @@ export default function LoginForm ( { children, ...props } ) {
 
     const handleChange = (event) => {
         const { name, value } = event.target;
+
         setFormData((prevFormData) => ( {...prevFormData, [name] : value} ));
     };
 

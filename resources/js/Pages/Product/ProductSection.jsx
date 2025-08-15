@@ -14,46 +14,49 @@ export default function ProductSection() {
         onPageChange,
       } = useProductSection();
 
-    return (
+      return (
         <div className="flex gap-10">
-          <div className="products-toolbars hidden md:flex gap-auto">
-            <div></div>
-          </div>
-          <div className="main-content flex flex-col md:flex-row md:justify-between md:items-center w-full">
-            <div className="main-content__filter md:w-1/4 p-4">
-              <p className="text-h1 font-mer">Categories</p>
-              <Filter
-                categoryData={categories}
-                selectedCategories={selectedCategories}
-                onSelectedCategoriesChange={updateCategorySelection}
-              />
+            <div className="main-content flex flex-col md:flex-row md:justify-between md:items-center w-full">
+              
+              {/* Sidebar Filter */}
+              <div className="main-content__filter md:w-1/4 p-4">
+                <p className="text-h1 font-mer">Categories</p>
+                <Filter
+                  categoryData={categories}
+                  selectedCategories={selectedCategories}
+                  onSelectedCategoriesChange={updateCategorySelection}
+                />
+              </div>
+        
+              {/* Mobile Filter Dropdown Placeholder */}
+              <div className="main-content__filter-dropdown block md:hidden" />
+        
+              {/* Product List & Pagination */}
+              <div className="flex flex-col gap-3 md:w-auto">
+                  {products.length > 0 ? (
+                    <div className="flex flex-col">
+                      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        {products.map((product) => (
+                          <ProductCard productData={product} key={product.id} />
+                        ))}
+                      </div>
+                      <Pagination
+                        className=""
+                        paginationData={pagination}
+                        onPageChange={onPageChange}
+                      />
+                    </div>
+                  ) : (
+                    <div className="flex justify-center items-center h-full">
+                      <p className="text-h1 font-mer text-center">No Products Found</p>
+                    </div>
+                  )}
+              </div>
+        
             </div>
-    
-            <div className="main-content__filter-dropdown block md:hidden"></div>
-    
-            <div className="flex flex-col gap-3 md:w-auto ">
-              {products.length > 0 ? (
-                <div className="flex flex-col">
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                    {products.map((product) => (
-                      <ProductCard productData={product} key={product.id} />
-                    ))}
-                  </div>
-                  <Pagination
-                    className=""
-                    paginationData={pagination}
-                    onPageChange={onPageChange}
-                  />
-                </div>
-              ) : (
-                <div className="flex justify-center items-center h-full">
-                  <p className="text-h1 font-mer text-center">No Products Found</p>
-                </div>
-              )}
-            </div>
-          </div>
         </div>
       );
+      
 }
 
 /**

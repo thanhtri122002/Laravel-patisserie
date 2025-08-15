@@ -163,11 +163,15 @@ class StripeService extends Service
     public function embededCheckOutForm(Invoice $invoice) 
     {
         $checkoutSession = $this->stripe->checkout->sessions->create([
+
+            'phone_number_collection' => [
+                'enabled' => true,
+            ],
+            'billing_address_collection' => 'required',
             'line_items' => $this->getLineItems($invoice),
             'ui_mode' => 'embedded',
             'mode' => 'payment',
             'return_url' => route('user.embeddedpayment.embeddedpayment.return') . '?session_id={CHECKOUT_SESSION_ID}'
-
         ]);
 
         return $checkoutSession->client_secret;

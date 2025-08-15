@@ -8,6 +8,7 @@ use App\Http\Requests\user\submitCartRequest;
 use App\Models\ProductDetail;
 use App\Models\User;
 use App\Services\user\CartService;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
 class CartController extends BaseController
@@ -38,7 +39,6 @@ class CartController extends BaseController
         
         return $cartDetail;
     }
-
 
     /**
      * A function to add a ProductDetail into the cart
@@ -87,15 +87,12 @@ class CartController extends BaseController
      * First this will receive the submitCartRequest which contain personal in4
      * then call the cartService to create an invoice
      * 
-     * @param App\Http\Requests\user\submitCartRequest $request
-     * 
      * @return boolean
      */
-    public function submitCart(submitCartRequest $request): bool
+    public function submitCart(): bool
     {
         $user = $this->getUser();
-        $data = $request->validated();
-        CartService::getInstance()->withUser($user)->submitCart($data);        
+        CartService::getInstance()->withUser($user)->submitCart();        
 
         return true;
     }

@@ -1,5 +1,6 @@
 import HeroBanner from '../../Components/HeroBanner';
 import TeamMembers from './Components/TeamMembers';
+import QuoteSlider from './Components/QuoteSlider';
 export default function TeamPage () {
     return (
 
@@ -21,10 +22,13 @@ export default function TeamPage () {
             <section className='w-full relative'>
                 <TeamMembers></TeamMembers>
             </section>
+
+            <p className="text-center text-h3 text-[--Pink-Primary] mt-12 max-w-[80%] mx-auto">
+                "Each of us brings something unique to the table, but our goal is the same—creating joyful moments, one dessert at a time."
+            </p>
+
+            <QuoteSlider></QuoteSlider>
+
         </>
-        
-
-        
-
     )
 }

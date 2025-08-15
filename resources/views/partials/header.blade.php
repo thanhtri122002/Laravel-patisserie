@@ -26,9 +26,9 @@
             </div>
         </div>
         <div class="navbar-nav flex w-full">
-            <ul class="flex gap-x-11">
+            <ul class="flex mx-auto gap-x-11 justify-evenly">
                 <li class="nav-item">
-                    <a href="/">Home</a>
+                    <a href="/" >Home</a>
                 </li>
                 <li class="nav-item">
                     <a href="#">About</a>
@@ -37,20 +37,21 @@
                     <a href="/products">Product</a>
                 </li>
                 <!-- <li class="nav-item dropdown-toggle relative"> -->
+                @if ($user)
                 <li class="nav-item">
-                    <a href="#">Services</a>
+                    <a href="/cart">Cart</a>
                     <!-- <div class="dropdown-menu hidden">
                         <a href=""></a>
                         <a href=""></a>
                     </div> -->
                 </li>
+                @endif
                 <li class="nav-item">
                     <a href="/teams">Teams</a>
                 </li>
                 <li class="nav-item">
                     <a href="#">Contact</a>
                 </li>
-                
             </ul>
         </div>
     </div>
