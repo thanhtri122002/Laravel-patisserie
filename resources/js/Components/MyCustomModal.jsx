@@ -19,12 +19,7 @@ const Trigger = ({ children , ...props }) => {
     return (
         <>
             <div {...props} onClick={toggleOpen}>{children}</div>
-            {open && (
-                <div
-                    className="fixed inset-0 z-40"
-                    onClick={() => setOpen(false)}
-                ></div>
-            )}
+            
         </>
     )
 }

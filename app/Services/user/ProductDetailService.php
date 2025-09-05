@@ -103,4 +103,9 @@ class ProductDetailService extends Service
         return true;
     }
 
+    public function setDiscount($productId, $amount)
+    {
+        
+    }
+
 }

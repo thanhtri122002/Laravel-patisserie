@@ -55,14 +55,12 @@
     overflow-y: auto;
     transform-origin: bottom right;
 
-
     .close-cart {
         width: fit-content;
         align-self: flex-end;
         display: flex;
         align-items: center;
         justify-content: center;
-        
         border: none;
         color: black;
         font-size: 1.2rem;
@@ -83,9 +81,7 @@
             outline: none;
             box-shadow: 0 0 0 0.15rem rgba(255, 58, 48, 0.4);
         }
-
     }
-
 }
 
 .productDetail {
@@ -157,7 +153,6 @@
         border-radius: 50%;
         font-size: 1rem;
         cursor: pointer;
-
 
     }
 

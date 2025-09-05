@@ -84,7 +84,7 @@ class CartService extends Service
     public function cartDetail()
     {
         $cart = $this->getOrCreateCart();
-        $detail['cart'] = $cart->productDetails()->with('product.productImages')->get();
+        $detail['cart'] = $cart->productDetails()->with(['product.productImages', 'product.category'])->get();
         $detail['total'] = $this->getCartCost();
         
         return $detail;

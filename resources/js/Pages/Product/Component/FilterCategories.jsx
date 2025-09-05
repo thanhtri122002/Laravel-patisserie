@@ -8,9 +8,10 @@ const Filter = React.memo(function Filter({categoryData, selectedCategories, onS
             <div className='flex flex-wrap gap-2'>
                 {categoryData.map((category) => (
                     <Chip key={category.id} 
-                    category={category} 
-                    selected={selectedCategories.includes(category.id)} 
-                    onSelectedCategoriesChange={onSelectedCategoriesChange} />
+                        category={category} 
+                        selected={selectedCategories.includes(category.id)} 
+                        onSelectedCategoriesChange={onSelectedCategoriesChange} 
+                    />
                 ))}
             </div>
         </>

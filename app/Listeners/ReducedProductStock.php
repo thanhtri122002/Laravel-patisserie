@@ -34,6 +34,7 @@ class ReducedProductStock implements ShouldQueue
             $quantityPurchased = $event->productDetail->quantity;
             $productId = $productDetail->product_id;
             $product = Product::where('id', $productId)->lockForUpdate()->first();
+            
             if ($product) {
                 if ($product->stock >= $quantityPurchased) {
                     $product->update(['stock' => $product->stock - $quantityPurchased]);

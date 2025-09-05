@@ -2,32 +2,33 @@ import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { getNewProducts } from "../../Services/product.service";
 
-export default function NewArrivalSection ({ limit = 3, children, className, ...props }) {
-    
+export default function NewArrivalSection({
+    limit = 3,
+    children,
+    className,
+    ...props
+}) {
     const [newProducts, setNewProducts] = useState([]);
     const [activeIndex, setActiveIndex] = useState(0);
-    
-    useEffect(() => {
 
+    useEffect(() => {
         let isMounted = true;
 
         (async () => {
             const { data, errors } = await getNewProducts(limit);
 
             if (!isMounted) return;
-            
-            setNewProducts(data);
 
-            
+            setNewProducts(data);
         })();
 
         return () => {
             isMounted = false;
-        }
+        };
     }, [limit]);
 
     useEffect(() => {
-        if (newProducts.length === 0 ) return;
+        if (newProducts.length === 0) return;
 
         let timer = setInterval(() => {
             setActiveIndex((prevIndex) => (prevIndex + 1) % newProducts.length);
@@ -52,19 +53,28 @@ export default function NewArrivalSection ({ limit = 3, children, className, ...
                             className="absolute inset-0"
                         >
                             <img
-                                src={newProducts[activeIndex].firstImage || "https://via.placeholder.com/800x400"}
+                                src={
+                                    newProducts[activeIndex].firstImage ||
+                                    "https://via.placeholder.com/800x400"
+                                }
                                 alt={newProducts[activeIndex].name}
                                 className="w-full h-full object-cover"
                             />
                             <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent text-white p-4">
-                                <h3 className="text-lg font-bold">{newProducts[activeIndex].name}</h3>
-                                <p className="text-sm">{newProducts[activeIndex].description?.slice(0, 60)}...</p>
+                                <h3 className="text-lg font-bold">
+                                    {newProducts[activeIndex].name}
+                                </h3>
+                                <p className="text-sm">
+                                    {newProducts[
+                                        activeIndex
+                                    ].description?.slice(0, 60)}
+                                    ...
+                                </p>
                             </div>
                         </motion.div>
                     )}
                 </AnimatePresence>
             </div>
         </div>
-    )
-
+    );
 }

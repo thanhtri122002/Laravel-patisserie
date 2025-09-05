@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\User;
 
+use App\Helpers\Response;
 use App\Http\Requests\user\Auth\LoginRequest;
 use App\Http\Requests\user\Auth\RegisterRequest;
 use App\Services\user\AuthService;
@@ -27,10 +28,10 @@ class UserAuthController extends BaseController
 
     public function login(LoginRequest $request) 
     {
-        $success = AuthService::getInstance()->login($request);
-        if ($success) {
+        $isSuccess = AuthService::getInstance()->login($request);
+        if ($isSuccess) {
             
-            return redirect('/');
+            return $this->sendSuccessResponse($isSuccess, "login successful", Response::OK);
         }
         
         return false;
@@ -39,7 +40,7 @@ class UserAuthController extends BaseController
     public function register(RegisterRequest $request) 
     {
         AuthService::getInstance()->register($request);
-
+        
         return true;
     }
 

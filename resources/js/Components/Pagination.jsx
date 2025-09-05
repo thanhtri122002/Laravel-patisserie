@@ -15,7 +15,7 @@ function getPages(currentPage, lastPage, delta = 2) {
     let l;
 
     for (let i = 1; i <= lastPage; i++) {
-        if (i ===1 || i === lastPage || ( i >= currentPage - delta && i <= currentPage + delta )) {
+        if (i === 1 || i === lastPage || ( i >= currentPage - delta && i <= currentPage + delta )) {
             range.push(i);
         }
     }

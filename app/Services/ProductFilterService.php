@@ -46,12 +46,23 @@ class ProductFilterService extends Service {
      * @return \Illuminate\Database\Eloquent\Collection 
      */
     public function getTheTopSellingProduct($limit)
-    {
+    {   
         return Product::join('product_details', 'products.id', '=', 'product_details.product_id')
-                    ->join('invoice', 'product_details.invoice_id', 'invoice.id')
-                    ->where('invoice.status', Invoice::PAID)
+                    ->join('invoices', 'product_details.invoice_id', 'invoices.id')
+                    ->where('invoices.status', Invoice::PAID)
+                    ->select(
+                        'products.id',
+                        'products.name',
+                        'products.price',
+                        'products.description'
+                    )
                     ->selectRaw('SUM(product_details.quantity) as total_sold')
-                    ->groupBy('products.id')
+                    ->groupBy(
+                        'products.id',
+                        'products.name',
+                        'products.price',
+                        'products.description'
+                    )
                     ->orderby('total_sold', 'desc')
                     ->limit($limit)
                     ->get();

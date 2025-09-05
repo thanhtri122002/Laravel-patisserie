@@ -15,7 +15,6 @@ export default function AuthFormToggle () {
 
     return (
         <AuthenticatedLayout>
-                
                 <div className="hidden md:w-full md:h-full md:flex md:items-center md:justify-center md:relative md:z-30">
                     <div className='bg-red-50 rounded-xl flex flex-row items-center relative py-10'>
                         <div className={`w-1/2 flex flex-row transition-opacity duration-1000 ${isLogin ? 'opacity-100' : 'opacity-0'}`}>

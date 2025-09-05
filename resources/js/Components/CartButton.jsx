@@ -1,11 +1,16 @@
 import { useState, useEffect } from "react"
 import { ShoppingBasket } from "lucide-react";
 import { useCart } from "../context/CartContext";
-import Modal from "../Components/MyCustomModal";
+import Modal from "./Modal";
 import CartProductDetail from "./CartProductDetail";
 import { motion, AnimatePresence } from "motion/react";
 import { Minimize2 } from "lucide-react";
 import PrimaryButton from "../Components/PrimaryButton";
+
+const modalVariants = {
+    open : { opacity: 1, y: '100%' },
+    close: { opacity: 0, y: '0%'}
+}
 /**
  * `CartButton` Component
  * 
@@ -57,26 +62,28 @@ export default function CartButton () {
 
     return (
         <>  
-            {cartItems.length > 0 && !isOpen && (
-                <button className="cart-button" onClick={toggleCart}>
+            {(cartItems.length > 0 && !isOpen) && (
+                <motion.button layoutId="cart" className="cart-button" onClick={toggleCart} >
                     <div className="relative inset-0">
                         <ShoppingBasket className="" />
                         <span className="cart-badge">{cartItems.length}</span>
                     </div>
-                </button>
+                </motion.button>
             )}
 
             <AnimatePresence>
                 {isOpen && (
-                    <div className="hidden md:block">
+                    <div className="hidden md:block" >
                         <motion.div
                             key="desktop-cart"
-                            initial={{ scale: 0 }}
-                            animate={{ scale: 1 }}
-                            exit={{ scale: 0 }}
-                            style={{ transformOrigin: "bottom-right" }}
+                            layoutId="cart"
+                            initial={{opacity:0, scale: 0 }}
+                            animate={{opacity: 1, scale: 1 }}
+                            exit={{opacity:0, scale: 0 }}
+                            
                             transition={{ duration: 0.3 }}
-                            className="cart-content">
+                            className="cart-content"
+                            >
                                 <div className="flex justify-between item-center mb-5">
                                     <p className="font-mer text-h3">Shopping Cart</p>
                                     <button className="close-cart " onClick={toggleCart}>
@@ -100,24 +107,18 @@ export default function CartButton () {
                 {isOpen && (
                     <div className="block md:hidden">
                         <Modal open={isOpen} setIsOpen={setIsOpen} toggleOpen={toggleCart}>
-                            <Modal.Content className="z-20 flex items-center justify-center">
-                                <motion.div
-                                    key="mobile-cart"
-                                    initial={{ scale: 0 }}
-                                    animate={{ scale: 1 }}
-                                    exit={{ scale: 0 }}
-                                    style={{ transformOrigin: "bottom-right" }}
-                                    transition={{ duration: 0.3 }}
-                                    className="w-full"
-                                >
-                                    <button className="close-cart" onClick={toggleCart}>X</button>
-                                    {cartItems.map((cartItem) => (
-                                        <CartProductDetail cartItemData={cartItem} key={cartItem.id} />
-                                    ))}
-                                    <p className="font-mer text-body self-end text-right">
-                                        Total: {formatedTotal}
-                                    </p>
-                                </motion.div>  
+                            <Modal.Content
+                                initial={{ y: "100%", opacity: 0 }}
+                                animate={{ y: 0, opacity: 1 }}
+                                exit={{ y: "100%", opacity: 0 }}
+                            >
+                                <button className="close-cart" onClick={toggleCart}></button>
+                                {cartItems.map((cartItem) => (
+                                    <CartProductDetail cartItemData={cartItem} key={cartItem.id} />
+                                ))}
+                                <p className="font-mer text-body self-end text-right">
+                                    Total: {formatedTotal}
+                                </p>    
                             </Modal.Content>
                         </Modal>
                     </div>

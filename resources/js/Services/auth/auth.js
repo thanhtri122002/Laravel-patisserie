@@ -1,19 +1,15 @@
 import api from '../api/axios.js';
+import { handleApiError } from '../../utils/helpers.js';
 
 const login = async (formData = {}) => {
     try {
         
-        const response = await api.post("user/login", formData);
+        const response = await api.post("/user/login", formData);
 
         return { data: response.data, error: null };
 
     } catch (err) {
-        if (err.response) {
-            return { data: null, error: err.response.data.errors};
-        }
-        
-        return { data: null, error: { general: ['Something went wrong.'] } }
-        
+        return handleApiError(err);
     }
 }
 

@@ -17,7 +17,6 @@ class AuthService extends Service {
         if (!$user) {
             dd('❌ User not found');
         }
-
         // Step 3: Check password
         if (!\Hash::check($credentials['password'], $user->password)) {
             dd('❌ Password does not match');
@@ -44,6 +43,5 @@ class AuthService extends Service {
         $validate = $request->validated();
         $validate['password'] = Hash::make($validate['password']);
         User::create($validate);
-
     }
 }

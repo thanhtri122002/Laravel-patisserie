@@ -29,6 +29,7 @@
         "react-dom": "^19.1.0",
         "react-paginate": "^8.3.0",
         "sass": "^1.83.1",
+        "swiper": "^11.2.10",
         "tailwindcss": "^3.4.15",
         "ziggy-js": "^2.5.3"
     }
