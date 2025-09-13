@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\User;
 
 use App\Helpers\Response;
-use App\Http\Controllers\Controller;
 use App\Services\user\InvoiceService;
 use Illuminate\Http\Request;
 
@@ -33,7 +32,6 @@ class InvoiceController extends BaseController
     {
         $search = $request->input('search');
         $perPage = $request->get('per_page', 10);
-        $
         $invoices = $this->invoiceService->withUser($user)->list($search, $perPage);
 
         return $this->sendSuccessResponse($invoices, "Retrieved invoices successfully", Response::OK);

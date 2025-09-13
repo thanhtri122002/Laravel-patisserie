@@ -1,87 +1,84 @@
-<div class="h-full navbar py-2 flex items-center">
-    <div class="h-full w-full flex-1 flex items-center justify-between md:flex-col gap-8">
-        <div class="flex w-full my-auto justify-between ml-0 h-1/2 ">
-            <div class="h-full logo place-self-center ml-5">
-                <img class="w-auto h-full object-cover" src="{{ asset('storage/images/icons/patisserie.svg') }}" alt="">
-            </div>
-            
-            <div class="nav-item relative group flex items-center mr-5">
-                @php
-                    $user = Auth::guard('web')->user();
-                    $admin = Auth::guard('admin')->user();
-                @endphp
+<div class="max-w-7xl mx-auto px-6 flex items-center justify-between h-20">
+        
+        <!-- Logo -->
+        <div class="flex items-center h-full">
+            <a href="/home">
+                <img class="h-12 w-auto object-contain" src="{{ asset('storage/images/icons/patisserie.svg') }}" alt="Patisserie Logo">
+            </a>
+        </div>
 
-                
-                @if ($user)
-                    <x-user-name-section></x-user-name-section>
-                @elseif ($admin)
-                    <x-admin-name-section></x-admin-name-section>
-                @else
-                    <a href="#" class="cursor-pointer">My Account</a>
-                    <div class="absolute top-0 hidden group-hover:flex group-hover:flex-col group-hover:space-y-5 bg-white p-2 z-50">
-                        <a href="{{ route('user.auth') }}" class="block  hover:bg-gray-100">User Login</a>
-                        <a href="{{ route('admin.login') }}" class="block  hover:bg-gray-100">Admin Login</a>
+        <!-- Desktop Navigation -->
+        <nav class="hidden md:flex space-x-10 text-body text-[--Pink-Primary]">
+            <a href="/home" class="font-mer text-body">Home</a>
+            <a href="#about" class="font-mer text-body">About</a>
+            <a href="/home/products" class="font-mer text-body">Products</a>
+            @if(Auth::guard('web')->check())
+                <a href="/home/cart" class="font-mer text-body">Cart</a>
+            @endif
+            <a href="/home/teams" class="font-mer text-body">Teams</a>
+            <a href="#contact" class="font-mer text-body">Contact</a>
+        </nav>
+
+        <!-- Account Section -->
+        <div class="hidden md:flex items-center space-x-4">
+            @php
+                $user = Auth::guard('web')->user();
+                $admin = Auth::guard('admin')->user();
+            @endphp
+
+            @if ($user)
+                <x-user-name-section />
+            @elseif ($admin)
+                <x-admin-name-section />
+            @else
+                <div class="relative group">
+                    <button class="text-gray-700 hover:text-pink-500">My Account</button>
+                    <div class="absolute right-0 mt-2 w-40 bg-white shadow-lg rounded-md invisible opacity-0 group-hover:visible group-hover:z-50 group-hover:opacity-100 transition-opacity duration-300 delay-200">
+                        <a href="{{ route('user.auth') }}" class="block px-4 py-2 hover:bg-gray-100">User Login</a>
+                        <a href="{{ route('admin.login') }}" class="block px-4 py-2 hover:bg-gray-100">Admin Login</a>
                     </div>
-                @endif
-            </div>
+                </div>
+            @endif
         </div>
-        <div class="navbar-nav flex w-full">
-            <ul class="flex mx-auto gap-x-11 justify-evenly">
-                <li class="nav-item">
-                    <a href="/home" >Home</a>
-                </li>
-                <li class="nav-item">
-                    <a href="#">About</a>
-                </li>
-                <li class="nav-item">
-                    <a href="/home/products">Product</a>
-                </li>
-                <!-- <li class="nav-item dropdown-toggle relative"> -->
-                @if ($user)
-                <li class="nav-item">
-                    <a href="/home/cart">Cart</a>
-                    <!-- <div class="dropdown-menu hidden">
-                        <a href=""></a>
-                        <a href=""></a>
-                    </div> -->
-                </li>
-                @endif
-                <li class="nav-item">
-                    <a href="/home/teams">Teams</a>
-                </li>
-                <li class="nav-item">
-                    <a href="#">Contact</a>
-                </li>
-            </ul>
-        </div>
+
+        <!-- Burger Menu (Mobile) -->
+        <button id="burgerMenu" class="md:hidden flex flex-col justify-between w-7 h-6 focus:outline-none">
+            <span class="block h-[3px] bg-black rounded"></span>
+            <span class="block h-[3px] bg-black rounded"></span>
+            <span class="block h-[3px] bg-black rounded"></span>
+        </button>
     </div>
 
-
-    <div id="burgerMenu" class="burger-menu ml-auto">
-        <span class="line"></span>
-        <span class="line"></span>
-        <span class="line"></span>
-    </div>
-    <div id="mobileMenu" class="mobile-menu">
-        <div class="flex m-10 justify-between">
-            <img class="w-auto h-[3rem] object-cover" src="{{ asset('storage/images/icons/patisserie.svg') }}" alt="">
-            <button id="closeBtn">
-                <svg width="28px" height="28px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M14.5 9.50002L9.5 14.5M9.49998 9.5L14.5 14.5" stroke="#1C274C" stroke-width="1.5" stroke-linecap="round"/>
-                    <path class="round" d="M7 3.33782C8.47087 2.48697 10.1786 2 12 2C17.5228 2 22 6.47715 22 12C22 17.5228 17.5228 22 12 22C6.47715 22 2 17.5228 2 12C2 10.1786 2.48697 8.47087 3.33782 7" stroke="#1C274C" stroke-width="1.5" stroke-linecap="round"/>
-                </svg>
+    <!-- Mobile Menu -->
+    <div id="mobileMenu" class="fixed inset-0 bg-white transform translate-x-full transition-transform duration-500 md:hidden z-50">
+        <div class="flex justify-between items-center px-6 py-4 border-b">
+            <img class="h-10 w-auto object-contain" src="{{ asset('storage/images/icons/patisserie.svg') }}" alt="Logo">
+            <button id="closeBtn" class="text-gray-600 hover:text-black">
+                ✕
             </button>
         </div>
-        
-        <ul class="ml-[1rem] flex flex-col gap-3">
-            <li><a href="#home">Home</a></li>
-            <li><a href="#about">About</a></li>
-            <li><a href="#services">Services</a></li>
-            <li><a href="#contact">Contact</a></li>
-        </ul>
+        <nav class="flex flex-col space-y-6 mt-6 px-6 text-lg text-gray-700">
+            <a href="/home" class="hover:text-pink-500">Home</a>
+            <a href="#about" class="hover:text-pink-500">About</a>
+            <a href="/home/products" class="hover:text-pink-500">Products</a>
+            @if(Auth::guard('web')->check())
+                <a href="/home/cart" class="hover:text-pink-500">Cart</a>
+            @endif
+            <a href="/home/teams" class="hover:text-pink-500">Teams</a>
+            <a href="#contact" class="hover:text-pink-500">Contact</a>
+        </nav>
     </div>
-</div>
 
+<script>
+    const burger = document.getElementById('burgerMenu');
+    const mobileMenu = document.getElementById('mobileMenu');
+    const closeBtn = document.getElementById('closeBtn');
 
+    burger.addEventListener('click', () => {
+        mobileMenu.classList.remove('translate-x-full');
+    });
 
-    
+    closeBtn.addEventListener('click', () => {
+        mobileMenu.classList.add('translate-x-full');
+    });
+</script>

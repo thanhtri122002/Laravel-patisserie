@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\User;
 
+use App\Helpers\Response;
 use App\Http\Requests\user\AddToCartRequest;
 use App\Http\Requests\user\ProductDetailRequest;
 use App\Http\Requests\user\submitCartRequest;
@@ -87,14 +88,14 @@ class CartController extends BaseController
      * First this will receive the submitCartRequest which contain personal in4
      * then call the cartService to create an invoice
      * 
-     * @return boolean
+     * @return 
      */
-    public function submitCart(): bool
+    public function submitCart()
     {
         $user = $this->getUser();
-        CartService::getInstance()->withUser($user)->submitCart();        
+        $invoice = CartService::getInstance()->withUser($user)->submitCart();        
 
-        return true;
+        return $this->sendSuccessResponse($invoice, "Submit successfully", Response::OK);
     }
 
     /**

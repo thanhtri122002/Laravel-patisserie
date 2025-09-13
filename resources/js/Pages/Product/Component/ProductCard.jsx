@@ -1,11 +1,14 @@
 import { addProductToCart } from "../../../Services/cart.service";
+import { useCart } from "../../../context/CartContext";
 import PrimaryButton from "../../../Components/PrimaryButton";
 import { formatedCurrency, truncatedParagraph } from "../../../utils/helpers";
 import { useCallback } from "react";
 
 export default function ProductCard({ productData }) {
+
+    const { addItem } = useCart();
     const handleProductToCart = async () => {
-        await addProductToCart(productData.id, 1, productData.img);
+        await addItem(productData.id, 1, productData.img);
     };
 
     const truncatedDescription = truncatedParagraph(

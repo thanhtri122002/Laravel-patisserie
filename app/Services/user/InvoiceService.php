@@ -3,7 +3,6 @@
 namespace App\Services\user;
 
 use App\Models\Invoice;
-use App\Models\ProductDetail;
 use App\Services\Service;
 use App\Services\StripeService;
 use Illuminate\Support\Facades\DB;
@@ -74,10 +73,11 @@ class InvoiceService extends Service
         }
         
         $invoice = DB::transaction(function() use ($data, $productsInCart) {
-            
+           
             $invoice = Invoice::create($data);
-    
+        
             foreach($productsInCart as $detail) {
+            
                 $detail->invoice_id = $invoice->id;
                 $detail->cart_id = null;
                 $detail->save();
@@ -87,7 +87,5 @@ class InvoiceService extends Service
         });
 
         return $invoice;
-    }
-
-    
+    } 
 }

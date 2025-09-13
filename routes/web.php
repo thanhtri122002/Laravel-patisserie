@@ -9,7 +9,6 @@ use App\Http\Controllers\User\Auth\ResetPasswordController;
 use App\Http\Controllers\User\CartController;
 use App\Http\Controllers\User\PaymentController;
 use App\Http\Controllers\User\UserAuthController;
-use App\Models\ProductImage;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('home')->group(function () {
@@ -37,7 +36,6 @@ Route::get('/authToggle', function () {
         'hideFooter' => true,
     ]);
 })->name('user.auth');
-
 Route::get('forgot-password', function () {
     return view(
         'auth.forgot-password',
@@ -64,10 +62,6 @@ Route::prefix('products/filter')->controller(ProductController::class)->group(fu
     Route::get('/out-of-stock', 'getOutOfStockProducts');
     Route::get('/discount', 'getDisCountProduct');
 });
-
-
-
-
 
 Route::prefix('admin')->name('admin.')->group(function () {
 
@@ -128,25 +122,21 @@ Route::prefix('user')->name('user.')->group(function () {
         Route::post('register', 'register')->name('register');
     });
 
-
     Route::middleware("auth")->group(function () {
-        Route::controller(PaymentController::class)->prefix('embeddedPayment')->name('embeddedpayment.')->group(function () {
-            Route::post('/embeddedCheckoutForm/{invoiceId}', 'embeddedCheckout')->name('embeddedCheckout');
-            Route::get('/user/embeddedPayment/return', function () {
-                return view('user.embededPayment.return');
-            })->name('embeddedpayment.return');
-            Route::post('/embeddedCheckoutForm', 'retrieveStatus')->name('retrieveStatus');
+        
+        Route::controller(PaymentController::class)->prefix('checkoutSession')->name('checkout.')->group(function () {
+            Route::get('/createSession/{id}', 'checkoutSession')->name('checkoutSession');
+            Route::post('/retrieve-status', 'retrieveStatus')->name('retrieveStatus');
         });
 
         Route::controller(CartController::class)->prefix('cart')->name('cart.')->group(function () {
 
-            Route::post('/submit', 'submitCart')->name('submit'); //Place before dynamic routes
+            Route::post('/submit', 'submitCart')->name('submit'); 
             Route::post('/', 'addToCart')->name('addProduct');
             Route::post('/{productDetailId}', 'update')->name('updateProductDetail');
             Route::post('/{productDetailId}/delete', 'deleteProduct')->name('deleteProductDetail');
             Route::get('/', 'getCart')->name('getCart');
             Route::get('/cost', 'getCartCost')->name('cost');
-            Route::post('/payment/success/{invoice}', 'paymentSuccess')->name('paymentSuccess');
         });
     });
 });

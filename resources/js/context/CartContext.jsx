@@ -6,6 +6,7 @@ import {
 } from "react";
 import {
     getCart,
+    addProductToCart,
     removeProductFromCart,
     updateProductQuantity,
     createInvoice,
@@ -49,6 +50,14 @@ export const CartProvider = ({ children }) => {
     useEffect(() => {
         fetchCart();
     }, []);
+
+    const addItem = async ( productId, quantity = 1, productImage) => {
+        const newItem = await addProductToCart(productId, quantity, productImage);
+        setCartItems((prev) => 
+            [...prev, newItem]
+        )
+
+    }
 
     const updateItem = async (productDetailId, amount, mode) => {
         const updatedItem = await updateProductQuantity(
@@ -108,6 +117,7 @@ export const CartProvider = ({ children }) => {
                 total,
                 setCartItems,
                 fetchCart,
+                addItem,
                 updateItem,
                 removeItem,
                 submitCart,

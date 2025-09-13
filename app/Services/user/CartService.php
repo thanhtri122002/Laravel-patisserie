@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Services\user;
 
 use App\Models\Cart;
@@ -6,20 +7,20 @@ use App\Models\Product;
 use App\Models\ProductDetail;
 use App\Services\Service;
 
-class CartService extends Service 
-{   
+class CartService extends Service
+{
     /**
      * @var \App\Services\user\ProductDetailService
      */
-    protected $productDetailService ;
-    
+    protected $productDetailService;
+
     /**
      * @var App\Services\user\InvoiceService
      */
     protected $invoiceService;
 
     public function __construct(ProductDetailService $productDetailService)
-    {   
+    {
         $this->productDetailService = $productDetailService;
     }
 
@@ -41,19 +42,18 @@ class CartService extends Service
      * @return \App\Models\Cart
      */
     public function getOrCreateCart()
-    {   
+    {
         $userId = $this->getUserId();
-        
+
         $cart = Cart::where('user_id', $userId)->first();
-        
+
         if (!$cart) {
             $cart = Cart::create([
-                        'user_id' => $userId
-                        ,'cost' => 0
-                    ]);
+                'user_id' => $userId,
+                'cost' => 0
+            ]);
         }
         return $cart;
- 
     }
     /**
      * Get a productDetail
@@ -86,7 +86,7 @@ class CartService extends Service
         $cart = $this->getOrCreateCart();
         $detail['cart'] = $cart->productDetails()->with(['product.productImages', 'product.category'])->get();
         $detail['total'] = $this->getCartCost();
-        
+
         return $detail;
     }
     /**
@@ -106,17 +106,7 @@ class CartService extends Service
     {
         $cart = $this->getOrCreateCart();
         $data['cart_id'] = $cart->id;
-        $data['mode'] = 'relative';
-
-        $productDetail = ProductDetail::where('product_id', $data['product_id'])->first();
-        
-        if(!$productDetail){
-            $productDetail = $this->productDetailService->create($data); 
-        }
-        elseif ($productDetail){
-            $productDetail = $this->productDetailService->update($data, $productDetail);
-
-        }
+        $productDetail = $this->productDetailService->create($data);
 
         return $productDetail;
     }
@@ -130,12 +120,12 @@ class CartService extends Service
      * @return \App\Models\Invoice
      */
     public function submitCart()
-    {   
-        $productInCart = $this->cartDetail();
+    {
+        $cartDetail = $this->cartDetail();
         $user = $this->getUser();
         $data['cost'] = $this->getCartCost();
-        $invoice = InvoiceService::getInstance()->withUser($user)->makeInvoice($data, $productInCart);
-        
+        $invoice = InvoiceService::getInstance()->withUser($user)->makeInvoice($data, $cartDetail['cart']);
+
         return $invoice;
     }
     /**
@@ -150,10 +140,10 @@ class CartService extends Service
      * @return \App\Models\ProductDetail
      */
     public function update($data, $productDetailId)
-    {   
+    {
         $productDetail = $this->getProductDetail($productDetailId);
         $productDetail = $this->productDetailService->update($data, $productDetail);
-        
+
         return $productDetail;
     }
 
@@ -165,10 +155,10 @@ class CartService extends Service
     public function clearCart()
     {
         $productsInCart = $this->cartDetail();
-        foreach($productsInCart as $detail) {
+        foreach ($productsInCart as $detail) {
             $detail->delete();
         }
-        
+
         return true;
     }
 
@@ -184,7 +174,7 @@ class CartService extends Service
     {
         $productDetail = $this->getProductDetail($productDetailId);
         $this->productDetailService->delete($productDetail);
-        
+
         return true;
     }
 
@@ -199,11 +189,11 @@ class CartService extends Service
     public function getCartCost()
     {
         $cart = $this->getOrCreateCart();
-        
+
         $productDetails = $cart->productDetails;
         $cost = 0;
 
-        foreach($productDetails as $detail) {
+        foreach ($productDetails as $detail) {
             $cost += $detail->calculateTotal();
         }
 

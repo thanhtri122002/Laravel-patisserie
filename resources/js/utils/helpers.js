@@ -49,10 +49,17 @@ const formatedCurrency = (number) => {
 
 const handleApiError = (err) => {
     if (err.response) {
-        return {
-            data: null,
-            errors: err.response.data?.errors || err.response.data,
-        };
+        if (err.response.status === 401) {
+            window.location.href = '/authToggle';
+            return { data: null, errors: { general: ["Unauthenticated"] } };
+        }
+        else {
+            return {
+                data: null,
+                errors: err.response.data?.errors || err.response.data,
+            };
+        }
+        
     }
     return { data: null, errors: { general: ["Something went wrong"] } };
 };

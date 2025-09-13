@@ -6,11 +6,9 @@ import CartProductDetail from "./CartProductDetail";
 import { motion, AnimatePresence } from "motion/react";
 import { Minimize2 } from "lucide-react";
 import PrimaryButton from "../Components/PrimaryButton";
+import { createSession, useNavigate } from "react-router-dom";
+import { createInvoice } from "../Services/cart.service";
 
-const modalVariants = {
-    open : { opacity: 1, y: '100%' },
-    close: { opacity: 0, y: '0%'}
-}
 /**
  * `CartButton` Component
  * 
@@ -47,7 +45,7 @@ const modalVariants = {
  */
 export default function CartButton () {
     const [ isOpen, setIsOpen ] = useState(false);
-    const { cartItems, total } = useCart();
+    const { cartItems, total, submitCart } = useCart();
     
     const formatedTotal = total.toLocaleString('vi-VN', {
         style: 'currency',
@@ -59,10 +57,21 @@ export default function CartButton () {
             setIsOpen(prev => !prev);
         }
     }
+    
+    const handleCheckout = async () => {
+        const invoice = await createInvoice();
+        if (invoice?.id) {
+            const response = await createSession(invoice.id);
+            localStorage.setItem("stripeClientSecret", clientSecret);
+
+            // navigate to checkout page
+            navigate("/checkout");
+        }
+    }
 
     return (
         <>  
-            {(cartItems.length > 0 && !isOpen) && (
+            {(!isOpen) && (
                 <motion.button layoutId="cart" className="cart-button" onClick={toggleCart} >
                     <div className="relative inset-0">
                         <ShoppingBasket className="" />
@@ -95,7 +104,7 @@ export default function CartButton () {
                                     <CartProductDetail cartItemData={cartItem} key={cartItem.id}></CartProductDetail>
                                 ))}
                                 <p className="font-mer text-body self-end text-right">Total: {formatedTotal}</p>
-                                <PrimaryButton>
+                                <PrimaryButton  onClick={handleCheckout}>
                                     <p className="font-mer text-body text-center">Submit the Cart</p>
                                 </PrimaryButton>
                         </motion.div>

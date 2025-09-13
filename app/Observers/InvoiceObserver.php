@@ -12,6 +12,7 @@ class InvoiceObserver
     {   
         DB::transaction(function () use($invoice) {
             $invoice->order_code = Invoice::generateOrderCode($invoice->user_id);
+            $invoice->email = $invoice->user->email ;
         });
     }
     /**

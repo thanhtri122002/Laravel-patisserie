@@ -9,7 +9,7 @@ export const ProductInfoProvider = ({ productId, children }) => {
 
     useEffect(() => {
         let isMounted = true;
-        console.log(productId);
+        
         (async () => {
             setLoading(true);
             const { data, err } = await getProduct(productId);
@@ -23,7 +23,7 @@ export const ProductInfoProvider = ({ productId, children }) => {
             isMounted = false;
         };
     }, [productId]);
-    console.log('product:', product);
+    
     return (
         <ProductContext.Provider value={{product, loading}}>
             {children}
