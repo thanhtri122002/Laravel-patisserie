@@ -4,6 +4,7 @@ import NewArrivalSection from "./NewArrivals";
 import BestSellers from "./BestSellers";
 import CartButton from "../../Components/CartButton";
 
+
 export default function ProductPage() {
     return (
         <>

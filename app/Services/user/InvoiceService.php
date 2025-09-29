@@ -55,6 +55,19 @@ class InvoiceService extends Service
         return $query->paginate($perPage);
     }
     /**
+     * A service updating the status of an invoice
+     * 
+     */
+    public function updateInvoiceStatus($data)
+    {
+        $invoice = $this->detail($data['id']);
+        $invoice->update([
+            'status' => $data['status']
+        ]);
+
+        return $invoice;
+    }
+    /**
      * Create the unpaid invoice for the submitted cart
      * Linked the products details to the newly created invoice
      * 

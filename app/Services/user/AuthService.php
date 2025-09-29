@@ -36,12 +36,15 @@ class AuthService extends Service {
         $request->session()->regenerateToken();
         $request->session()->invalidate();
         
+        
     }
 
-    public function register(RegisterRequest $request) {
-
-        $validate = $request->validated();
+    public function register($validate) 
+    {
         $validate['password'] = Hash::make($validate['password']);
-        User::create($validate);
+        $user = User::create($validate);
+        Auth::login($user);
+        
+        return $user;
     }
 }

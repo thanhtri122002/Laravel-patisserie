@@ -11,6 +11,7 @@ import { Fragment } from "react";
  * @returns {JSX.Element} an orders list of breads crumbs links
  */
 export default function Breadcrumbs({}) {
+    
     const pathSegments = window.location.href
         .split("/")
         .filter(Boolean)
@@ -18,7 +19,7 @@ export default function Breadcrumbs({}) {
     if (pathSegments.length > 0) {
         pathSegments[0] = "home";
     }
-
+    console.log(pathSegments);
     return (
         <ol className="flex text-h2 gap-3 text-[--Deep-Purple]">
             {pathSegments.map((segment, index) => {

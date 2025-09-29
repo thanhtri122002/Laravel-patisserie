@@ -16,8 +16,8 @@ const login = async (formData = {}) => {
 const register = async (formData = {}) => {
     try {
         
-        const response = await api.post("user/register", formData);
-
+        const response = await api.post("/user/register", formData);
+        console.log(response.data);
         return { data: response.data, error: null }
     } catch (err) {
         if (err.response) {

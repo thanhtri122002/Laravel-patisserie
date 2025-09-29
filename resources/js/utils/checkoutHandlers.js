@@ -1,4 +1,4 @@
-import { useCheckout } from "@stripe/react-stripe-js";
+import { useCheckout } from "@stripe/react-stripe-js/checkout";
 
 const validateInput = async (field, value, checkout) => {
     let updateResult;
@@ -24,7 +24,7 @@ const validateInput = async (field, value, checkout) => {
     return { isValid, message: !isValid ? updateResult.error.message : null };
 };
 
-const usehandleBlur = (setErrors) => {
+const useHandleBlur = (setErrors) => {
     const checkout = useCheckout();
 
     return async (e) =>{
@@ -50,7 +50,7 @@ const handleChange = (setPayLoad) => (e) => {
 };
 
 export {
-    usehandleBlur,
+    useHandleBlur,
     handleChange,
     validateInput
 }

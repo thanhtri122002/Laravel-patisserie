@@ -28,7 +28,7 @@ class ProductDetailFactory extends Factory
     {
         $product = Product::query()->exists()
             ? Product::inRandomOrder()->first()
-            : Product::factory()->create();
+            : Product::factory();
 
         $quantity = $this->faker->numberBetween(1, 10);
         $discount = $this->faker->randomFloat(2, 0, 50);
@@ -42,7 +42,6 @@ class ProductDetailFactory extends Factory
         return [
             //Pick an existing product, or create one if none exists
             'product_id' =>  $product->id,
-
             'cart_id' => null,
             'invoice_id' => null,
             'quantity' => $quantity,

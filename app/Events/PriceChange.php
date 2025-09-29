@@ -3,6 +3,7 @@
 namespace App\Events;
 
 use App\Models\Product;
+use App\Models\User;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Broadcasting\PresenceChannel;
@@ -16,13 +17,15 @@ class PriceChange
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
     public $product;
+    public $user;
     /**
      * Create a new event instance.
      */
-    public function __construct(Product $product)
+    public function __construct(Product $product, User $user)
     {
         //
         $this->product = $product;
+        $this->user = $user;
     }
 
     /**

@@ -7,6 +7,7 @@ use App\Http\Controllers\Admin\ProductImageController;
 use App\Http\Controllers\User\Auth\PasswordResetLinkController;
 use App\Http\Controllers\User\Auth\ResetPasswordController;
 use App\Http\Controllers\User\CartController;
+use App\Http\Controllers\User\InvoiceController;
 use App\Http\Controllers\User\PaymentController;
 use App\Http\Controllers\User\UserAuthController;
 use Illuminate\Support\Facades\Route;
@@ -29,6 +30,8 @@ Route::prefix('home')->group(function () {
     Route::get('cart', function () {
         return view('cart');
     });
+    Route::view('contact', 'contact');
+    
 });
 Route::get('/authToggle', function () {
     return view('auth_form_toggle', [
@@ -45,6 +48,7 @@ Route::get('forgot-password', function () {
         ]
     );
 });
+
 
 Route::prefix('api/public')->name('public')->group(function () {
     Route::get('/categories', [CategoryController::class, 'index'])->name('api.public.categories');
@@ -100,6 +104,8 @@ Route::prefix('admin')->name('admin.')->group(function () {
             Route::post('/{id}', 'update')->name('update');
             Route::post('/{id}/delete', 'delete')->name('delete');
         });
+
+        
     });
 });
 
@@ -125,8 +131,12 @@ Route::prefix('user')->name('user.')->group(function () {
     Route::middleware("auth")->group(function () {
         
         Route::controller(PaymentController::class)->prefix('checkoutSession')->name('checkout.')->group(function () {
-            Route::get('/createSession/{id}', 'checkoutSession')->name('checkoutSession');
+            
+            Route::view('/checkout', 'checkoutPage');
+            Route::view('/complete', 'checkoutPage');
+            Route::post('/createSession/{id}', 'checkoutSession')->name('checkoutSession');
             Route::post('/retrieve-status', 'retrieveStatus')->name('retrieveStatus');
+           
         });
 
         Route::controller(CartController::class)->prefix('cart')->name('cart.')->group(function () {
@@ -138,21 +148,9 @@ Route::prefix('user')->name('user.')->group(function () {
             Route::get('/', 'getCart')->name('getCart');
             Route::get('/cost', 'getCartCost')->name('cost');
         });
+
+        Route::controller(InvoiceController::class)->prefix('invoices')->name('invoices.')->group(function () {
+            Route::get('/{id}', 'detail')->name('detail');
+        });
     });
 });
-
-/*
-Route::get('/', function () {
-    return view('welcome');
-});
-
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
-
-Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-});
-*/

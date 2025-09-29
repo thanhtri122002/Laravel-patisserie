@@ -1,5 +1,5 @@
-import { memo } from "react";
-
+import { memo, forwardRef } from "react";
+import { motion } from "motion/react";
 /**
  * toggleSelected function:
  * - Toggles the local chip state (`selectedCategory`) between true and false.
@@ -7,18 +7,27 @@ import { memo } from "react";
  * - Uses the functional updater of setState to ensure correct value.
  */
 
-const Chip = memo(function Chip( { category, selected, onSelectedCategoriesChange }) {
-    
+const ChipBase = forwardRef(function Chip(
+    { category, selected, onSelectedCategoriesChange, ...props },
+    ref
+) {
     const toggleSelected = () => {
         onSelectedCategoriesChange(category.id, !selected);
-    }
+    };
 
     return (
-        <button className={`chip ${selected ? "chip--selected" : "chip--unselected"}`} onClick={toggleSelected}>
+        <button
+            ref={ref}
+            className={`chip ${
+                selected ? "chip--selected" : "chip--unselected"
+            }`}
+            onClick={toggleSelected}
+            {...props}
+        >
             {category.name}
         </button>
-    )
-} )
+    );
+});
 
-
-export default Chip;
+const ChipMotion = motion(memo(ChipBase));
+export default ChipMotion;

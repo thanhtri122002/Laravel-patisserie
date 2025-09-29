@@ -8,7 +8,7 @@
             @include('layouts.partials.header')
         @endif
         
-        <main id="react-root">
+        <main>
             @yield('content')
         </main>
 
@@ -17,7 +17,5 @@
         @endif
         
         
-        @stack('scripts')
-        @stack('styles')
     </body>
 </html>

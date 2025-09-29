@@ -5,6 +5,7 @@ namespace App\Observers;
 use App\Events\PriceChange;
 use App\Models\Product;
 use App\Services\StripeService;
+use Illuminate\Support\Facades\Auth;
 
 class ProductObserver
 {   
@@ -29,15 +30,16 @@ class ProductObserver
     public function updated(Product $product): void
     {
         $this->stripeService->updateStripeProduct($product);
-        
-        if($product->isDirty('price')){
-            PriceChange::dispatch($product);
+        $user = Auth::user();
+        if($product->wasChanged('price')){
+            PriceChange::dispatch($product, $user);
         }
     }
 
     public function deleting(Product $product): void 
     {
         $this->stripeService->removeProduct($product);
+        dd('completely remove the product');
     }
     /**
      * Handle the Product "deleted" event.

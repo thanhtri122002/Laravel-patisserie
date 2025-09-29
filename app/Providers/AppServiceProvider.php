@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Listeners\UpdateProductStockSubscriber;
 use App\Models\Admin;
 use App\Models\Invoice;
 use App\Models\Product;
@@ -10,7 +11,10 @@ use App\Models\User;
 use App\Observers\InvoiceObserver;
 use App\Observers\ProductDetailObserver;
 use App\Observers\ProductObserver;
+use App\Observers\UserObserver;
 use Illuminate\Auth\Notifications\ResetPassword;
+use Illuminate\Support\Facades\Event;
+use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -32,6 +36,7 @@ class AppServiceProvider extends ServiceProvider
         ProductDetail::observe(ProductDetailObserver::class);
         Product::observe(ProductObserver::class);
         Invoice::observe(InvoiceObserver::class);
+        User::observe(UserObserver::class);
         
         //Custom urls for reset password function 
         ResetPassword::createUrlUsing(function ($user, string $token) {
@@ -42,6 +47,8 @@ class AppServiceProvider extends ServiceProvider
                 default => throw new \Exception("Invalid user type"),
             };
         });
+
+        Event::subscribe(UpdateProductStockSubscriber::class);
 
     }
 }

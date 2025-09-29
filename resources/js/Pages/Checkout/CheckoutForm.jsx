@@ -1,11 +1,20 @@
-import React, { useState } from "react";
-import { PaymentElement, useCheckout } from "@stripe/react-stripe-js";
-import {BillingAddressElement} from '@stripe/react-stripe-js/checkout';
-import { useHandleBlur, handleChange, validateInput } from "../../utils/checkoutHandlers";
-import { EmailInput } from "./Components/EmailInput";
+import React, { useState, useEffect } from "react";
+import { PaymentElement, useCheckout } from "@stripe/react-stripe-js/checkout";
+import {
+    useHandleBlur,
+    handleChange,
+    validateInput,
+} from "../../utils/checkoutHandlers";
+import { BillingAddressElement } from "@stripe/react-stripe-js/checkout";
+import PrimaryButton from "../../Components/PrimaryButton";
+import PhoneNumberInput from "./Components/PhoneNumberInput";
 
 const CheckoutForm = () => {
 
+    useEffect(() => {
+        console.log("CheckoutForm mounted");
+    }, []);
+    
     const [payload, setPayLoad] = useState({
         email: "",
         phoneNumber: "",
@@ -18,24 +27,32 @@ const CheckoutForm = () => {
     const onChange = handleChange(setPayLoad);
 
     const checkoutState = useCheckout();
-
-    if (checkoutState.type === 'loading') {
+    console.log("FULL checkoutState:", checkoutState);
+    if (checkoutState.type === "loading") {
         return (
-        <div>Loading...</div>
-        )
-    } else if (checkoutState.type === 'error') {
+            <div>
+                Loading…
+                <pre>{JSON.stringify(checkoutState, null, 2)}</pre>
+            </div>
+        );
+    } else if (checkoutState.type === "error") {
         return (
-            <div>Error: {checkoutState.error.message}</div>
-        )
+            <div>
+                Error: {checkoutState.error.message}
+                <pre>{JSON.stringify(checkoutState, null, 2)}</pre>
+            </div>
+        );
     }
-    const {checkout} = checkoutState;
+    const { checkout } = checkoutState;
 
     const handleSubmit = async (e) => {
         e.preventDefault();
 
         setIsLoading(true);
-        const { isValid: isValidMail, message: messageMail } = await validateInput('email', payload.email, checkout);
-        const { isValid: isValidPhone, message: messagePhone } = await validateInput('phoneNumber', payload.phoneNumber, checkout);
+        // const { isValid: isValidMail, message: messageMail } =
+        //     await validateInput("email", payload.email, checkout);
+        const { isValid: isValidPhone, message: messagePhone } =
+            await validateInput("phoneNumber", payload.phoneNumber, checkout);
 
         // const { isValid, message } = await validateEmail(email, checkout);
         // if (!isValid) {
@@ -44,12 +61,11 @@ const CheckoutForm = () => {
         //     setIsLoading(false);
         //     return;
         // }
-        if (!isValidMail || !isValidPhone || !isValidBillingAddress ){
+        if (!isValidPhone) {
             setErrors({
-                email: isValidMail ? null : messageMail,
+                // email: isValidMail ? null : messageMail,
                 phoneNumber: isValidPhone ? null : messagePhone,
-                billingAddress: isValidBillingAddress ? null : messageBillingAddress
-            })
+            });
             setIsLoading(false);
             return;
         }
@@ -68,23 +84,27 @@ const CheckoutForm = () => {
     };
 
     return (
-        <form onSubmit={handleSubmit}>
-            <EmailInput
-                value={payload.email}
-                error={errors.email}
+        <form onSubmit={handleSubmit} className="flex flex-col gap-5 my-5 md:container md:mx-auto">
+            <p className="text-h1 font-mer self-center">Payment</p>
+            <PhoneNumberInput
+                value={payload.phoneNumber}
+                error={errors.phoneNumber}
                 onChange={onChange}
                 onBlur={onBlur}
-            ></EmailInput>
+            />
             <BillingAddressElement />
-            <h4>Payment</h4>
+            <p className="font-mer text-h3 text-[--Rich-Brown]">Payment</p>
             <PaymentElement id="payment-element" />
-            <button disabled={isLoading} id="submit">
+            <PrimaryButton disabled={isLoading} id="submit" className="w-fit">
                 {isLoading ? (
                     <div className="spinner"></div>
                 ) : (
-                    `Pay ${checkout.total.total.amount} now`
+                    <p className="text-body">
+                        Pay {checkout.total.total.amount} now
+                    </p>
+                    
                 )}
-            </button>
+            </PrimaryButton>
             {/* Show any error or success messages */}
             {message && <div id="payment-message">{message}</div>}
         </form>

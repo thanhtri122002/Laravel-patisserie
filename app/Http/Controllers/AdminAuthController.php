@@ -2,46 +2,46 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\Response;
 use App\Http\Requests\admin\Auth\LoginRequest;
 use App\Http\Requests\admin\Auth\RegisterRequest;
 use App\Http\Requests\user\Auth\RegisterRequest as AuthRegisterRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Admin;
+use App\Services\admin\AuthService;
 use Illuminate\Auth\Events\Validated;
 use Illuminate\Support\Facades\Hash;
 
 class AdminAuthController extends Controller
 {
-    
-    public function showLoginForm () {
+    private $service;
 
-        return view('admin.login');
-    }
-    public function showDashboard() {
-
-        return 'hello';
+    public function __construct(AuthService $service)
+    {
+        $this->service = $service;
     }
     
     public function login(LoginRequest $request) {
         
         $credentials = $request->validated();
-        
-        if(Auth::guard('admin')->attempt($credentials)){
-            $request->session()->regenerate();
-            dd(session()->all());
-            return redirect()->route('admin.dashboard');
+        $token = $this->service->login($request, $credentials);
+
+        if (!$token){
+            return $this->sendFailedResponse(null, "Login failed", Response::BAD_REQUEST, ['Invalid credentials']);
         }
         
-        return redirect()->route('admin.login')->withErrors('Login failed');
+        return $this->sendSuccessResponse([
+            'token' => $token,
+            'token_type' => "Bearer"
+        ], 'Log in successfully', Response::OK);
     }
 
     public function logout(Request $request) {
-        Auth::guard('admin')->logout();
-        $request->session()->invalidate();
-        $request->session()->regenerateToken();
+        
+        $logOutAttempt = $this->service->withUser(Auth::guard('admin')->user())->logout($request);
 
-        return redirect()->route('admin.login');
+        return $this->sendSuccessResponse(null, "Logout successful", Response::OK);
     }
     
     public function create(AuthRegisterRequest $request) {
@@ -50,10 +50,9 @@ class AdminAuthController extends Controller
         }
 
         $validate = $request->validated();
+        $newAdmin = $this->service->withUser(Auth::guard('admin')->user())->store($validate);
         
-        $validate['password'] = Hash::make($validate['password']);
-        Admin::create($validate);
-        return response()->json(['success' => 'created new admin'], 200);
+        return $this->sendSuccessResponse($newAdmin, "Create new admin successfully", Response::OK);
 
     }
 }

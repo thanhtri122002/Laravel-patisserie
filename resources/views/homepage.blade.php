@@ -279,7 +279,19 @@
     </section>
 
 @endsection
-
+@auth
+    @push('scripts')
+        <script type="module">
+            
+            window.userId = {{ auth()->id() }};    
+            Echo.private(`App.Models.User.${window.userId}`)
+                .notification((notification) => {
+                    console.log("🔔 Notification received:", notification);
+                    console.log(notification.type);
+                }); 
+        </script>
+    @endpush
+@endauth
 
 @section('footer')
     @include('partials.footer')

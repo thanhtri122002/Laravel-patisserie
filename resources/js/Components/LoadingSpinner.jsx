@@ -2,8 +2,7 @@ import { motion } from "motion/react";
 
 export default function LoadingSpinner () {
     
-    return (
-        
+    return (   
         <motion.div
             animate={{  rotate: 360 }}
             transition={{
@@ -14,7 +13,6 @@ export default function LoadingSpinner () {
             }}
             className="w-10 h-10 border-4 border-t-transparent border-blue-500 rounded-full"
         >
-
         </motion.div>
     )
 }

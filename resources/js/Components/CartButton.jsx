@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react"
+import { useState, useEffect } from "react";
 import { ShoppingBasket } from "lucide-react";
 import { useCart } from "../context/CartContext";
 import Modal from "./Modal";
@@ -11,9 +11,9 @@ import { createInvoice } from "../Services/cart.service";
 
 /**
  * `CartButton` Component
- * 
+ *
  * A responsive, animated cart button component that allows users to view their selected products
- * and total cost. This button is fixed in the bottom right corner of the page and provides an 
+ * and total cost. This button is fixed in the bottom right corner of the page and provides an
  * expandable cart interface for both desktop and mobile views.
  *
  * ## Features:
@@ -43,36 +43,33 @@ import { createInvoice } from "../Services/cart.service";
  *
  * @returns {JSX.Element} A rendered, animated cart button with expandable view
  */
-export default function CartButton () {
+export default function CartButton() {
     const [ isOpen, setIsOpen ] = useState(false);
-    const { cartItems, total, submitCart } = useCart();
-    
-    const formatedTotal = total.toLocaleString('vi-VN', {
-        style: 'currency',
-        currency: 'VND'
-    })
-    
+    const { cartItems, total } = useCart();
+
+    const formatedTotal = total.toLocaleString("vi-VN", {
+        style: "currency",
+        currency: "VND",
+    });
+
     const toggleCart = () => {
         if (cartItems.length > 0) {
-            setIsOpen(prev => !prev);
+            setIsOpen((prev) => !prev);
         }
-    }
-    
-    const handleCheckout = async () => {
-        const invoice = await createInvoice();
-        if (invoice?.id) {
-            const response = await createSession(invoice.id);
-            localStorage.setItem("stripeClientSecret", clientSecret);
+    };
 
-            // navigate to checkout page
-            navigate("/checkout");
-        }
-    }
+    const handleCheckout = async () => {
+        window.location.href = "/user/checkoutSession/checkout";
+    };
 
     return (
-        <>  
-            {(!isOpen) && (
-                <motion.button layoutId="cart" className="cart-button" onClick={toggleCart} >
+        <>
+            {!isOpen && (
+                <motion.button
+                    layoutId="cart"
+                    className="cart-button"
+                    onClick={toggleCart}
+                >
                     <div className="relative inset-0">
                         <ShoppingBasket className="" />
                         <span className="cart-badge">{cartItems.length}</span>
@@ -82,56 +79,75 @@ export default function CartButton () {
 
             <AnimatePresence>
                 {isOpen && (
-                    <div className="hidden md:block" >
+                    <div className="hidden md:block">
                         <motion.div
                             key="desktop-cart"
                             layoutId="cart"
-                            initial={{opacity:0, scale: 0 }}
-                            animate={{opacity: 1, scale: 1 }}
-                            exit={{opacity:0, scale: 0 }}
-                            
+                            initial={{ opacity: 0, scale: 0 }}
+                            animate={{ opacity: 1, scale: 1 }}
+                            exit={{ opacity: 0, scale: 0 }}
                             transition={{ duration: 0.3 }}
                             className="cart-content"
-                            >
-                                <div className="flex justify-between item-center mb-5">
-                                    <p className="font-mer text-h3">Shopping Cart</p>
-                                    <button className="close-cart " onClick={toggleCart}>
-                                        <Minimize2 />
-                                    </button>
-                                </div>
-                                
-                                {cartItems.map((cartItem) => (
-                                    <CartProductDetail cartItemData={cartItem} key={cartItem.id}></CartProductDetail>
-                                ))}
-                                <p className="font-mer text-body self-end text-right">Total: {formatedTotal}</p>
-                                <PrimaryButton  onClick={handleCheckout}>
-                                    <p className="font-mer text-body text-center">Submit the Cart</p>
-                                </PrimaryButton>
+                        >
+                            <div className="flex justify-between item-center mb-5">
+                                <p className="font-mer text-h3">
+                                    Shopping Cart
+                                </p>
+                                <button
+                                    className="close-cart "
+                                    onClick={toggleCart}
+                                >
+                                    <Minimize2 />
+                                </button>
+                            </div>
+
+                            {cartItems.map((cartItem) => (
+                                <CartProductDetail
+                                    cartItemData={cartItem}
+                                    key={cartItem.id}
+                                ></CartProductDetail>
+                            ))}
+                            <p className="font-mer text-body self-end text-right">
+                                Total: {formatedTotal}
+                            </p>
+                            <PrimaryButton onClick={handleCheckout}>
+                                <p className="font-mer text-body text-center">
+                                    Submit the Cart
+                                </p>
+                            </PrimaryButton>
                         </motion.div>
                     </div>
                 )}
             </AnimatePresence>
 
             <AnimatePresence>
-                {isOpen && (
-                    <div className="block md:hidden">
-                        <Modal open={isOpen} setIsOpen={setIsOpen} toggleOpen={toggleCart}>
-                            <Modal.Content
-                                initial={{ y: "100%", opacity: 0 }}
-                                animate={{ y: 0, opacity: 1 }}
-                                exit={{ y: "100%", opacity: 0 }}
-                            >
-                                <button className="close-cart" onClick={toggleCart}></button>
-                                {cartItems.map((cartItem) => (
-                                    <CartProductDetail cartItemData={cartItem} key={cartItem.id} />
-                                ))}
-                                <p className="font-mer text-body self-end text-right">
-                                    Total: {formatedTotal}
-                                </p>    
-                            </Modal.Content>
-                        </Modal>
-                    </div>
-                )}
+                <div className="block md:hidden">
+                    <Modal
+                        open={isOpen}
+                        setIsOpen={setIsOpen}
+                        toggleOpen={toggleCart}
+                    >
+                        <Modal.Content
+                            initial={{ y: "100%", opacity: 0 }}
+                            animate={{ y: 0, opacity: 1 }}
+                            exit={{ y: "100%", opacity: 0 }}
+                        >
+                            <button
+                                className="close-cart"
+                                onClick={toggleCart}
+                            ></button>
+                            {cartItems.map((cartItem) => (
+                                <CartProductDetail
+                                    cartItemData={cartItem}
+                                    key={cartItem.id}
+                                />
+                            ))}
+                            <p className="font-mer text-body self-end text-right">
+                                Total: {formatedTotal}
+                            </p>
+                        </Modal.Content>
+                    </Modal>
+                </div>
             </AnimatePresence>
         </>
     );

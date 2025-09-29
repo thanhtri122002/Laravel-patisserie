@@ -3,8 +3,7 @@ import { motion, AnimatePresence } from "motion/react";
 
 const ModalContext = createContext();
 
-
-const Modal = ({children, open, setIsOpen, toggleOpen}, ref) => {
+const Modal = ({children, open, setIsOpen, toggleOpen}) => {
     
     return (
         <ModalContext.Provider value={{open, setIsOpen, toggleOpen}}>
@@ -14,11 +13,11 @@ const Modal = ({children, open, setIsOpen, toggleOpen}, ref) => {
 }
 
 const Trigger = ({children, className, ...props}) => {
-    const {setIsOpen} = useContext(ModalContext);
+    const { toggleOpen } = useContext(ModalContext);
 
     return (
         <>
-            <div className={className} onClick={() => setIsOpen(false)}>{children}</div>
+            <div className={className} onClick={toggleOpen}>{children}</div>
         </>
         
     )
@@ -43,12 +42,12 @@ const Content = forwardRef((({children, className, ...props}, ref) => {
                     <motion.div
                         ref={ref}
                         key="panel"
-                        className={`overflow-y-auto fixed bottom-0 left-0 right-0 h-[80dvh] bg-[--section-light] z-50 ${className}`}
+                        className={`overflow-y-auto fixed bottom-0 left-0 right-0 h-[70dvh] bg-white rounded-t-xl z-50 ${className}`}
                         
                         transition={{ type: "spring", damping: 20 }}
                     >
-                        
-                        <div className="flex flex-col gap-8 px-5">
+                    
+                        <div className={className}>
                             {children}
                         </div>
                         

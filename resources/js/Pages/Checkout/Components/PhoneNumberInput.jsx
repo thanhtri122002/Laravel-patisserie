@@ -1,22 +1,27 @@
 import React from "react";
-import { useCheckout } from "@stripe/react-stripe-js";
+import TextInput from "../../../Components/TextInput";
+import InputLabel from "../../../Components/InputLabel";
+import InputError from "../../../Components/InputError";
 
-export default PhoneNumberInput = ({ value, error, onBlur, onChange }) => {
+const PhoneNumberInput = ({ value, error, onBlur, onChange }) => {
 
     return (
-        <>
-            <label>
-                Phone Number
-                <input
+          
+        <div className="flex flex-col gap-3">
+            <InputLabel html_for="phoneNumber" value="Phone Number" className="text-[--text-default]"/>
+                <TextInput
                     type="text"
                     name="phoneNumber"
-                    error={error}
                     value={value}
+                    error={error}
                     onChange={onChange}
                     onBlur={onBlur}
+                    className="rounded-[1rem]"
                 />
-            </label>
-            {error && <div id="phoneNumber-errors">{error}</div>}
-        </>
+            <InputError message={error} />
+            
+        </div>
     );
 };
+
+export default PhoneNumberInput;

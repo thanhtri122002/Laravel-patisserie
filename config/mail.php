@@ -14,7 +14,7 @@ return [
     |
     */
 
-    'default' => env('MAIL_MAILER', 'mailgun'),
+    'default' => env('MAIL_MAILER', 'failover'),
 
     /*
     |--------------------------------------------------------------------------
@@ -36,9 +36,22 @@ return [
     */
 
     'mailers' => [
-        'mailgun' => [
-            'transport' => 'mailgun',
+
+        'mailersend' => [
+            'transport' => 'mailersend',
+            // 'key' => env('MAILERSEND_API_KEY')
+            'admin_email' => env('MAIL_ADMIN_EMAIL'),
+            'is_trial' => env('MAILERSEND_IS_TRIAL')
         ],
+
+        'resend' => [
+            'transport' => 'resend',
+            'key' => env("RESEND_KEY")
+        ],
+
+        // 'mailgun' => [
+        //     'transport' => 'mailgun',
+        // ],
 
         'smtp' => [
             'transport' => 'smtp',
@@ -58,15 +71,13 @@ return [
 
         'postmark' => [
             'transport' => 'postmark',
-            // 'message_stream_id' => env('POSTMARK_MESSAGE_STREAM_ID'),
+            'message_stream_id' => env('POSTMARK_MESSAGE_STREAM_ID'),
             // 'client' => [
             //     'timeout' => 5,
             // ],
         ],
 
-        'resend' => [
-            'transport' => 'resend',
-        ],
+        
 
         'sendmail' => [
             'transport' => 'sendmail',
@@ -85,16 +96,18 @@ return [
         'failover' => [
             'transport' => 'failover',
             'mailers' => [
-                'smtp',
                 'log',
+                'mailersend',
+                'resend',
+                
             ],
         ],
 
         'roundrobin' => [
             'transport' => 'roundrobin',
             'mailers' => [
-                'ses',
-                'postmark',
+                'mailersend',
+                'resend',
             ],
         ],
 

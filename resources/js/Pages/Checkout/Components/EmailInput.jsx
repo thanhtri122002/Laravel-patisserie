@@ -1,10 +1,4 @@
 import React, { useState } from "react";
-import { PaymentElement, useCheckout } from "@stripe/react-stripe-js";
-import {
-    handleBlur,
-    handleChange,
-    validateInput,
-} from "../../../utils/checkoutHandlers";
 
 const EmailInput = ({ value, error, onChange, onBlur }) => {
     return (

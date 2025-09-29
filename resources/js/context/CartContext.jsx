@@ -1,9 +1,4 @@
-import {
-    useState,
-    createContext,
-    useEffect,
-    useContext,
-} from "react";
+import { useState, createContext, useEffect, useContext } from "react";
 import {
     getCart,
     addProductToCart,
@@ -32,8 +27,8 @@ const CartContext = createContext();
  * @function removeItem - use to delete an item in the cart by calling to the server and then udpate the cartItems and total state
  * @function submitCart - submit the cart
  *
- * @param {React.ReactNode} children 
- * @returns 
+ * @param {React.ReactNode} children
+ * @returns
  */
 export const CartProvider = ({ children }) => {
     const [cartItems, setCartItems] = useState([]);
@@ -51,13 +46,14 @@ export const CartProvider = ({ children }) => {
         fetchCart();
     }, []);
 
-    const addItem = async ( productId, quantity = 1, productImage) => {
-        const newItem = await addProductToCart(productId, quantity, productImage);
-        setCartItems((prev) => 
-            [...prev, newItem]
-        )
-
-    }
+    const addItem = async (productId, quantity = 1, productImage) => {
+        const newItem = await addProductToCart(
+            productId,
+            quantity,
+            productImage
+        );
+        setCartItems((prev) => [...prev, newItem]);
+    };
 
     const updateItem = async (productDetailId, amount, mode) => {
         const updatedItem = await updateProductQuantity(

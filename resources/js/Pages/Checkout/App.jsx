@@ -1,16 +1,12 @@
 import React, { useState, useEffect, useMemo } from "react";
 import { loadStripe } from "@stripe/stripe-js";
-import { CheckoutProvider } from "@stripe/react-stripe-js";
+import { CheckoutProvider } from "@stripe/react-stripe-js/checkout";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import CheckoutForm from "./CheckoutForm";
-
 import { createInvoice } from "../../Services/cart.service";
 import { createSession } from "../../Services/payment.service";
 
-import "./App.css";
-const stripePromise = loadStripe(
-    "pk_test_51S41zZCh1PMGs4X1F5osvnqShOa4wKrFr6DXLK0bxZmpfgosaXazF9aHTtTN0UZAsUONJOUN2AhGulTXmZg2iUSm00YZLSP3mC"
-);
+const stripePromise = loadStripe("pk_test_TYooMQauvdEDq54NiTphI7jx");
 
 const Complete = () => {
     const [status, setStatus] = useState(null);
@@ -20,7 +16,10 @@ const Complete = () => {
     const [iconColor, setIconColor] = useState("");
     const [icon, setIcon] = useState("");
     const [text, setText] = useState("");
-
+    console.log(status);
+    console.log(paymentStatus);
+    console.log(paymentIntentStatus);
+    console.log(paymentIntentId);
     useEffect(() => {
         const SuccessIcon = (
             <svg
@@ -58,7 +57,7 @@ const Complete = () => {
         const queryString = window.location.search;
         const urlParams = new URLSearchParams(queryString);
         const sessionId = urlParams.get("session_id");
-
+        
         fetch("/user/checkoutSession/retrieve-status", {
             headers: {
                 Accept: "application/json",
@@ -69,6 +68,7 @@ const Complete = () => {
         })
             .then((res) => res.json())
             .then((data) => {
+                console.log(data.invoiceId);
                 setStatus(data.status);
                 setPaymentIntentId(data.payment_intent_id);
                 setPaymentStatus(data.payment_status);
@@ -86,35 +86,35 @@ const Complete = () => {
             });
     }, []);
     return (
-        <div id="payment-status">
-            <div id="status-icon" style={{ backgroundColor: iconColor }}>
+        <div id="payment-status" className="flex flex-col gap-5 huge-container mx-auto my-5">
+            <div id="status-icon" className="w-fit" style={{ backgroundColor: iconColor }}>
                 {icon}
             </div>
-            <h2 id="status-text">{text}</h2>
+            <p id="status-text" className="font-mer text-h2 text-[--text-default]">{text}</p>
             <div id="details-table">
-                <table>
+                <table className="border-separate border-spacing-y-3">
                     <tbody>
-                        <tr>
-                            <td class="TableLabel">Payment Intent ID</td>
-                            <td id="intent-id" class="TableContent">
+                        <tr className="shadow-sm rounded-lg">
+                            <td class="TableLabel" className="px-4 py-2 font-mer text-body">Payment Intent ID</td>
+                            <td id="intent-id" class="TableContent" className="px-4 py-2 leading-normal tracking-normal font-normal">
                                 {paymentIntentId}
                             </td>
                         </tr>
                         <tr>
-                            <td class="TableLabel">Status</td>
-                            <td id="intent-status" class="TableContent">
+                            <td class="TableLabel" className="font-mer text-body px-4 py-2">Status</td>
+                            <td id="intent-status" class="TableContent" className="font-mer text-body px-4 py-2">
                                 {status}
                             </td>
                         </tr>
                         <tr>
-                            <td class="TableLabel">Payment Status</td>
-                            <td id="session-status" class="TableContent">
+                            <td class="TableLabel" className="font-mer text-body px-4 py-2">Payment Status</td>
+                            <td id="session-status" class="TableContent" className="font-mer text-body px-4 py-2">
                                 {paymentStatus}
                             </td>
                         </tr>
                         <tr>
-                            <td class="TableLabel">Payment Intent Status</td>
-                            <td id="payment-intent-status" class="TableContent">
+                            <td class="TableLabel" className="font-mer text-body px-4 py-2">Payment Intent Status</td>
+                            <td id="payment-intent-status" class="TableContent" className="font-mer text-body px-4 py-2">
                                 {paymentIntentStatus}
                             </td>
                         </tr>
@@ -156,24 +156,40 @@ const Complete = () => {
     return null;
 };
 
-const App = () => {
-    const promise = useMemo(() => {
-        return createInvoice()
-            .then((invoice) => createSession(invoice.id))
-            .then((clientSecret) => clientSecret);
-    });
-
+export default function App() {
+    // const promise = useMemo(() => {
+    //     return createInvoice()
+    //         .then((invoice) => createSession(invoice.id))
+    //         .then((clientSecret) => {
+    //             return clientSecret});
+    // }, []);
     const appearance = {
         theme: "stripe",
+
+        variables: {
+            colorPrimary: "#ee76ad",
+            colorText: "#8c5a4d",
+            
+            borderRadius: "16px",
+        },
+
     };
 
     return (
         <div className="App">
-            <Router>
+            <Router basename="/user/checkoutSession">
                 <CheckoutProvider
                     stripe={stripePromise}
                     options={{
-                        fetchClientSecret: () => promise,
+                        fetchClientSecret: async () => {
+                            const invoice = await createInvoice();
+
+                            const clientSecret = await createSession(
+                                invoice.id
+                            );
+
+                            return clientSecret;
+                        },
                         elementsOptions: { appearance },
                     }}
                 >
@@ -185,4 +201,4 @@ const App = () => {
             </Router>
         </div>
     );
-};
+}

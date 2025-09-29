@@ -13,7 +13,7 @@ export default function ProductInfoPage({ children, className, ...props }) {
             <div className="huge-container mx-auto min-h-[20dvh]">
                 <div className="flex flex-col mt-3">
                     <Breadcrumbs></Breadcrumbs>
-                    <div className="flex flex-col md:flex-row  gap-5">
+                    <div className="flex flex-col md:flex-row gap-5 my-5">
                         <div className="w-full md:w-1/2">
                             <ProductImages></ProductImages>
                         </div>

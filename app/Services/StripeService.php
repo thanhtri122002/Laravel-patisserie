@@ -16,7 +16,10 @@ class StripeService extends Service
      */
     public function  __construct()
     {
-        $this->stripe = new StripeClient(config('services.stripe.secret'));
+        $this->stripe = new StripeClient([
+            'api_key'=> config('services.stripe.secret'),
+            "stripe_version" => "2025-08-27.basil"    
+        ]);
     }
 
     /**
@@ -58,7 +61,7 @@ class StripeService extends Service
             ]);
             $stripePrice = $this->stripe->prices->create([
 
-                'unit_amount' => $product->price,
+                'unit_amount' => intval($product->price),
                 'currency' => 'vnd',
                 'product' => $stripeProduct->id
             ]);
@@ -129,6 +132,7 @@ class StripeService extends Service
     public function getLineItems(Invoice $invoice)
     {
         $invoiceDetails = $invoice->productDetails;
+        
         $lineItem = [];
         foreach($invoiceDetails as $detail) {
             
@@ -142,32 +146,36 @@ class StripeService extends Service
     }
 
     public function checkoutSession(Invoice $invoice) 
-    {
+    {   
+        $lineItem = $this->getLineItems($invoice);
         $checkoutSession = $this->stripe->checkout->sessions->create([
             'ui_mode' => 'custom',
-            'line_items' => $this->getLineItems($invoice),
+            'line_items' => $lineItem,
             'phone_number_collection' => [
                 'enabled' => true,
             ],
             'customer_email' => $this->getUser()->email,
             'billing_address_collection' => 'required',
             'mode' => 'payment',
-            'return_url' => route('checkout.complete') . '?session_id={CHECKOUT_SESSION_ID}',
+            'metadata' => [
+                'invoice_id' => $invoice->id
+            ],
+            'return_url' => url('/user/checkoutSession/complete') . '?session_id={CHECKOUT_SESSION_ID}',
         ]);
-
+        
         return $checkoutSession->client_secret;
     }
 
     public function retrieveSessionStatus($session_id) {
         $session = $this->stripe->checkout->sessions->retrieve($session_id, ['expand' => ['payment_intent']]);
-
+        $lineItems = $this->stripe->checkout->sessions->allLineItems($session_id)->data;
         return [
-            'status' => 'open',
-            'payment_status' => 'unpaid',
-            'payment_intent_id' => 'pi_12345',
-            'payment_intent_status' => 'requires_payment_method',
+            'status' => $session->status,
+            'payment_status' => $session->payment_status,
+            'payment_intent_id' => $session->payment_intent->id,
+            'payment_intent_status' => $session->payment_intent->status,
+            'items' => $lineItems,
+            'invoiceId' => $session->metadata->invoice_id
         ];
     }
-
-
 }

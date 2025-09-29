@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\User;
 
 use App\Helpers\Response;
+use App\Http\Requests\user\ChangeInvoiceStatus;
 use App\Services\user\InvoiceService;
 use Illuminate\Http\Request;
 
@@ -28,13 +29,20 @@ class InvoiceController extends BaseController
         return $invoice;
     }
 
+    public function updateInvoiceStatus(ChangeInvoiceStatus $request)
+    {
+        $validated = $request->validated();
+        $updatedInvoice = $this->invoiceService->updateInvoiceStatus($validated);
+
+        return $this->sendSuccessResponse($updatedInvoice, "Updated invoice status successfully", Response::OK);
+    }
+
     public function list(Request $request)
     {
         $search = $request->input('search');
         $perPage = $request->get('per_page', 10);
-        $invoices = $this->invoiceService->withUser($user)->list($search, $perPage);
+        $invoices = $this->invoiceService->withUser($this->getUser())->list($search, $perPage);
 
         return $this->sendSuccessResponse($invoices, "Retrieved invoices successfully", Response::OK);
-        
     }
 }
