@@ -14,16 +14,16 @@ return [
     |
     */
 
-    'postmark' => [
-        'token' => env('POSTMARK_TOKEN'),
-    ],
+    // 'postmark' => [
+    //     'token' => env('POSTMARK_TOKEN'),
+    // ],
 
     'ses' => [
         'key' => env('AWS_ACCESS_KEY_ID'),
         'secret' => env('AWS_SECRET_ACCESS_KEY'),
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
-
+    
     'resend' => [
         'key' => env('RESEND_KEY'),
     ],
@@ -35,15 +35,19 @@ return [
         ],
     ],
 
-    'maigun' => [
-        'domain' => env("MAILGUN_DOMAIN"),
-        'secret' => env("MAILGUN_SECRET"),
-        'endpoint' => env("MAILGUN_ENDPOINT", 'api.mailgun.net'),
-        'scheme' => 'https',
-    ],
+    // 'mailgun' => [
+    //     'domain' => env("MAILGUN_DOMAIN"),
+    //     'secret' => env("MAILGUN_SECRET"),
+    //     'endpoint' => env("MAILGUN_ENDPOINT", 'api.mailgun.net'),
+    //     'scheme' => 'https',
+    // ],
     'stripe' => [
         'secret' => env("STRIPE_SECRET"),
-        'public' => env('STRIPE_PUBLIC')
+        'public' => env('STRIPE_PUBLIC'),
+        'webhook_secret' => env("STRIPE_WEBHOOK_SECRET")
     ],
+    // 'postmark' => [
+    //     'token' => env("POSTMARK_TOKEN")
+    // ]
 
 ];

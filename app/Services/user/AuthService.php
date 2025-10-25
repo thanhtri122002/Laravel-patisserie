@@ -1,8 +1,8 @@
 <?php
 namespace App\Services\user;
 
+use App\Events\UserLogin;
 use App\Http\Requests\user\Auth\LoginRequest;
-use App\Http\Requests\user\Auth\RegisterRequest;
 use App\Models\User;
 use App\Services\Service;
 use Illuminate\Http\Request;
@@ -14,36 +14,31 @@ class AuthService extends Service {
     public function login(LoginRequest $request) {
         $credentials = $request->validated();
         $user = User::where('email', $credentials['email'])->first();
-        if (!$user) {
-            dd('❌ User not found');
-        }
-
-        // Step 3: Check password
-        if (!\Hash::check($credentials['password'], $user->password)) {
-            dd('❌ Password does not match');
-        }
-            
+        if (!$user) return false;
+        
+        if (!Hash::check($credentials['password'], $user->password)) return false;
+        
         if (Auth::guard('web')->attempt($credentials)) {
-            $request->session()->regenerate();
 
+            $request->session()->regenerate();
+            UserLogin::dispatch(Auth::guard('web')->user());
+            
             return true;
         }
-        return false;
-       
     }
 
     public function logout(Request $request) {
         Auth::guard('web')->logout();
         $request->session()->regenerateToken();
         $request->session()->invalidate();
-        
     }
 
-    public function register(RegisterRequest $request) {
-
-        $validate = $request->validated();
+    public function register($validate) 
+    {
         $validate['password'] = Hash::make($validate['password']);
-        User::create($validate);
-
+        $user = User::create($validate);
+        Auth::login($user);
+        
+        return $user;
     }
 }

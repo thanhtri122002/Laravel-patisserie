@@ -1,26 +1,31 @@
 <?php
+
 namespace App\Services\user;
 
+use App\Events\UpdateCartProductDetailStock;
+use App\Jobs\UpdateProductStock;
 use App\Models\Cart;
 use App\Models\Product;
-use App\Models\ProductDetail;
+use App\Services\admin\ProductService;
 use App\Services\Service;
-
-class CartService extends Service 
-{   
+class CartService extends Service
+{
     /**
      * @var \App\Services\user\ProductDetailService
      */
-    protected $productDetailService ;
-    
+    protected $productDetailService;
+    protected $productService;
+    protected $product;
+
     /**
      * @var App\Services\user\InvoiceService
      */
     protected $invoiceService;
 
-    public function __construct(ProductDetailService $productDetailService)
-    {   
+    public function __construct(ProductDetailService $productDetailService, ProductService $productService)
+    {
         $this->productDetailService = $productDetailService;
+        $this->productService = $productService;
     }
 
     /**
@@ -41,19 +46,18 @@ class CartService extends Service
      * @return \App\Models\Cart
      */
     public function getOrCreateCart()
-    {   
+    {
         $userId = $this->getUserId();
-        
+
         $cart = Cart::where('user_id', $userId)->first();
-        
+
         if (!$cart) {
             $cart = Cart::create([
-                        'user_id' => $userId
-                        ,'cost' => 0
-                    ]);
+                'user_id' => $userId,
+                'cost' => 0
+            ]);
         }
         return $cart;
- 
     }
     /**
      * Get a productDetail
@@ -72,6 +76,13 @@ class CartService extends Service
         return $productDetail;
     }
 
+    public function isProductInCart($cart, $productId)
+    {
+        $isExists = $cart->productDetails()->where('product_id', $productId)->exists();
+
+        return $isExists;
+    }
+
     /**
      * Get all the product details in the cart
      * 
@@ -84,9 +95,9 @@ class CartService extends Service
     public function cartDetail()
     {
         $cart = $this->getOrCreateCart();
-        $detail['cart'] = $cart->productDetails()->with('product.productImages')->get();
+        $detail['cart'] = $cart->productDetails()->with(['product.productImages', 'product.category'])->get();
         $detail['total'] = $this->getCartCost();
-        
+
         return $detail;
     }
     /**
@@ -106,18 +117,26 @@ class CartService extends Service
     {
         $cart = $this->getOrCreateCart();
         $data['cart_id'] = $cart->id;
-        $data['mode'] = 'relative';
+        $product = $this->productService->getProduct($data['product_id']);
 
-        $productDetail = ProductDetail::where('product_id', $data['product_id'])->first();
+        $isProductinCart = $this->isProductInCart($cart, $data['product_id']);
+
+        if ($isProductinCart) {
+            $productDetail = $cart->productDetails()->where('product_id', $data['product_id'])->first();
+            $data['mode'] = 'relative';
+            
+            $productDetail = $this->update($data, $productDetail->id);
+        } else {
+            if ($product && $product->stock >= 1) {
+                $productDetail = $this->productDetailService->create($data);
+
+                if ($productDetail->wasRecentlyCreated) {
+
+                    UpdateCartProductDetailStock::dispatch($productDetail, 1);
+                }
+            }
+        }
         
-        if(!$productDetail){
-            $productDetail = $this->productDetailService->create($data); 
-        }
-        elseif ($productDetail){
-            $productDetail = $this->productDetailService->update($data, $productDetail);
-
-        }
-
         return $productDetail;
     }
 
@@ -126,24 +145,16 @@ class CartService extends Service
      * 
      * First get all the productDetails in the cart then calculate the total cost of the cart
      * then create the invoice instance for the cart
-     * 
-     * The expected keys in the $data array are:
-     *  - phone_number: string
-     *  - address: string
-     *  - email: string
-     * 
-     * @param array $data: the data containing 
-     *                    
+     *                   
      * @return \App\Models\Invoice
      */
-    public function submitCart($data)
-    {   
-        
-        $productInCart = $this->cartDetail();
+    public function submitCart()
+    {
+        $cartDetail = $this->cartDetail();
         $user = $this->getUser();
         $data['cost'] = $this->getCartCost();
-        $invoice = InvoiceService::getInstance()->withUser($user)->makeInvoice($data, $productInCart);
-        
+        $invoice = InvoiceService::getInstance()->withUser($user)->makeInvoice($data, $cartDetail['cart']);
+
         return $invoice;
     }
     /**
@@ -158,10 +169,31 @@ class CartService extends Service
      * @return \App\Models\ProductDetail
      */
     public function update($data, $productDetailId)
-    {   
+    {
         $productDetail = $this->getProductDetail($productDetailId);
-        $productDetail = $this->productDetailService->update($data, $productDetail);
+        $product = $this->productService::getInstance()->getProduct($productDetail->product_id);
         
+        if ($product && $product->stock >= $data['quantity']) {
+
+            if ($data['mode'] == "relative") {
+
+                [$productDetail, $data['quantity']] = $this->productDetailService->updateStockRelative($data, $productDetail);
+                
+                if ($productDetail->wasChanged()) {
+                    
+                    UpdateCartProductDetailStock::dispatch($productDetail, $data['quantity']);
+                }
+            } elseif ($data['mode'] == 'absolute') {
+
+                [$productDetail, $delta] = $this->productDetailService->updateStockAbsolute($data, $productDetail);
+
+                if ($productDetail->wasChanged()) {
+                    
+                    UpdateCartProductDetailStock::dispatch($productDetail, $delta);
+                }
+            }
+        }
+
         return $productDetail;
     }
 
@@ -173,10 +205,10 @@ class CartService extends Service
     public function clearCart()
     {
         $productsInCart = $this->cartDetail();
-        foreach($productsInCart as $detail) {
+        foreach ($productsInCart as $detail) {
             $detail->delete();
         }
-        
+
         return true;
     }
 
@@ -191,8 +223,12 @@ class CartService extends Service
     public function deleteProduct($productDetailId)
     {
         $productDetail = $this->getProductDetail($productDetailId);
-        $this->productDetailService->delete($productDetail);
         
+        $hasBeenDel = $this->productDetailService->delete($productDetail);
+        if ($hasBeenDel) {
+            $quantity = -$productDetail->quantity;
+            UpdateCartProductDetailStock::dispatch($productDetail, $quantity);
+        }
         return true;
     }
 
@@ -207,11 +243,11 @@ class CartService extends Service
     public function getCartCost()
     {
         $cart = $this->getOrCreateCart();
-        
+
         $productDetails = $cart->productDetails;
         $cost = 0;
 
-        foreach($productDetails as $detail) {
+        foreach ($productDetails as $detail) {
             $cost += $detail->calculateTotal();
         }
 

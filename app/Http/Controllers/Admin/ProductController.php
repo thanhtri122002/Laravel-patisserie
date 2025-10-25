@@ -7,6 +7,7 @@ use App\Http\Controllers\Admin\BaseController;
 use App\Http\Requests\Admin\ProductRequest;
 use App\Services\admin\ProductService;
 use Illuminate\Http\Request;
+use Livewire\Attributes\Validate;
 
 class ProductController extends BaseController
 {   
@@ -21,9 +22,9 @@ class ProductController extends BaseController
      * @param \App\Services\admin\ProductService $service The service instance responsible 
      * for the product-related logic
      */
-    public function __construct(ProductService $service){
+    public function __construct(ProductService $service)
+    {
         $this->service = $service;
-        
     }
 
     /**
@@ -34,6 +35,15 @@ class ProductController extends BaseController
     public function getUser(){
 
         return $this->guard()->user();
+    }
+
+    public function productIndex(ProductRequest $request)
+    {
+        $data = $request->validated();
+        $perPage = $data['per_page'] ?? config('pagination.default');
+        $listProducts = $this->service->productIndex($data, $perPage);
+
+        return $this->sendSuccessResponse($listProducts, "Retrieved products successfully", Response::OK);
     }
     
     /**
@@ -49,6 +59,7 @@ class ProductController extends BaseController
         $categoryId = $validate['category_id'] ?? [];
         $perPage = $validate['per_page'] ?? config('pagination.default');
         $user = $this->getUser();
+
         $listProducts = $this->service->withUser($user)->index($categoryId, $perPage);
         
         return $this->sendSuccessResponse($listProducts, null, Response::OK);
@@ -64,8 +75,7 @@ class ProductController extends BaseController
      */
     public function detail($id)
     {
-        $user = $this->getUser();
-        $detailResult = $this->service->withUser($user)->detail($id);
+        $detailResult = $this->service->detail($id);
 
         return $this->sendSuccessResponse($detailResult, "retrived details success", Response::OK);
     }
@@ -95,5 +105,64 @@ class ProductController extends BaseController
         $deleteResult = $this->service->withUser($user)->delete($id);
 
         return $this->sendSuccessResponse($deleteResult, "delete success", Response::OK);
+    }
+
+    public function getNewProduct($limit)
+    {
+        $result = $this->service->getNewProduct($limit);
+
+        return $this->sendSuccessResponse($result, "Retrieve data success", Response::OK);
+    }
+
+    public function getProductsInPriceRange(Request $request)
+    {
+        $validated = $request->validate([
+            'price_limit' => ['required', 'numeric', 'min:0'],
+            'order' => ['sometimes', 'in:asc,desc'],
+        ]);
+
+        $priceLimit = $validated['price_limit'];
+        $order = $validated['order'] ?? 'asc';
+
+        $result =  $this->service->getProductsInPriceRange($priceLimit, $order);
+
+        return $this->sendSuccessResponse($result, 'Retrieve data success', Response::OK);
+    }
+
+    public function getTopSellingProducts($limit)
+    {
+        $result = $this->service->getTheTopSellingProduct($limit);
+
+        return $this->sendSuccessResponse($result, 'Retrieve data success', Response::OK);
+    }
+
+    public function getMostProfitableProducts(Request $request)
+    {   
+        $validated = $request->validate([
+            'limit' => ['required', 'integer'],
+        ]);
+        $limit = $validated['limit'];
+        $result = $this->service->getMostProfitableProducts($limit);
+
+        return $this->sendSuccessResponse($result, 'Retrieve data success', Response::OK);
+    }
+
+    public function getCurrentMonthNewProduct()
+    {
+        $result = $this->service->getCurrentMonthNewProduct();
+
+        return $this->sendSuccessResponse($result, 'Retrieve data success', Response::OK);
+    }
+
+    public function getOutOfStockProduct()
+    {
+        $result = $this->service->getOutOfStockProduct();
+    }
+
+    public function getDiscountProduct()
+    {
+        $result = $this->service->getDiscountProduct();
+
+        return $this->sendSuccessResponse($result, 'Retrieve data success', Response::OK);
     }
 }

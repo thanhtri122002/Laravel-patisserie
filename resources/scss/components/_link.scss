@@ -1,0 +1,18 @@
+.custom-link {
+    display: inline-block;
+    padding: 0.25rem 0.5rem;
+    color: var(--Pink-Primary);
+    text-decoration: underline;
+    transition: color 0.2s ease, background-color 0.2s ease;
+    
+    &:hover {
+        color: var(--Dusty-Mauve);
+        background-color: var(--Gray-Tertiary);
+        text-decoration: none;
+    }
+
+    &:focus {
+        outline: none;
+        box-shadow: 0 0 0 2px var(--btn-primary-hover), 0 0 0 4px var(--Gray-Secondary);
+    }
+}

@@ -24,16 +24,18 @@ class ProductRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'category_id' => ['sometimes' ,'array'],
-            'category_id.*' => ['integer', new CategoryExists()],  // Validate each item in the array
+            'category_ids' => ['sometimes' ,'array'],
+            'category_ids.*' => ['integer', new CategoryExists()],  // Validate each item in the array
             'name' => 'sometimes|string',
             'id' => ['sometimes', 'array'],
             'id.*' => ['integer', new ProductExists()],
-            'description' => 'string',
+            'description' => 'sometimes|string',
             'price' => 'sometimes|numeric|min:0',
             'stock' => 'sometimes|integer|min:0',
-            'per_page' => 'nullable|integer|min:1'
-
+            'per_page' => 'nullable|integer|min:1',
+            'min_price'     => 'sometimes|numeric|min:0',
+            'max_price'     => 'sometimes|numeric|min:0',      
+            'input_search'  => 'sometimes|string'
         ];
     }
 }

@@ -3,6 +3,7 @@
 namespace App\Listeners;
 
 use App\Events\PriceChange;
+use App\Jobs\UpdatedProductDetailPrice;
 use App\Models\ProductDetail;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
@@ -19,23 +20,11 @@ class ChangeCartProductDetailPrice implements ShouldQueue
         //
     }
 
-    private function getProductDetail($id)
-    {
-        return ProductDetail::where('product_id', $id)->lockForUpdate()->get();
-    }
     /**
      * Handle the event.
      */
     public function handle(PriceChange $event): void
     {
-        //
-        DB::transaction(function() use ($event) {
-            $productDetails = $this->getProductDetail($event->product->id);
-
-            foreach ($productDetails as $detail) {
-                $detail->update(['cost' => $detail->calculateTotal()]);
-            }
-        });
-       
+        UpdatedProductDetailPrice::dispatch($event->product->id, $event->user->id);
     }
 }

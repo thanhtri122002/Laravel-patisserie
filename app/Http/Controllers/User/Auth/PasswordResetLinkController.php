@@ -12,15 +12,13 @@ class PasswordResetLinkController extends BaseController
 {   
     public function show()
     {
-        //$showForm = PasswordResetLinkService::getInstance()->show();
-        //return $showForm;
+        PasswordResetLinkService::getInstance()->show(); 
     }
 
     public function handle(SendResetLinkRequest $request) 
     {   
         $validated = $request->validated();
-        ;
-        $email = $request->input('email');
+        $email = $validated->input('email');
         $sendLink = PasswordResetLinkService::getInstance()->handle($email, $this->broker);
 
         return $sendLink;

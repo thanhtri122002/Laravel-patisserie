@@ -1,104 +1,176 @@
-import { useState, useEffect } from "react"
+import { useState } from "react";
 import { ShoppingBasket } from "lucide-react";
 import { useCart } from "../context/CartContext";
-import Modal from "../Components/MyCustomModal";
+import Modal from "./Modal";
 import CartProductDetail from "./CartProductDetail";
- 
+import { motion, AnimatePresence } from "motion/react";
+import { Minimize2 } from "lucide-react";
+import PrimaryButton from "../Components/PrimaryButton";
+import { createInvoice } from "../Services/cart.service";
+
 /**
- * A Cart button which is fixed in the bottom right of pages which hold the chosen products of the authenticated user
- * 
- * A Cart Button intitially set as a rounded button with the icon cart in its
- * If there is not purchased product the cart can't be clicked 
- * Else if there is atleast a product, there will be a small badge carry the number of product detail 
- * + the user can clicked to the button that will expand the cart button into a region that will contain 
- * all products 
- * 
- * @component 
- * 
- * @return {JSX.Element} Rendered CartButton 
+ * `CartButton` Component
+ *
+ * A responsive, animated cart button component that allows users to view their selected products
+ * and total cost. This button is fixed in the bottom right corner of the page and provides an
+ * expandable cart interface for both desktop and mobile views.
+ *
+ * ## Features:
+ * - Displays a floating cart button with a badge showing the number of items.
+ * - Opens an animated modal (on mobile) or a popover section (on desktop) containing cart items.
+ * - Shows the total cost of all cart items formatted in Vietnamese Dong (VND).
+ * - Uses `framer-motion` for smooth entry and exit animations.
+ * - Hides the cart button if there are no items in the cart.
+ *
+ * ## Behavior:
+ * - When `cartItems` is empty, the cart button is not shown.
+ * - When clicked, if items exist, toggles visibility of the full cart view.
+ * - Desktop and mobile views are rendered separately using conditional rendering.
+ *
+ * ## Dependencies:
+ * - `lucide-react`: Icon rendering
+ * - `framer-motion`: Animation for showing/hiding the cart
+ * - `useCart`: Custom hook from `CartContext` providing `cartItems` and `total`
+ * - `Modal`: Custom modal component for mobile layout
+ * - `CartProductDetail`: Component to display individual product in cart
+ *
+ * @component
+ * @example
+ * return (
+ *   <CartButton />
+ * )
+ *
+ * @returns {JSX.Element} A rendered, animated cart button with expandable view
  */
-export default function CartButton () {
-    const [ isOpen, setIsOpen ] = useState(false);
-    const { cartItems, total, fetchCart } = useCart();
-    
-    const formatedTotal = total.toLocaleString('vi-VN', {
-        style: 'currency',
-        currency: 'VND'
-    })
+export default function CartButton() {
+    const [isOpen, setIsOpen] = useState(false);
+    const { cartItems, total } = useCart();
+
+    const formatedTotal = total.toLocaleString("vi-VN", {
+        style: "currency",
+        currency: "VND",
+    });
 
     const toggleCart = () => {
         if (cartItems.length > 0) {
-            setIsOpen(prev => !prev);
+            setIsOpen((prev) => !prev);
         }
-    }
+    };
 
-    useEffect(() => {
-        fetchCart();
-    }, []);
-    console.log(cartItems);
+    const handleCheckout = async () => {
+        try {
+            const invoice = await createInvoice();
+            sessionStorage.setItem('invoice_id', invoice.id);
+            
+            window.location.href = `/user/checkoutSession/checkout?invoice_id=${invoice.id}`;
+        } catch (err) {
+            console.error("Failed to create invoice:", err);
+        }
+    };
+
+    if (cartItems.length === 0 ) return (
+        <motion.button
+            layoutId="cart"
+            className={`cart-button ${cartItems.length === 0 ? 'cursor-not-allowed' : ''}`}
+            onClick={cartItems.length > 0 ? toggleCart : undefined}
+        >
+            <div className="relative inset-0">
+                <ShoppingBasket />
+                <span className="cart-badge">{cartItems.length}</span>
+            </div>
+        </motion.button>
+    );
 
     return (
         <>
-            {cartItems.length > 0 ? (
-                isOpen ? (
-                    <>
-                        <div className="hidden md:block">
-                            <div className={`cart-content ${isOpen ? "open" : ""}`}>
-                                <button className="close-cart" onClick={toggleCart}>X</button>
-                                {cartItems.map((cartItem) => (
-                                    <CartProductDetail cartItemData={cartItem} key={cartItem.id}></CartProductDetail>
-                                ))}
-                                <p className="font-mer text-body self-end text-right">Total: {formatedTotal}</p>
-                                <button className=""></button>
-                            </div>
-                            
-                        </div>
-                        <div className="block md:hidden">
-                                <Modal open={isOpen} setIsOpen={setIsOpen} toggleOpen={toggleCart}>
-                                    <Modal.Content className="z-20flex items-center justify-center">
-                                        <button className="close-cart" onClick={toggleCart}>X</button>
-                                        {cartItems.map((cartItem) => (
-                                            <CartProductDetail cartItemData={cartItem} key={cartItem.id}></CartProductDetail>
-                                        ))}
-                                        <p className="font-mer text-body self-end text-right">Total: {formatedTotal}</p>
-                                    </Modal.Content>
-                                </Modal>
-                        </div>
-                    </>
+            {!isOpen && (
+                <motion.button
                     
-                    
-                ) : (
-                    <button className="cart-button" onClick={toggleCart}>
-                        <div className="relative inset-0">
+                    className="cart-button"
+                    initial={{ opacity: 0, scale: 0.8 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0, scale: 0.8 }}
+                    transition={{ duration: 0.3, ease: "easeInOut" }}
+                    onClick={toggleCart}
+                >
+                    <div className="relative inset-0">
                         <ShoppingBasket className="" />
                         <span className="cart-badge">{cartItems.length}</span>
                     </div>
-                </button>
-                )
-            ) : null}
+                </motion.button>
+            )}
+
+            <AnimatePresence>
+                {isOpen && (
+                    <div className="hidden md:block">
+                        <motion.div
+                            key="desktop-cart"
+                            initial={{ opacity: 0, scale: 0 }}
+                            animate={{ opacity: 1, scale: 1 }}
+                            exit={{ opacity: 0, scale: 0 }}
+                            transition={{ duration: 0.3, ease: "easeInOut" }}
+                            className="cart-content"
+                        >
+                            <div className="flex justify-between item-center mb-5">
+                                <p className="font-mer text-h3">
+                                    Shopping Cart
+                                </p>
+                                <button
+                                    className="close-cart "
+                                    onClick={toggleCart}
+                                >
+                                    <Minimize2 />
+                                </button>
+                            </div>
+
+                            {cartItems.map((cartItem) => (
+                                <CartProductDetail
+                                    cartItemData={cartItem}
+                                    key={cartItem.id}
+                                ></CartProductDetail>
+                            ))}
+                            <p className="font-mer text-body self-end text-right">
+                                Total: {formatedTotal}
+                            </p>
+                            <PrimaryButton onClick={handleCheckout}>
+                                <p className="font-mer text-body text-center">
+                                    Submit the Cart
+                                </p>
+                            </PrimaryButton>
+                        </motion.div>
+                    </div>
+                )}
+            </AnimatePresence>
+
+            <AnimatePresence>
+                <div className="block md:hidden">
+                    <Modal
+                        open={isOpen}
+                        setIsOpen={setIsOpen}
+                        toggleOpen={toggleCart}
+                    >
+                        <Modal.Content
+                            initial={{ y: "100%", opacity: 0 }}
+                            animate={{ y: 0, opacity: 1 }}
+                            exit={{ y: "100%", opacity: 0 }}
+                        >
+                            <button
+                                className="close-cart"
+                                onClick={toggleCart}
+                            ></button>
+                            {cartItems.map((cartItem) => (
+                                <CartProductDetail
+                                    cartItemData={cartItem}
+                                    key={cartItem.id}
+                                />
+                            ))}
+                            <p className="font-mer text-body self-end text-right">
+                                Total: {formatedTotal}
+                            </p>
+                        </Modal.Content>
+                    </Modal>
+                </div>
+            </AnimatePresence>
         </>
     );
 }
-
-/**
- * 
- * <>
-            {isOpen ? (
-                <div className="cart-content open">
-                    <button className="close-cart" onClick={toggleCart}>X</button>
-                    
-                </div>
-            ) : (
-                <button className="cart-button" onClick={toggleCart}>
-                    <div className="relative inset-0">
-                        {cartItems.length > 0 && (
-                            <>
-                            <ShoppingBasket></ShoppingBasket>
-                            <span className="cart-badge">{cartItems.length}</span>
-                            </>
-                        )}
-                    </div>
-                </button>
-            )}
-        </>
- */

@@ -1,15 +1,12 @@
 <?php 
 namespace App\Services;
 
+use App\Events\PaymentIntentSuccessEvent;
 use App\Models\Invoice;
 use App\Models\Product;
 use App\Models\User;
-use Illuminate\Http\Request;
-use Laravel\Cashier\Cashier;
 use Stripe\Customer;
-use Stripe\Price;
-use Stripe\Product as StripeProduct;
-use Stripe\Service\InvoiceService;
+use Stripe\PaymentIntent;
 use Stripe\StripeClient;
 
 class StripeService extends Service
@@ -21,7 +18,10 @@ class StripeService extends Service
      */
     public function  __construct()
     {
-        $this->stripe = new StripeClient(config('services.stripe.secret'));
+        $this->stripe = new StripeClient([
+            'api_key'=> config('services.stripe.secret'),
+            "stripe_version" => "2025-08-27.basil"    
+        ]);
     }
 
     /**
@@ -63,7 +63,7 @@ class StripeService extends Service
             ]);
             $stripePrice = $this->stripe->prices->create([
 
-                'unit_amount' => $product->price,
+                'unit_amount' => intval($product->price),
                 'currency' => 'vnd',
                 'product' => $stripeProduct->id
             ]);
@@ -134,6 +134,7 @@ class StripeService extends Service
     public function getLineItems(Invoice $invoice)
     {
         $invoiceDetails = $invoice->productDetails;
+        
         $lineItem = [];
         foreach($invoiceDetails as $detail) {
             
@@ -146,48 +147,42 @@ class StripeService extends Service
         return $lineItem;
     }
 
-    public function checkoutSession(Invoice $invoice)
+    public function checkoutSession(Invoice $invoice) 
     {   
+        $lineItem = $this->getLineItems($invoice);
+       
+        $checkoutSession = $this->stripe->checkout->sessions->create([
+            'ui_mode' => 'custom',
+            'line_items' => $lineItem,
+            'phone_number_collection' => [
+                'enabled' => true,
+            ],
+            'customer_email' => $this->getUser()->email,
+            'billing_address_collection' => 'required',
+            'mode' => 'payment',
+            'metadata' => [
+                'invoice_id' => $invoice->id
+            ],
+            'return_url' => url('/user/checkoutSession/complete') . '?session_id={CHECKOUT_SESSION_ID}',
+        ]);
         
-        $checkoutSession = $this->stripe->checkout->sessions->create([
-            
-            'line_items' => $this->getLineItems($invoice),
-            'mode' => 'payment',
-            'success_url' => route('user.cart.getCart') . '?success=true',
-            'cancel_url' => route('user.cart.getCart') . '?canceled=true',
-        ]);
-
-        return $checkoutSession->url;
-    }
-
-    public function embededCheckOutForm(Invoice $invoice) 
-    {
-        $checkoutSession = $this->stripe->checkout->sessions->create([
-            'line_items' => $this->getLineItems($invoice),
-            'ui_mode' => 'embedded',
-            'mode' => 'payment',
-            'return_url' => route('user.embeddedpayment.embeddedpayment.return') . '?session_id={CHECKOUT_SESSION_ID}'
-
-        ]);
-
         return $checkoutSession->client_secret;
     }
 
-    public function retrieveStatus($sessionId)
+    public function retrieveSessionStatus($session_id) 
     {
-        try {
-            
-            $session = $this->stripe->checkout->sessions->retrieve($sessionId);
-            
-            return [
-                'status' => $session->status,
-                'customer_email' => $session->customer_email
-            ];
-
-        } catch(\Exception $e) {
-            return $e->getMessage();
-        }
+        $session = $this->stripe->checkout->sessions->retrieve($session_id, ['expand' => ['payment_intent']]);
+        $lineItems = $this->stripe->checkout->sessions->allLineItems($session_id)->data;
+        $invoiceId = $session->metadata->invoice_id;
+        $paymentIntentStatus = $session->payment_intent->status;
+        PaymentIntentSuccessEvent::dispatch($paymentIntentStatus, $invoiceId);
+        return [
+            'status' => $session->status,
+            'payment_status' => $session->payment_status,
+            'payment_intent_id' => $session->payment_intent->id,
+            'payment_intent_status' => $paymentIntentStatus,
+            'items' => $lineItems,
+            'invoiceId' => $invoiceId
+        ];
     }
-
-
 }

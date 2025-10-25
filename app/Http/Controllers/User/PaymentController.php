@@ -2,11 +2,10 @@
 
 namespace App\Http\Controllers\User;
 
-use App\Http\Controllers\Controller;
 use App\Services\StripeService;
 use App\Services\user\InvoiceService;
 use Illuminate\Http\Request;
-
+use App\Models\Invoice;
 class PaymentController extends BaseController
 {   
     protected $invoiceService;
@@ -24,26 +23,12 @@ class PaymentController extends BaseController
         return $this->guard()->user();
     }
 
-    public function checkout($id)
-    {
-        $user = $this->getUser();
-        
-        $invoice = $this->invoiceService->withUser($user)->detail($id);
-        
-        $checkoutUrl = $this->stripeService->withUser($user)->checkoutSession($invoice);
-
-        return response()->json([
-            'message' => 'checkout session created successfully',
-            'url' => $checkoutUrl,
-        ]);
-    }
-
-    public function embeddedCheckout($id)
+    public function checkoutSession($id)
     {
         $user = $this->getUser();
         $invoice = $this->invoiceService->withUser($user)->detail($id);
-
-        $clientSecret = $this->stripeService->withUser($user)->embededCheckOutForm($invoice);
+        
+        $clientSecret = $this->stripeService->withUser($user)->checkoutSession($invoice);
         
         return response()->json(['clientSecret' => $clientSecret]);
     }
@@ -51,10 +36,8 @@ class PaymentController extends BaseController
     public function retrieveStatus(Request $request)
     {
         $user = $this->getUser();
-        $sessionId = $request->input('sessionId');
-        dd($sessionId);
-        
-        $status = $this->stripeService->withUser($user)->retrieveStatus($sessionId);
+        $session_id = $request->input('session_id');
+        $status = $this->stripeService->withUser($user)->retrieveSessionStatus($session_id);
 
         return $status;
     }

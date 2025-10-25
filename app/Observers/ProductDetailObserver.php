@@ -16,7 +16,7 @@ class ProductDetailObserver
     {
         //
         //event(new ProductPurchased($productDetail));
-        
+
     }
 
     /**
@@ -56,32 +56,19 @@ class ProductDetailObserver
      */
     public function updating(ProductDetail $productDetail): void
     {
-        if ($productDetail->invoice === null) {
-            return;
-        }
-
-        if ($productDetail->invoice->status == Invoice::PAID) {
-            throw new \Exception('you can not update the product detail of the paid invoice');
-        }
-
-        
-        
-    
     }
     /**
      * Handle the ProductDetail deleting event
      * This stops the product detail of the paid invoice from deleting 
      */
     public function deleting(ProductDetail $productDetail): void
-    {   
-        if($productDetail->invoice === null) {
+    {
+        if ($productDetail->invoice === null) {
             return;
-        }    
-
-        if($productDetail->invoice->status == Invoice::PAID) {
-            throw new \Exception('you can not delete the product detail of the paid invoice');
         }
 
-        
+        if ($productDetail->invoice->status == Invoice::PAID) {
+            throw new \Exception('you can not delete the product detail of the paid invoice');
+        }
     }
 }

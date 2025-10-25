@@ -3,11 +3,8 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Helpers\Response;
-use App\Http\Controllers\Controller;
 use App\Http\Requests\admin\ProductImageRequest;
 use App\Services\admin\ProductImageService;
-use Illuminate\Auth\Events\Validated;
-use Illuminate\Http\Request;
 
 class ProductImageController extends BaseController
 {

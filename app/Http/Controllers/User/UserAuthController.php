@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers\User;
 
+use App\Helpers\Response;
 use App\Http\Requests\user\Auth\LoginRequest;
 use App\Http\Requests\user\Auth\RegisterRequest;
 use App\Services\user\AuthService;
 use Illuminate\Http\Request;
-
 class UserAuthController extends BaseController
 {
     protected function getCurrentUser() {
@@ -14,40 +14,31 @@ class UserAuthController extends BaseController
         return $this->guard()->user();
     }
 
+    public function login(LoginRequest $request) 
+    {
+        $isSuccess = AuthService::getInstance()->login($request);
       
-    public function showProfile() {
-    
-        return 'hello';
-    }
-
-    public function showLoginForm() {
-
-        return view('user.login');
-    }
-
-    public function login(LoginRequest $request) {
-
-        
-        $success = AuthService::getInstance()->login($request);
-        if ($success) {
+        if ($isSuccess) {
             
-            return redirect('/');
+            return $this->sendSuccessResponse($isSuccess, "login successful", Response::OK);
         }
         
-        return 'false';
+        return $this->sendFailedResponse($isSuccess, "Invalid Credentials", Response::UNAUTHORIZED, null);
     }
 
-    public function register(RegisterRequest $request) {
+    public function register(RegisterRequest $request) 
+    {   
+        $validated = $request->validated();
+        $user = AuthService::getInstance()->register($validated);
         
-        AuthService::getInstance()->register($request);
-        return true;
+        return $this->sendSuccessResponse($user, 'register successfully', Response::OK);
     }
 
-    public function logout(Request $request) {
-
+    public function logout(Request $request) 
+    {
         $user = $this->getCurrentUser();
-        dd($user);
-        $logOut = AuthService::getInstance()->withUser($user)->logout($request);
-        
+        AuthService::getInstance()->withUser($user)->logout($request);
+
+        return redirect('/home');
     }
 }

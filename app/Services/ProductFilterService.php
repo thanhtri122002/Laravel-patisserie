@@ -22,20 +22,47 @@ class ProductFilterService extends Service {
                     ->get();
     }
 
+    /**
+     * Return all the products having price below the $priceLimit
+     * 
+     * @param float $priceLimt
+     * @param string $order 
+     * 
+     * @return \Illuminate\Database\Eloquent\Collection   
+     */
     public function getProductsInPriceRange($priceLimit, $order = 'asc') 
     {
         return Product::where('price' , '>', $priceLimit)
                     ->orderBy('price', $order)
                     ->get();
     }
-
+    /**
+     * Retrieve the top selling products
+     * 
+     * Return the products that have 
+     * 
+     * @param int $limit 
+     * 
+     * @return \Illuminate\Database\Eloquent\Collection 
+     */
     public function getTheTopSellingProduct($limit)
-    {
-        return Product::join('product_details', 'products.id', 'product_details.id')
-                    ->join('invoice', 'product_details.invoice_id', 'invoice.id')
-                    ->where('invoice.status', Invoice::PAID)
+    {   
+        return Product::join('product_details', 'products.id', '=', 'product_details.product_id')
+                    ->join('invoices', 'product_details.invoice_id', 'invoices.id')
+                    ->where('invoices.status', Invoice::PAID)
+                    ->select(
+                        'products.id',
+                        'products.name',
+                        'products.price',
+                        'products.description'
+                    )
                     ->selectRaw('SUM(product_details.quantity) as total_sold')
-                    ->groupBy('products.id')
+                    ->groupBy(
+                        'products.id',
+                        'products.name',
+                        'products.price',
+                        'products.description'
+                    )
                     ->orderby('total_sold', 'desc')
                     ->limit($limit)
                     ->get();
@@ -44,9 +71,10 @@ class ProductFilterService extends Service {
     public function getProductsBySearching($inputString)
     {   
         $pattern = '%' . $inputString . '%';
+
         return Product::where(function ($product)  use ($pattern) {
 
-            $product->whereLike('name',$$pattern)
+            $product->whereLike('name', $pattern)
                     ->orWhereHas('category', function ($category) use ($pattern) {
 
                         $category->whereLike('name', $pattern);
@@ -79,7 +107,7 @@ class ProductFilterService extends Service {
         return Product::where('quantity', 0)->get();
     }
 
-    public function getDiscountProduct()
+    public function getDisCountProduct()
     {
         return Product::where('discount', '>', 0.0)->get();
     }

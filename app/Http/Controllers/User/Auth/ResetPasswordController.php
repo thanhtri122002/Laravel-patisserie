@@ -30,7 +30,6 @@ class ResetPasswordController extends BaseController
         $validate = $request->validated();
         
         $resetPasswordService = ResetPasswordService::getInstance()->withUser($user)->handle($validate, $broker);
-
         
     }
 }

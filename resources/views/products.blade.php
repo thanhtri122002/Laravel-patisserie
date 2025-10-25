@@ -11,7 +11,10 @@
 @endsection
 
 @section('footer')
-    @viteReactRefresh
-    @vite(['resources/js/entries/ProductPageIndex.jsx'])
     @include('partials.footer')
 @endsection
+
+@push('scripts')
+    @viteReactRefresh
+    @vite(['resources/js/entries/ProductPageIndex.jsx'])
+@endpush

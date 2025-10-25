@@ -16,8 +16,8 @@ class Controller {
      * 
      * @return string the authentication guard name
      */
-    protected function getGuard(): string {
-        
+    protected function getGuard(): string 
+    {
         return property_exists($this, 'guard') ? $this->guard : config('auth.default.guard');
     }
 
@@ -30,8 +30,8 @@ class Controller {
      * 
      * @return \Illuminate\Contracts\Auth\Guard the authentication guard instanace
      */
-    protected function guard() {
-
+    protected function guard() 
+    {
         return Auth::guard($this->getGuard());
     }
 
@@ -46,10 +46,10 @@ class Controller {
      * @param int $status  The HTTP status code to use for the response (default: 200).
      * @param mixed $errors  The error messages to include in the response (can be array, object, etc.).
      * 
-     * @return \Illuminate\Http\JsonResponse
+     * @return \App\Helpers\Response
      */
-    protected function sendSuccessResponse($data, $message, $status, $errors = null) {
-
+    protected function sendSuccessResponse($data, $message, $status, $errors = null) 
+    {
        return Response::sendResponse($data, $message, $status, $errors);
     }
 
@@ -64,10 +64,10 @@ class Controller {
      * @param int $status          The HTTP status code (typically 400–500 range).
      * @param array $errors        List of validation or application errors.
      *
-     * @return \Illuminate\Http\JsonResponse
+     * @return \App\Helpers\Response
     */
-    protected function sendFailedResponse($data = null, $message, $status, $errors) {
-
+    protected function sendFailedResponse($data = null, $message, $status, $errors) 
+    {
         return Response::sendResponse($data, $message, $status, $errors);
     }
 
