@@ -12,5 +12,8 @@ window.Echo = new Echo({
     wssPort: import.meta.env.VITE_REVERB_PORT,  // 6001
     forceTLS: import.meta.env.VITE_REVERB_SCHEME === 'https',
     disableStats: true,
+    withCredentials: true,
 });
+
+console.log(window.Echo);
 

@@ -42,7 +42,7 @@ return [
         ],
         'admin' => [
             'driver' => 'session',
-            'provider' => 'admins', // This should reference your Admin model
+            'provider' => 'admins', 
         ],
     ],
 

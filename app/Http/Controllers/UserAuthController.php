@@ -9,16 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth; // Ensure this is included
 
 class UserAuthController extends Controller
-{
-    public function showLoginForm()
-    {
-        return view('user.login');
-    }
-    
-    public function showDasboard() {
-        return 'hello';
-    }
-    
+{   
     public function login(LoginRequest $request)
     {
         // Validate the incoming request data

@@ -20,7 +20,7 @@ class InvoiceFactory extends Factory
     public function definition(): array
     {
         return [
-            'user_id' => User::factory(),
+            'user_id' => User::count() === 0 ? User::factory() : User::inRandomOrder()->first()->id,
             'phone_number' => substr(preg_replace('/\D+/', '', $this->faker->phoneNumber()), 0, 15),
             'address' => $this->faker->address,
             'email' => $this->faker->safeEmail,
@@ -31,13 +31,14 @@ class InvoiceFactory extends Factory
                 Invoice::PAYMENT_METHOD_CASH
             ]),
             'order_code'   => 'INV-' . now()->format("Ymd") . '-' . Str::upper(Str::random(5)),
-            'cost' => $this->faker->randomFloat(2, 10, 500),
+            'cost' => $this->faker->randomFloat(2, 10000, 500000),
             'status' => $this->faker->randomElement([
                 Invoice::PENDING,
                 Invoice::UNPAID,
                 Invoice::PAID,
                 Invoice::CANCELLED
             ]),
+            'created_at' => $this->faker->dateTimeBetween('- 10 years', 'now'),
         ];
     }
 

@@ -96,7 +96,9 @@ class Product extends Model
     public function scopeGetCurrentMonthNewProducts(Builder $query): void
     {   
         $currentMonth = now()->month;
-        $query->whereMonth('created_at', $currentMonth);
+        $currentYear = now()->year;
+        $query->whereMonth('created_at', $currentMonth)
+            ->whereYear('created_at', $currentYear);
     }
 
     public function scopeGetProductsInPriceRange(Builder $query, $min, $max): void

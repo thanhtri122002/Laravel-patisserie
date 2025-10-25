@@ -6,11 +6,12 @@ use App\Models\Invoice;
 use App\Models\Product;
 use App\Services\Service;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\DB;
 
 class ProductService extends Service {
 
     
-    protected function getProduct($id) {
+    public function getProduct($id) {
 
         return Product::with(['category', 'productImages'])->findOrFail($id);
     }
@@ -33,18 +34,6 @@ class ProductService extends Service {
                 $q->whereIn('category_id', $data['category_ids'])
             )
             ->paginate($perPage);
-    }
-
-
-    public function index($categoryIds = [] ,$perPage = null) {
-
-        $query = Product::with(['category', 'productImages']);
-        
-        if(!empty($categoryIds)) {
-            $query->whereIn('category_id', $categoryIds);
-        }
-
-        return $query->paginate($perPage);
     }
 
     public function detail($id) {
@@ -123,25 +112,28 @@ class ProductService extends Service {
     public function getTheTopSellingProduct($limit)
     {   
         return Product::join('product_details', 'products.id', '=', 'product_details.product_id')
-                    ->join('invoices', 'product_details.invoice_id', 'invoices.id')
-                    ->where('invoices.status', Invoice::PAID)
-                    ->select(
-                        'products.id',
-                        'products.name',
-                        'products.price',
-                        'products.description'
-                    )
-                    ->selectRaw('SUM(product_details.quantity) as total_sold')
-                    ->groupBy(
-                        'products.id',
-                        'products.name',
-                        'products.price',
-                        'products.description'
-                    )
-                    ->orderby('total_sold', 'desc')
-                    ->limit($limit)
-                    ->get();
+            ->join('invoices', 'product_details.invoice_id', '=', 'invoices.id')
+            ->leftJoin('product_images', 'products.id', '=', 'product_images.product_id') // ✅ join images
+            ->where('invoices.status', Invoice::PAID)
+            ->select(
+                'products.id',
+                'products.name',
+                'products.price',
+                'products.description',
+                DB::raw('MIN(product_images.url) as first_image') 
+            )
+            ->selectRaw('SUM(product_details.quantity) as total_sold') 
+            ->groupBy(
+                'products.id',
+                'products.name',
+                'products.price',
+                'products.description'
+            )
+            ->orderBy('total_sold', 'desc')
+            ->limit($limit)
+            ->get();
     }
+
 
     public function getProductsBySearching($inputString)
     {   
@@ -157,16 +149,22 @@ class ProductService extends Service {
         })->get();
     }
 
-    public function getMostProfitableProduct($limit)
+    public function getMostProfitableProducts($limit)
     {
-        return Product::join('product_details', 'product.id', '=', 'product_details.product_id')
+        return $this->baseQuery()->join('product_details', 'products.id', '=', 'product_details.product_id')
                         ->join('invoices', 'product_details.invoice_id', '=', 'invoices.id')
                         ->where('invoices.status', Invoice::PAID)
+                        ->select('products.name', 'products.description')
                         ->selectRaw('SUM(product_details.cost) as total_profit')
-                        ->groupBy('product.id')
+                        ->groupBy('products.id', 'products.name', 'products.description')
                         ->orderByDesc('total_profit')
                         ->limit($limit)
                         ->get();
+    }
+
+    public function getSeasonalProducts($limit)
+    {
+        
     }
 
     public function getCurrentMonthNewProduct()

@@ -1,21 +1,19 @@
-import api from "./api/axios"
-import { getInvoice } from "./invoice.service";
-
+import api from "./api/axios";
 
 export const createSession = async (invoiceId) => {
-    console.log(invoiceId);
-    const response = await api.post(`/user/checkoutSession/createSession/${invoiceId}`);
+    const response = await api.post(
+        `/user/checkoutSession/createSession/${invoiceId}`
+    );
 
-    return response.data.clientSecret;  
-}
+    return response.data.clientSecret;
+};
 
 // export const afterPayment = async (paymentStatus, ) => {
 //     if (paymentStatus !== "paid") {
 //         console.log('unpaid'); return
 //     }
 //     else {
-//         const response = 
+//         const response =
 //     }
-
 
 // }

@@ -18,7 +18,7 @@ function updateTextContent(slideId) {
   let currentActiveContent = document.getElementById(slideId);
    
     if (currentActiveContent) {
-        currentActiveContent.classList.add('active'); // Make the text visible
+        currentActiveContent.classList.add('active'); 
         
     }
 }

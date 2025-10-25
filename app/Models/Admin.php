@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Auth\Passwords\CanResetPassword as PasswordsCanResetPassword;
 use Illuminate\Contracts\Auth\CanResetPassword;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
@@ -29,4 +30,8 @@ class Admin extends Authenticatable implements CanResetPassword
         'remember_token',
     ];
     
+    public function profileImages(): MorphMany
+    {
+        return $this->morphMany(ProfilePicture::class, 'imageable');
+    }
 }

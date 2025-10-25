@@ -1,4 +1,4 @@
-import { CartProvider, useCart } from "../context/CartContext";
+import { useCart } from "../context/CartContext";
 import { formatedCurrency } from "../utils/helpers";
 import { Trash2Icon } from "lucide-react";
 
@@ -36,7 +36,7 @@ export default function CartProductDetail({ cartItemData }) {
                             +1
                         </button>
                     </div>
-                    <p className="font-mer text-body">
+                    <p className="text-body">
                         {formatedCurrency(cartItemData.cost)}
                     </p>
                 </div>

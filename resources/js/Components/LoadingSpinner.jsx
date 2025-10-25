@@ -11,7 +11,7 @@ export default function LoadingSpinner () {
                 duration: 1,
                 ease: "linear",
             }}
-            className="w-10 h-10 border-4 border-t-transparent border-blue-500 rounded-full"
+            className="w-[10rem] h-[10rem] border-4 border-[--Pink-Primary] border-t-transparent rounded-full"
         >
         </motion.div>
     )

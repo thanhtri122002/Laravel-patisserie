@@ -2,20 +2,31 @@
 
 namespace App\Services\user;
 
+use App\Events\InvoiceCreated;
 use App\Models\Invoice;
+use App\Models\ProductDetail;
 use App\Services\Service;
 use App\Services\StripeService;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\DB;
-
 class InvoiceService extends Service
-{   
+{
     protected $stripe;
-    
+
     public function __construct(StripeService $stripe)
     {
         $this->stripe = $stripe;
     }
 
+    /**
+     * Base query which will be used as base for more complicated queries
+     * 
+     * @return \Illuminate\Database\Eloquent\Builder<static>
+     */
+    protected function baseQuery()
+    {
+        return Invoice::with(['productDetails', 'user']);
+    }
     /**
      * Get the Invoice based on the invoide id
      * 
@@ -24,7 +35,7 @@ class InvoiceService extends Service
      * @return App\Models\Invoice
      */
     public function detail(int $id)
-    {   
+    {
         return Invoice::with('productDetails')->findOrFail($id);
     }
 
@@ -39,11 +50,20 @@ class InvoiceService extends Service
     public function getInvoiceProducts(int $id)
     {
         $invoice = $this->detail($id);
-        
+
         return $invoice->productDetails;
     }
 
-    public function list($search, $perPage)
+    public function index($data, $perPage)
+    {   
+        return $this->baseQuery()
+            ->when(isset($data['status']), function (Builder $query) use ($data) {
+                $query->GetInvoiceWithStatus($data['status']);
+            })
+            ->paginate($perPage);
+    }
+
+    public function getUserInvoices($search, $perPage)
     {
         $userId = $this->getUser()->id;
         $query = Invoice::where('user_id', $userId);
@@ -76,29 +96,30 @@ class InvoiceService extends Service
      * 
      * @return App\Models\Invoice
      */
-    public function makeInvoice($data, $productsInCart)
-    {   
+    public function makeInvoice($data, $productsInCart): Invoice
+    {
         $data['user_id'] = $this->getUser()->id;
-        
-        if(!$this->getUser()->stripe_id) {
-            $this->stripe->createStripeCustomer($this->getUser());
 
+        if (!$this->getUser()->stripe_id) {
+            $this->stripe->createStripeCustomer($this->getUser());
         }
-        
-        $invoice = DB::transaction(function() use ($data, $productsInCart) {
-           
+
+        $invoice = DB::transaction(function () use ($data, $productsInCart) {
+
             $invoice = Invoice::create($data);
-        
-            foreach($productsInCart as $detail) {
-            
+
+            foreach ($productsInCart as $detail) {
+
                 $detail->invoice_id = $invoice->id;
-                $detail->cart_id = null;
                 $detail->save();
             }
+            \Log::info('Invoice created', ['invoice_id' => $invoice->id]);
 
+            InvoiceCreated::dispatch($invoice);
             return $invoice;
         });
-
+        
+        
         return $invoice;
-    } 
+    }
 }

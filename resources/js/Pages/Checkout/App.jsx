@@ -1,9 +1,13 @@
-import React, { useState, useEffect, useMemo } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { loadStripe } from "@stripe/stripe-js";
 import { CheckoutProvider } from "@stripe/react-stripe-js/checkout";
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import {
+    BrowserRouter as Router,
+    Route,
+    Routes,
+
+} from "react-router-dom";
 import CheckoutForm from "./CheckoutForm";
-import { createInvoice } from "../../Services/cart.service";
 import { createSession } from "../../Services/payment.service";
 
 const stripePromise = loadStripe("pk_test_TYooMQauvdEDq54NiTphI7jx");
@@ -30,8 +34,7 @@ const Complete = () => {
                 xmlns="http://www.w3.org/2000/svg"
             >
                 <path
-                    fillRule="evenodd"
-                    clipRule="evenodd"
+                  
                     d="M15.4695 0.232963C15.8241 0.561287 15.8454 1.1149 15.5171 1.46949L6.14206 11.5945C5.97228 11.7778 5.73221 11.8799 5.48237 11.8748C5.23253 11.8698 4.99677 11.7582 4.83452 11.5681L0.459523 6.44311C0.145767 6.07557 0.18937 5.52327 0.556912 5.20951C0.924454 4.89575 1.47676 4.93936 1.79051 5.3069L5.52658 9.68343L14.233 0.280522C14.5613 -0.0740672 15.1149 -0.0953599 15.4695 0.232963Z"
                     fill="white"
                 />
@@ -57,7 +60,7 @@ const Complete = () => {
         const queryString = window.location.search;
         const urlParams = new URLSearchParams(queryString);
         const sessionId = urlParams.get("session_id");
-        
+
         fetch("/user/checkoutSession/retrieve-status", {
             headers: {
                 Accept: "application/json",
@@ -86,35 +89,83 @@ const Complete = () => {
             });
     }, []);
     return (
-        <div id="payment-status" className="flex flex-col gap-5 huge-container mx-auto my-5">
-            <div id="status-icon" className="w-fit" style={{ backgroundColor: iconColor }}>
+        <div
+            id="payment-status"
+            className="flex flex-col gap-5 huge-container mx-auto my-5"
+        >
+            <div
+                id="status-icon"
+                className="w-fit"
+                style={{ backgroundColor: iconColor }}
+            >
                 {icon}
             </div>
-            <p id="status-text" className="font-mer text-h2 text-[--text-default]">{text}</p>
+            <p
+                id="status-text"
+                className="font-mer text-h2 text-[--text-default]"
+            >
+                {text}
+            </p>
             <div id="details-table">
                 <table className="border-separate border-spacing-y-3">
                     <tbody>
                         <tr className="shadow-sm rounded-lg">
-                            <td class="TableLabel" className="px-4 py-2 font-mer text-body">Payment Intent ID</td>
-                            <td id="intent-id" class="TableContent" className="px-4 py-2 leading-normal tracking-normal font-normal">
+                            <td
+                                class="TableLabel"
+                                className="px-4 py-2 font-mer text-body"
+                            >
+                                Payment Intent ID
+                            </td>
+                            <td
+                                id="intent-id"
+                                class="TableContent"
+                                className="px-4 py-2 leading-normal tracking-normal font-normal"
+                            >
                                 {paymentIntentId}
                             </td>
                         </tr>
                         <tr>
-                            <td class="TableLabel" className="font-mer text-body px-4 py-2">Status</td>
-                            <td id="intent-status" class="TableContent" className="font-mer text-body px-4 py-2">
+                            <td
+                                class="TableLabel"
+                                className="font-mer text-body px-4 py-2"
+                            >
+                                Status
+                            </td>
+                            <td
+                                id="intent-status"
+                                class="TableContent"
+                                className="font-mer text-body px-4 py-2"
+                            >
                                 {status}
                             </td>
                         </tr>
                         <tr>
-                            <td class="TableLabel" className="font-mer text-body px-4 py-2">Payment Status</td>
-                            <td id="session-status" class="TableContent" className="font-mer text-body px-4 py-2">
+                            <td
+                                class="TableLabel"
+                                className="font-mer text-body px-4 py-2"
+                            >
+                                Payment Status
+                            </td>
+                            <td
+                                id="session-status"
+                                class="TableContent"
+                                className="font-mer text-body px-4 py-2"
+                            >
                                 {paymentStatus}
                             </td>
                         </tr>
                         <tr>
-                            <td class="TableLabel" className="font-mer text-body px-4 py-2">Payment Intent Status</td>
-                            <td id="payment-intent-status" class="TableContent" className="font-mer text-body px-4 py-2">
+                            <td
+                                class="TableLabel"
+                                className="font-mer text-body px-4 py-2"
+                            >
+                                Payment Intent Status
+                            </td>
+                            <td
+                                id="payment-intent-status"
+                                class="TableContent"
+                                className="font-mer text-body px-4 py-2"
+                            >
                                 {paymentIntentStatus}
                             </td>
                         </tr>
@@ -152,27 +203,25 @@ const Complete = () => {
             </a>
         </div>
     );
-
-    return null;
 };
 
 export default function App() {
-    // const promise = useMemo(() => {
-    //     return createInvoice()
-    //         .then((invoice) => createSession(invoice.id))
-    //         .then((clientSecret) => {
-    //             return clientSecret});
-    // }, []);
+    const invoiceId = sessionStorage.getItem('invoice_id')
+    
+    const fetchClientSecret = useCallback(async () => {
+        const secret = await createSession(invoiceId);
+        return secret;
+      }, [invoiceId]);
+    
     const appearance = {
         theme: "stripe",
 
         variables: {
             colorPrimary: "#ee76ad",
             colorText: "#8c5a4d",
-            
+
             borderRadius: "16px",
         },
-
     };
 
     return (
@@ -181,15 +230,7 @@ export default function App() {
                 <CheckoutProvider
                     stripe={stripePromise}
                     options={{
-                        fetchClientSecret: async () => {
-                            const invoice = await createInvoice();
-
-                            const clientSecret = await createSession(
-                                invoice.id
-                            );
-
-                            return clientSecret;
-                        },
+                        fetchClientSecret,
                         elementsOptions: { appearance },
                     }}
                 >

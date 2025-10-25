@@ -8,7 +8,7 @@ import {
 import { BillingAddressElement } from "@stripe/react-stripe-js/checkout";
 import PrimaryButton from "../../Components/PrimaryButton";
 import PhoneNumberInput from "./Components/PhoneNumberInput";
-
+import LoadingSpinner from "../../Components/LoadingSpinner";
 const CheckoutForm = () => {
 
     useEffect(() => {
@@ -30,9 +30,8 @@ const CheckoutForm = () => {
     console.log("FULL checkoutState:", checkoutState);
     if (checkoutState.type === "loading") {
         return (
-            <div>
-                Loading…
-                <pre>{JSON.stringify(checkoutState, null, 2)}</pre>
+            <div className="h-[30dvh] flex items-center justify-center">
+                <LoadingSpinner />
             </div>
         );
     } else if (checkoutState.type === "error") {
@@ -85,6 +84,7 @@ const CheckoutForm = () => {
 
     return (
         <form onSubmit={handleSubmit} className="flex flex-col gap-5 my-5 md:container md:mx-auto">
+            
             <p className="text-h1 font-mer self-center">Payment</p>
             <PhoneNumberInput
                 value={payload.phoneNumber}

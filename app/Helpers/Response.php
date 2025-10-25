@@ -39,6 +39,6 @@ class Response {
             'message' => $message,
             'status' => $status,
             'error' => $errors
-        ]);
+        ], $status);
     }
 }
