@@ -3,15 +3,14 @@ import { handleApiError } from '../../utils/helpers.js';
 
 const login = async (formData = {}) => {
     try {
-        
+    
         const response = await api.post("/user/login", formData);
-
-        return { data: response.data, error: null };
-
+        console.log(response);
+        return { data: response.data, errors: null };
     } catch (err) {
         return handleApiError(err);
     }
-}
+};
 
 const register = async (formData = {}) => {
     try {

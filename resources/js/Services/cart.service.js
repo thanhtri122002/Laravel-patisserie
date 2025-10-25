@@ -1,6 +1,5 @@
 import api from "./api/axios";
 import { handleApiError } from "../utils/helpers";
-import { Navigate } from "react-router-dom";
 
 export const addProductToCart = async (
     productId,

@@ -16,8 +16,8 @@ class Controller {
      * 
      * @return string the authentication guard name
      */
-    protected function getGuard(): string {
-        
+    protected function getGuard(): string 
+    {
         return property_exists($this, 'guard') ? $this->guard : config('auth.default.guard');
     }
 
@@ -30,8 +30,8 @@ class Controller {
      * 
      * @return \Illuminate\Contracts\Auth\Guard the authentication guard instanace
      */
-    protected function guard() {
-
+    protected function guard() 
+    {
         return Auth::guard($this->getGuard());
     }
 

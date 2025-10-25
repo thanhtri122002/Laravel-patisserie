@@ -3,15 +3,10 @@
 namespace App\Http\Controllers\User;
 
 use App\Helpers\Response;
-use App\Http\Requests\user\AddToCartRequest;
 use App\Http\Requests\user\ProductDetailRequest;
-use App\Http\Requests\user\submitCartRequest;
 use App\Models\ProductDetail;
 use App\Models\User;
 use App\Services\user\CartService;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
-
 class CartController extends BaseController
 {
     /**
@@ -53,10 +48,8 @@ class CartController extends BaseController
      */
     public function addToCart(ProductDetailRequest $request): ProductDetail
     {   
-       
         $data = $request->safe()->only(['product_id', 'quantity', 'mode']);
         $user = $this->getUser();
-        Log::info($data);
         $addProduct = CartService::getInstance()->withUser($user)->addProduct($data);
         
         return $addProduct;

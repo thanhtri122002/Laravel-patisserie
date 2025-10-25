@@ -27,6 +27,7 @@ class PaymentController extends BaseController
     {
         $user = $this->getUser();
         $invoice = $this->invoiceService->withUser($user)->detail($id);
+        
         $clientSecret = $this->stripeService->withUser($user)->checkoutSession($invoice);
         
         return response()->json(['clientSecret' => $clientSecret]);

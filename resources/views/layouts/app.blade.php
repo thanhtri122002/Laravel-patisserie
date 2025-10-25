@@ -3,19 +3,18 @@
     <head>
         @include('layouts.partials.head')
     </head>
-    <body class="relative min-h-dvh">
+    <body class="relative min-h-screen flex flex-col">
         @if (empty($hideHeader))
             @include('layouts.partials.header')
         @endif
         
-        <main>
+        <main class="flex-1">
             @yield('content')
         </main>
 
         @if (empty($hideFooter))
             @include('layouts.partials.footer')
         @endif
-        
-        
+         
     </body>
 </html>

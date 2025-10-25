@@ -1,10 +1,12 @@
 <?php 
 namespace App\Services;
 
+use App\Events\PaymentIntentSuccessEvent;
 use App\Models\Invoice;
 use App\Models\Product;
 use App\Models\User;
 use Stripe\Customer;
+use Stripe\PaymentIntent;
 use Stripe\StripeClient;
 
 class StripeService extends Service
@@ -148,6 +150,7 @@ class StripeService extends Service
     public function checkoutSession(Invoice $invoice) 
     {   
         $lineItem = $this->getLineItems($invoice);
+       
         $checkoutSession = $this->stripe->checkout->sessions->create([
             'ui_mode' => 'custom',
             'line_items' => $lineItem,
@@ -166,16 +169,20 @@ class StripeService extends Service
         return $checkoutSession->client_secret;
     }
 
-    public function retrieveSessionStatus($session_id) {
+    public function retrieveSessionStatus($session_id) 
+    {
         $session = $this->stripe->checkout->sessions->retrieve($session_id, ['expand' => ['payment_intent']]);
         $lineItems = $this->stripe->checkout->sessions->allLineItems($session_id)->data;
+        $invoiceId = $session->metadata->invoice_id;
+        $paymentIntentStatus = $session->payment_intent->status;
+        PaymentIntentSuccessEvent::dispatch($paymentIntentStatus, $invoiceId);
         return [
             'status' => $session->status,
             'payment_status' => $session->payment_status,
             'payment_intent_id' => $session->payment_intent->id,
-            'payment_intent_status' => $session->payment_intent->status,
+            'payment_intent_status' => $paymentIntentStatus,
             'items' => $lineItems,
-            'invoiceId' => $session->metadata->invoice_id
+            'invoiceId' => $invoiceId
         ];
     }
 }

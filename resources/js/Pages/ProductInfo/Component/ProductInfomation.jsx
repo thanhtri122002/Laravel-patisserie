@@ -2,13 +2,30 @@ import { useProductInfo } from "../../../context/ProductInfoContext";
 import { formatedCurrency } from "../../../utils/helpers";
 import { motion } from "motion/react";
 import PrimaryButton from "../../../Components/PrimaryButton";
-import { addProductToCart } from "../../../Services/cart.service";
+import usePublicChannel from "../../../hooks/usePublicChannel";
+import { useCallback } from "react";
+import { useCart } from "../../../context/CartContext";
 
 export default function ProductInfo() {
-    const { product, loading } = useProductInfo();
+    const { product, setData, loading } = useProductInfo();
+    const { addItem } = useCart(); 
+    
     const handleProductToCart = async () => {
-        await addProductToCart(productData.id, 1, productData.img);
+        await addItem(product.id, 1, product.img);
     };
+
+    const handleStockUpdateEvent = useCallback((event) => {
+        console.log(event);
+        setData((prev) => ({ 
+            ...prev,
+            stock: event.stock 
+        }));
+    }, [setData]);
+
+    usePublicChannel('products', '.product.stock.updated', (event) => {
+        console.log(event);
+        handleStockUpdateEvent(event);
+    });
 
     return (
         <>
@@ -52,7 +69,7 @@ export default function ProductInfo() {
                             <span className="font-mer">Stock:</span>{" "}
                             <span
                                 className={`font-bold ${
-                                    product.stock > 0
+                                    product.stock > 10
                                         ? "text-green-500"
                                         : "text-red-500"
                                 }`}
@@ -77,3 +94,13 @@ export default function ProductInfo() {
         </>
     );
 }
+/**
+ * Note
+ * 1/ Why you need (event) => handleStockUpdateEvent(event)
+ *  You might think you can just pass handleStockUpdateEvent directly:
+ *    usePublicChannel('products', '.product.stock.updated', handleStockUpdateEvent(event));
+ *    but handleStockUpdateEvent(event) means calling the function, which CALL THE FUNCTION IMMEDIATELY
+ *    at that time, you dont even have the event, which may lead to the undefine
+ *   => Fix: define a function ref (event) => handleStockUpdateEvent(event)
+ *           This tell when the broadcast happen, run this function - it will receive the event object and then call the handleStockUpdateEvent
+ */

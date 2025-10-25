@@ -39,7 +39,7 @@ class ProductObserver
     public function deleting(Product $product): void 
     {
         $this->stripeService->removeProduct($product);
-        dd('completely remove the product');
+      
     }
     /**
      * Handle the Product "deleted" event.

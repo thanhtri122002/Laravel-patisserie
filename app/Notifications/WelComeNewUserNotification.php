@@ -2,19 +2,20 @@
 
 namespace App\Notifications;
 
-use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Messages\BroadcastMessage;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
 class WelComeNewUserNotification extends Notification
 {
-    use Queueable;
-  
+    public $status;
     /**
      * Create a new notification instance.
      */
-    
+    public function __construct($status)
+    {
+        $this->status = $status;
+    }
 
     /**
      * Get the notification's delivery channels.
@@ -53,6 +54,8 @@ class WelComeNewUserNotification extends Notification
     {
         return new BroadcastMessage([
             "user_name" => $notifiable->name,
+            "status" => $this->status,
+            "Message" => "Welcome " .$notifiable->name
         ]);
     }
 }

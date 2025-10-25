@@ -2,26 +2,30 @@
 
 namespace App\Services\user;
 
+use App\Events\UpdateCartProductDetailStock;
+use App\Jobs\UpdateProductStock;
 use App\Models\Cart;
 use App\Models\Product;
-use App\Models\ProductDetail;
+use App\Services\admin\ProductService;
 use App\Services\Service;
-
 class CartService extends Service
 {
     /**
      * @var \App\Services\user\ProductDetailService
      */
     protected $productDetailService;
+    protected $productService;
+    protected $product;
 
     /**
      * @var App\Services\user\InvoiceService
      */
     protected $invoiceService;
 
-    public function __construct(ProductDetailService $productDetailService)
+    public function __construct(ProductDetailService $productDetailService, ProductService $productService)
     {
         $this->productDetailService = $productDetailService;
+        $this->productService = $productService;
     }
 
     /**
@@ -72,6 +76,13 @@ class CartService extends Service
         return $productDetail;
     }
 
+    public function isProductInCart($cart, $productId)
+    {
+        $isExists = $cart->productDetails()->where('product_id', $productId)->exists();
+
+        return $isExists;
+    }
+
     /**
      * Get all the product details in the cart
      * 
@@ -106,8 +117,26 @@ class CartService extends Service
     {
         $cart = $this->getOrCreateCart();
         $data['cart_id'] = $cart->id;
-        $productDetail = $this->productDetailService->create($data);
+        $product = $this->productService->getProduct($data['product_id']);
 
+        $isProductinCart = $this->isProductInCart($cart, $data['product_id']);
+
+        if ($isProductinCart) {
+            $productDetail = $cart->productDetails()->where('product_id', $data['product_id'])->first();
+            $data['mode'] = 'relative';
+            
+            $productDetail = $this->update($data, $productDetail->id);
+        } else {
+            if ($product && $product->stock >= 1) {
+                $productDetail = $this->productDetailService->create($data);
+
+                if ($productDetail->wasRecentlyCreated) {
+
+                    UpdateCartProductDetailStock::dispatch($productDetail, 1);
+                }
+            }
+        }
+        
         return $productDetail;
     }
 
@@ -142,7 +171,28 @@ class CartService extends Service
     public function update($data, $productDetailId)
     {
         $productDetail = $this->getProductDetail($productDetailId);
-        $productDetail = $this->productDetailService->update($data, $productDetail);
+        $product = $this->productService::getInstance()->getProduct($productDetail->product_id);
+        
+        if ($product && $product->stock >= $data['quantity']) {
+
+            if ($data['mode'] == "relative") {
+
+                [$productDetail, $data['quantity']] = $this->productDetailService->updateStockRelative($data, $productDetail);
+                
+                if ($productDetail->wasChanged()) {
+                    
+                    UpdateCartProductDetailStock::dispatch($productDetail, $data['quantity']);
+                }
+            } elseif ($data['mode'] == 'absolute') {
+
+                [$productDetail, $delta] = $this->productDetailService->updateStockAbsolute($data, $productDetail);
+
+                if ($productDetail->wasChanged()) {
+                    
+                    UpdateCartProductDetailStock::dispatch($productDetail, $delta);
+                }
+            }
+        }
 
         return $productDetail;
     }
@@ -173,8 +223,12 @@ class CartService extends Service
     public function deleteProduct($productDetailId)
     {
         $productDetail = $this->getProductDetail($productDetailId);
-        $this->productDetailService->delete($productDetail);
-
+        
+        $hasBeenDel = $this->productDetailService->delete($productDetail);
+        if ($hasBeenDel) {
+            $quantity = -$productDetail->quantity;
+            UpdateCartProductDetailStock::dispatch($productDetail, $quantity);
+        }
         return true;
     }
 

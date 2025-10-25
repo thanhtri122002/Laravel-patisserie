@@ -15,11 +15,6 @@
 @use './components/custom-swiper';
 
 :root {
-    --sidebar-width: 250px;
-    --sidebar-bg-color: #343a40;
-    --sidebar-text-color: #ffffff;
-    --hover-bg-color: #495057;
-  
     /* Brand Colors */
     --Pink-Primary: #ee76ad;
     --Pink-Secondary: #fce7f1;
@@ -115,7 +110,6 @@
     --breakpoint-xxl: 1400px;
 }
   
-
 html {
     overflow-x: hidden;
 }

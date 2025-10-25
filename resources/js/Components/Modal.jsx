@@ -6,7 +6,7 @@ const ModalContext = createContext();
 const Modal = ({children, open, setIsOpen, toggleOpen}) => {
     
     return (
-        <ModalContext.Provider value={{open, setIsOpen, toggleOpen}}>
+        <ModalContext.Provider value={{ open, setIsOpen, toggleOpen }}>
             {children}
         </ModalContext.Provider>
     )
@@ -42,7 +42,7 @@ const Content = forwardRef((({children, className, ...props}, ref) => {
                     <motion.div
                         ref={ref}
                         key="panel"
-                        className={`overflow-y-auto fixed bottom-0 left-0 right-0 h-[70dvh] bg-white rounded-t-xl z-50 ${className}`}
+                        className={`overflow-y-auto fixed bottom-0 left-0 right-0 h-[70dvh] bg-white rounded-t-xl z-[100] ${className}`}
                         
                         transition={{ type: "spring", damping: 20 }}
                     >

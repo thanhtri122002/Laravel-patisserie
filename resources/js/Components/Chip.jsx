@@ -1,5 +1,6 @@
 import { memo, forwardRef } from "react";
 import { motion } from "motion/react";
+
 /**
  * toggleSelected function:
  * - Toggles the local chip state (`selectedCategory`) between true and false.

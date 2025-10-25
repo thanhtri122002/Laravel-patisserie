@@ -1,8 +1,8 @@
-<div class="max-w-7xl mx-auto px-6 flex items-center justify-between h-20">
+<div class="max-w-7xl mx-auto px-6 flex items-center justify-between h-[6rem] ">
     <!-- Logo -->
     <div class="flex items-center h-full">
         <a href="/home">
-            <img class="h-12 w-auto object-contain" src="{{ asset('storage/images/icons/patisserie.svg') }}" alt="Patisserie Logo">
+            <img class="h-12 w-auto object-contain transition-all transform duration-200 hover:translate-y-[-0.25rem]" src="{{ asset('storage/images/icons/patisserie.svg') }}" alt="Patisserie Logo">
         </a>
     </div>
 
@@ -22,30 +22,24 @@
     <div class="hidden md:flex items-center space-x-4">
         @php
         $user = Auth::guard('web')->user();
-        $admin = Auth::guard('admin')->user();
         @endphp
 
         @if ($user)
         <x-user-name-section />
-        @elseif ($admin)
-        <x-admin-name-section />
         @else
         <div class="relative group">
-            <button class="text-gray-700 hover:text-pink-500">My Account</button>
-            <div class="absolute right-0 mt-2 w-40 bg-white shadow-lg rounded-md invisible opacity-0 group-hover:visible group-hover:z-50 group-hover:opacity-100 transition-opacity duration-300 delay-200">
-                <a href="{{ route('user.auth') }}" class="block px-4 py-2 hover:bg-gray-100">User Login</a>
-                <a href="{{ route('admin.login') }}" class="block px-4 py-2 hover:bg-gray-100">Admin Login</a>
-            </div>
+            <a href="{{ route('user.auth') }}" class="font-mer text-body text-[--text-default] px-4 py-2 transtition duration-700 hover:bg-[--Pink-Secondary] hover:rounded-full hover:shadow-lg]">Login</a>
         </div>
-        @endif
     </div>
+    @endif
+</div>
 
-    <!-- Burger Menu (Mobile) -->
-    <button id="burgerMenu" class="md:hidden flex flex-col justify-between w-7 h-6 focus:outline-none">
-        <span class="block h-[3px] bg-black rounded"></span>
-        <span class="block h-[3px] bg-black rounded"></span>
-        <span class="block h-[3px] bg-black rounded"></span>
-    </button>
+<!-- Burger Menu (Mobile) -->
+<button id="burgerMenu" class="md:hidden flex flex-col justify-between w-7 h-6 focus:outline-none">
+    <span class="block h-[3px] bg-black rounded"></span>
+    <span class="block h-[3px] bg-black rounded"></span>
+    <span class="block h-[3px] bg-black rounded"></span>
+</button>
 </div>
 
 <!-- Mobile Menu -->

@@ -4,7 +4,7 @@ import CartItem from "./CartItem";
 import QuantityButton from "../../../Components/QuantityButton";
 
 export default function CartRow({ cartItem, className, ...props }) {
-    const { updateItem, removeItem } = useCart();
+    const { updateItem } = useCart();
 
     return (
         <tr className="border-b border-[--Gray-Secondary] hover:bg-[--Gray-Tertiary] transition-colors">

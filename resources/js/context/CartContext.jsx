@@ -47,13 +47,24 @@ export const CartProvider = ({ children }) => {
     }, []);
 
     const addItem = async (productId, quantity = 1, productImage) => {
-        const newItem = await addProductToCart(
-            productId,
-            quantity,
-            productImage
-        );
-        setCartItems((prev) => [...prev, newItem]);
+        const newItem = await addProductToCart(productId, quantity, productImage);
+        console.log(newItem);
+        setCartItems((prev) => {
+          
+            const exists = prev.some((item) => item.product_id === newItem.product_id);
+    
+            if (!exists) {
+                return [...prev, newItem];
+            }
+    
+            return prev.map((item) =>
+                item.product_id === newItem.product_id
+                    ? { ...item, quantity: item.quantity + quantity }
+                    : item
+            );
+        });
     };
+    
 
     const updateItem = async (productDetailId, amount, mode) => {
         const updatedItem = await updateProductQuantity(

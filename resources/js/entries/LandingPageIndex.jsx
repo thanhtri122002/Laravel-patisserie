@@ -1,8 +1,9 @@
-import react from "react";
-
+import React from "react";
+import { createRoot } from "react-dom/client";
+import LandingPage from "../Pages/Landing/LandingPage";
 
 const container = document.getElementById('home-page-root');
 
 if (container) {
-    react.cre
+    createRoot(container).render(<LandingPage />)
 }

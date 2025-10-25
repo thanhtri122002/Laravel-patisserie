@@ -1,10 +1,12 @@
 <?php
 
+use App\Http\Middleware\Admin\AdminAuthMiddleware;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
 use Laravel\Sanctum\Http\Middleware\CheckAbilities;
 use Laravel\Sanctum\Http\Middleware\CheckForAnyAbility;
+use Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful;
 
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
@@ -15,10 +17,18 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware) {
+        $middleware->append([
+            \Illuminate\Http\Middleware\HandleCors::class,
+        ]);
+        $middleware->validateCsrfTokens(except: [
+            'user/checkoutSession/*',
+        ]);
         $middleware->alias([
             'abilities' => CheckAbilities::class,
             'ability' => CheckForAnyAbility::class,
+            'cookie.sancAuth' => AdminAuthMiddleware::class
         ]);
+        
     })
     ->withExceptions(function (Exceptions $exceptions) {
         //

@@ -3,8 +3,11 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Cashier\Billable;
@@ -55,4 +58,15 @@ class User extends Authenticatable
     {   
         return $this->hasOne(Cart::class);
     }
+
+    public function profileImages(): MorphMany
+    {
+        return $this->morphMany(ProfilePicture::class, 'imageable');
+    }
+
+    public function scopeGetUserWithRole(Builder $query, $role): void
+    {
+        $query->where('role', $role);
+    }
+
 }

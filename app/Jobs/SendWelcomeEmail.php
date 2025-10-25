@@ -13,7 +13,6 @@ class SendWelcomeEmail implements ShouldQueue, ShouldBeUnique, ShouldBeEncrypted
 {
     use Queueable;
 
-   
     protected $userId;
 
     /**

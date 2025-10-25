@@ -1,5 +1,3 @@
-import { div } from "motion/react-client";
-import { useCart } from "../context/CartContext";
 import { Plus, Minus } from "lucide-react";
 
 export default function QuantityButton({
@@ -33,6 +31,7 @@ export default function QuantityButton({
                             border-x border-[--Gray-Secondary] 
                             focus:outline-none focus:ring-2 focus:ring-[--Pink-Primary] focus:border-[--Pink-Primary]
                             [appearance:textfield] 
+                            [-moz-appearance:textfield]
                             [&::-webkit-outer-spin-button]:appearance-none 
                             [&::-webkit-inner-spin-button]:appearance-none"
             />

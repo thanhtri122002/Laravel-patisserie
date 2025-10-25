@@ -39,13 +39,9 @@ input[type="range"]::-moz-range-thumb {
     position: relative;
 }
 
-.tool-tip {
-    top: 1.25rem;
-    background-color: var(--Pink-Secondary);
-    border-radius: 1.5rem;
-    padding: 0.25rem;
-    transform: translateX(-50%);
-
+input[type='number'] {
+    appearance: none;
+}
     // &::after {
     //     content: "";
     //     position: absolute;
@@ -56,7 +52,7 @@ input[type="range"]::-moz-range-thumb {
     //     border-style: solid;
     //     border-color: var(--Pink-Secondary) transparent transparent transparent;
     // }
-}
+
 
 
 
