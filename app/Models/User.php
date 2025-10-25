@@ -3,6 +3,8 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -55,4 +57,10 @@ class User extends Authenticatable
     {   
         return $this->hasOne(Cart::class);
     }
+
+    public function scopeGetUserWithRole(Builder $query, $role): void
+    {
+        $query->where('role', $role);
+    }
+
 }

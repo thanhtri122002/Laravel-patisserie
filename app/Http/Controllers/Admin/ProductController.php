@@ -42,7 +42,7 @@ class ProductController extends BaseController
         $data = $request->validated();
         $perPage = $data['per_page'] ?? config('pagination.default');
         $listProducts = $this->service->productIndex($data, $perPage);
-        
+
         return $this->sendSuccessResponse($listProducts, "Retrieved products successfully", Response::OK);
     }
     
@@ -75,7 +75,6 @@ class ProductController extends BaseController
      */
     public function detail($id)
     {
-        $user = $this->getUser();
         $detailResult = $this->service->detail($id);
 
         return $this->sendSuccessResponse($detailResult, "retrived details success", Response::OK);
@@ -138,9 +137,9 @@ class ProductController extends BaseController
     }
 
     public function getMostProfitableProducts(Request $request)
-    {
+    {   
         $validated = $request->validate([
-            'limit' => ['required', 'int']
+            'limit' => ['required', 'integer'],
         ]);
         $limit = $validated['limit'];
         $result = $this->service->getMostProfitableProducts($limit);

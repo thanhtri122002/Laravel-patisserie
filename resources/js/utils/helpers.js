@@ -2,7 +2,7 @@ const debounce = (fn, delay) => {
     let timer;
     return (...args) => {
         clearTimeout(timer);
-
+        console.log(timer);
         return new Promise((resolve, reject) => {
             timer = setTimeout(async () => {
                 try {
@@ -50,8 +50,11 @@ const formatedCurrency = (number) => {
 const handleApiError = (err) => {
     if (err.response) {
         if (err.response.status === 401) {
-            window.location.href = '/authToggle';
-            return { data: null, errors: { general: ["Unauthenticated"] } };
+            if (window.location.pathname !== '/authToggle') {
+                window.location.href = '/authToggle';
+            }
+            
+            return { data: null, errors: err.response.data };
         }
         else {
             return {
@@ -61,7 +64,7 @@ const handleApiError = (err) => {
         }
         
     }
-    return { data: null, errors: { general: ["Something went wrong"] } };
+    return { data: null, errors: "Something went wrong"};
 };
 
 const truncatedParagraph = (paragraph, limit) => {
@@ -79,18 +82,13 @@ const getRandomImages = (quantity = 10, width = 240, height = 240) => {
     return randImages;
 };
 
-const getCircularArray = (chosenEl, arr = []) => {
-    const chosenElIndex = arr.indexOf(chosenEl);
-    if (chosenElIndex === -1) return [];
-
+const getCircularArray = (idx, arr = []) => {
+    if (!arr.length) return [];
     return [
-        ...arr.slice(chosenElIndex),
-        ...arr.slice(0,chosenElIndex)
-    ]
-}
-
-
-
+        ...arr.slice(idx), 
+        ...arr.slice(0, idx) 
+    ];
+};
 
 
 export {
@@ -99,5 +97,6 @@ export {
     formatedCurrency,
     handleApiError,
     truncatedParagraph,
-    getRandomImages
+    getRandomImages,
+    getCircularArray
 };

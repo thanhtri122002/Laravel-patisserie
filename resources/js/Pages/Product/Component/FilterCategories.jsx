@@ -6,6 +6,25 @@ import ChipMotion from "../../../Components/Chip";
 import Modal from "../../../Components/Modal";
 import { Minimize2 } from "lucide-react";
 
+/**
+ * Display the categories filter section, allowing users to select or deselect categories.
+ * When there are more than 10 categories, only first 10 are shown, with an option to open a modal and view all available categories
+ * 
+ * @component
+ * 
+ * @param {Array<Object>} props.categoryData - Array of category objects 
+ * @param {Array<number>} props.selectedCategories - List of currently selected category IDs.
+ * @param {Function} onSelectedCategoriesChange - Callback fired when a category chip is toggled.
+ *
+ * @returns {JSX.Element} A UI component that allows category filtering with animated transitions and a modal for extended lists.
+ *
+ * @description
+ * - Displays up to 10 categories inline using `ChipMotion`.
+ * - If more than 10 categories exist, displays a **“See All Categories”** button.
+ * - Clicking the button opens a modal that shows all categories.
+ * - Uses `AnimatePresence` and `motion.div` for mounting/unmounting animations.
+ * - Integrates well with a `useCategories` hook for managing selection logic.
+ */
 const Filter = React.memo(function Filter({
     categoryData,
     selectedCategories,
@@ -23,7 +42,6 @@ const Filter = React.memo(function Filter({
                 transition={{
                     layout: {
                         type: "tween",
-
                         mass: 0.8,
                         duration: 0.5,
                     },
@@ -31,8 +49,8 @@ const Filter = React.memo(function Filter({
             >
                 <AnimatePresence>
                     <motion.div
-                        key={categoryData.id}
                         layout
+                        key={categoryData.id}
                         initial={{ opacity: 0, scale: 0.8 }}
                         animate={{ opacity: 1, scale: 1 }}
                         exit={{ opacity: 0, scale: 0.8 }}
@@ -101,22 +119,6 @@ const Filter = React.memo(function Filter({
                     </Modal.Content>
                 </Modal>
             </AnimatePresence>
-            {/* {visibleCount < categoryData.length && (
-                <PrimaryButton
-                    className="flex justify-center items-center"
-                    onClick={handleLoadMore}
-                >
-                    <p className="font-mer text-body">Show More</p>
-                </PrimaryButton>
-            )}
-            {visibleCount > 10 && (
-                <PrimaryButton
-                    className="flex justify-center items-center"
-                    onClick={handleLoadLess}
-                >
-                    <p className="font-mer text-body">Show Less</p>
-                </PrimaryButton>
-            )} */}
         </div>
     );
 });

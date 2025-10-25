@@ -4,9 +4,6 @@ namespace App\Listeners;
 
 use App\Events\UserRegistered;
 use App\Jobs\SendWelcomeNewUserNotificationJob;
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Queue\InteractsWithQueue;
-
 class sendWelcomeNoficationListener
 {
     /**

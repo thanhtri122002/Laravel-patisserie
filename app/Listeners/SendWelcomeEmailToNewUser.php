@@ -4,9 +4,6 @@ namespace App\Listeners;
 
 use App\Events\UserRegistered;
 use App\Jobs\SendWelcomeEmail;
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Queue\InteractsWithQueue;
-
 class SendWelcomeEmailToNewUser
 {
     /**
@@ -21,7 +18,7 @@ class SendWelcomeEmailToNewUser
      * Handle the event.
      */
     public function handle(UserRegistered $event): void
-    {
+    {   
         SendWelcomeEmail::dispatch($event->user->id);
     }
 }

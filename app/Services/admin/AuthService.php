@@ -7,32 +7,33 @@ use App\Services\Service;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
-class AuthService extends Service {
+class AuthService extends Service
+{
 
-    public function login($credentials) 
-    {
-       
-       $admin = Admin::where('email', $credentials['email'])->first();
+    public function login($request)
+    {   
+        $credentials = $request->validated();
 
-       if (!$admin || !Hash::check($credentials['password'], $admin->password)) {
+        if (Auth::attempt($credentials)) {
+            $request->session()->regenerate();
+
+            return true;
+        }
+
         return false;
-       }
-       
-       return $admin->createToken('admin-api')->plainTextToken;
     }
-    
-    public function logout($request) 
+
+    public function logout($request)
     {
         $request->user()->currentAccessToken()->delete();
 
         return ['success' => true, "message" => "Logout successfully"];
     }
 
-    public function store($validate) 
+    public function store($validate)
     {
         $validate['password'] = Hash::make($validate['password']);
 
         return Admin::create($validate);
     }
-
 }

@@ -7,8 +7,6 @@ use App\Http\Requests\user\Auth\LoginRequest;
 use App\Http\Requests\user\Auth\RegisterRequest;
 use App\Services\user\AuthService;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-
 class UserAuthController extends BaseController
 {
     protected function getCurrentUser() {
@@ -19,12 +17,13 @@ class UserAuthController extends BaseController
     public function login(LoginRequest $request) 
     {
         $isSuccess = AuthService::getInstance()->login($request);
+      
         if ($isSuccess) {
             
             return $this->sendSuccessResponse($isSuccess, "login successful", Response::OK);
         }
         
-        return false;
+        return $this->sendFailedResponse($isSuccess, "Invalid Credentials", Response::UNAUTHORIZED, null);
     }
 
     public function register(RegisterRequest $request) 

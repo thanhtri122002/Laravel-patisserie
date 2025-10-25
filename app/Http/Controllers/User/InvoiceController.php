@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\User;
 
 use App\Helpers\Response;
+use App\Http\Requests\InvoiceRequest;
 use App\Http\Requests\user\ChangeInvoiceStatus;
 use App\Services\user\InvoiceService;
 use Illuminate\Http\Request;
@@ -19,6 +20,15 @@ class InvoiceController extends BaseController
     public function getUser()
     {
         return $this->guard()->user();
+    }
+
+    public function index(InvoiceRequest $request)
+    {
+        $data = $request->validated();
+        $perPage = $data['per_page'] ?? config('default.pagination');
+        $invoices = $this->invoiceService->index($data, $perPage);
+
+        return $this->sendSuccessResponse($invoices, "Retrieved invoices successfully", Response::OK);
     }
 
     public function detail($id)

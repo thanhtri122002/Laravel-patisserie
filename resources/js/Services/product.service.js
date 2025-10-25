@@ -5,7 +5,7 @@ import { makeQueryString, handleApiError } from "../utils/helpers";
 const getProducts = async (
     categoryIds = [],
     minPrice = 0.0,
-    maxPrice = 0.0,
+    maxPrice = 1000000.0,
     searchInput = "",
     page = 1,
     justFirstImage = false
@@ -18,7 +18,7 @@ const getProducts = async (
             input_search: searchInput,
             page: page,
         };
-
+        console.log(categoryIds);
         const queryString = makeQueryString(params);
 
         const url = `/api/public/Indexproducts?${queryString}`;
@@ -39,47 +39,47 @@ const getProducts = async (
     }
 };
 
-/**
- * Fetches products by categories with optional pagination and image filtering.
- *
- * @async
- * @function getProductsByCategories
- * @param {Array<number>} [categoryIds=[]] - An array of category IDs to filter products by.
- * @param {number} [page=1] - The page number for pagination.
- * @param {boolean} [justFirstImage=false] - If true, includes only the first image of each product.
- * @returns {Promise<Object|Array>} A promise that resolves to the response data containing the products,
- *                                  or an empty array if an error occurs.
- */
-const getProductsByCategories = async (
-    categoryIds = [],
-    page = 1,
-    justFirstImage = false
-) => {
-    try {
-        const params = {
-            category_id: categoryIds,
-            page: page,
-        };
+// /**
+//  * Fetches products by categories with optional pagination and image filtering.
+//  *
+//  * @async
+//  * @function getProductsByCategories
+//  * @param {Array<number>} [categoryIds=[]] - An array of category IDs to filter products by.
+//  * @param {number} [page=1] - The page number for pagination.
+//  * @param {boolean} [justFirstImage=false] - If true, includes only the first image of each product.
+//  * @returns {Promise<Object|Array>} A promise that resolves to the response data containing the products,
+//  *                                  or an empty array if an error occurs.
+//  */
+// const getProductsByCategories = async (
+//     categoryIds = [],
+//     page = 1,
+//     justFirstImage = false
+// ) => {
+//     try {
+//         const params = {
+//             category_id: categoryIds,
+//             page: page,
+//         };
 
-        const queryString = makeQueryString(params);
+//         const queryString = makeQueryString(params);
 
-        const url = `/api/public/products?${queryString}`;
-        const response = await axios.get(url);
+//         const url = `/api/public/products?${queryString}`;
+//         const response = await axios.get(url);
 
-        if (justFirstImage && response.data?.data?.data) {
-            response.data.data.data = response.data.data.data.map(
-                (product) => ({
-                    ...product,
-                    firstImage: product.productImages?.[0] || null,
-                })
-            );
-        }
+//         if (justFirstImage && response.data?.data?.data) {
+//             response.data.data.data = response.data.data.data.map(
+//                 (product) => ({
+//                     ...product,
+//                     firstImage: product.productImages?.[0] || null,
+//                 })
+//             );
+//         }
 
-        return response.data;
-    } catch (err) {
-        return handleApiError(err);
-    }
-};
+//         return response.data;
+//     } catch (err) {
+//         return handleApiError(err);
+//     }
+// };
 
 /**
  *
@@ -136,10 +136,14 @@ const searchProducts = async (inputString) => {
 
 const getMostProfitableProducts = async (limit) => {
     try {
+        const params = {
+            limit: limit,
+        }
+        console.log(limit);
         const response = await api.get(
-            `/products/filter/most-profitable/${limit}`
-        );
-        return { data: response.data, errors: null };
+            `/products/filter/most-profitable`
+        , { params });
+        return response.data.data;
     } catch (err) {
         return handleApiError(err);
     }
@@ -175,8 +179,8 @@ const getDiscountProducts = async () => {
 const getProduct = async (productId) => {
     try {
         const response = await api.get(`/api/public/product/${productId}`);
-        console.log(response);
-        return { data: response.data, errors: null };
+        console.log(response.data);
+        return response.data;
     } catch (err) {
         return handleApiError(err);
     }
@@ -185,7 +189,6 @@ const getProduct = async (productId) => {
 export {
     getProducts,
     getProduct,
-    getProductsByCategories,
     getProductsInPriceRange,
     getNewProducts,
     getTopSellingProducts,
@@ -195,3 +198,15 @@ export {
     getOutOfStockProducts,
     getDiscountProducts,
 };
+
+/**
+ * Note
+ * 1/ For the GET request, you normally dont send a request body
+ * By convention, REST API expect:
+ *  +) Filter, limtis, sorting, pagination terms as QUERY PARAMETERS
+ *  +) Identifiers (like product id) as path parameters /products/123
+ *  +) Request body -> ONLY FOR POST, PUT, PATCH and sometimes DELETE
+ *  Why you cant use body with GET? 
+ *   +) the HTTP spec does not forbid a GET body, but most servers, proxies and clients IGNORE IT
+ *   +) Axios, for example, wont send your params in the body of a GET
+ */

@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { ShoppingBasket } from "lucide-react";
 import { useCart } from "../context/CartContext";
 import Modal from "./Modal";
@@ -6,7 +6,6 @@ import CartProductDetail from "./CartProductDetail";
 import { motion, AnimatePresence } from "motion/react";
 import { Minimize2 } from "lucide-react";
 import PrimaryButton from "../Components/PrimaryButton";
-import { createSession, useNavigate } from "react-router-dom";
 import { createInvoice } from "../Services/cart.service";
 
 /**
@@ -44,7 +43,7 @@ import { createInvoice } from "../Services/cart.service";
  * @returns {JSX.Element} A rendered, animated cart button with expandable view
  */
 export default function CartButton() {
-    const [ isOpen, setIsOpen ] = useState(false);
+    const [isOpen, setIsOpen] = useState(false);
     const { cartItems, total } = useCart();
 
     const formatedTotal = total.toLocaleString("vi-VN", {
@@ -59,15 +58,39 @@ export default function CartButton() {
     };
 
     const handleCheckout = async () => {
-        window.location.href = "/user/checkoutSession/checkout";
+        try {
+            const invoice = await createInvoice();
+            sessionStorage.setItem('invoice_id', invoice.id);
+            
+            window.location.href = `/user/checkoutSession/checkout?invoice_id=${invoice.id}`;
+        } catch (err) {
+            console.error("Failed to create invoice:", err);
+        }
     };
+
+    if (cartItems.length === 0 ) return (
+        <motion.button
+            layoutId="cart"
+            className={`cart-button ${cartItems.length === 0 ? 'cursor-not-allowed' : ''}`}
+            onClick={cartItems.length > 0 ? toggleCart : undefined}
+        >
+            <div className="relative inset-0">
+                <ShoppingBasket />
+                <span className="cart-badge">{cartItems.length}</span>
+            </div>
+        </motion.button>
+    );
 
     return (
         <>
             {!isOpen && (
                 <motion.button
-                    layoutId="cart"
+                    
                     className="cart-button"
+                    initial={{ opacity: 0, scale: 0.8 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0, scale: 0.8 }}
+                    transition={{ duration: 0.3, ease: "easeInOut" }}
                     onClick={toggleCart}
                 >
                     <div className="relative inset-0">
@@ -82,11 +105,10 @@ export default function CartButton() {
                     <div className="hidden md:block">
                         <motion.div
                             key="desktop-cart"
-                            layoutId="cart"
                             initial={{ opacity: 0, scale: 0 }}
                             animate={{ opacity: 1, scale: 1 }}
                             exit={{ opacity: 0, scale: 0 }}
-                            transition={{ duration: 0.3 }}
+                            transition={{ duration: 0.3, ease: "easeInOut" }}
                             className="cart-content"
                         >
                             <div className="flex justify-between item-center mb-5">

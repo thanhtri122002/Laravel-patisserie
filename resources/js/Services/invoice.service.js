@@ -1,14 +1,25 @@
-import { handleApiError } from "../utils/helpers"
+import { handleApiError } from "../utils/helpers";
 import api from "./api/axios";
 
 export const getInvoice = async (id) => {
     try {
         const response = await api.get(`/user/invoices/${id}`);
-        
-        return {data: response.data, errors: null }
+
+        return { data: response.data, errors: null };
     } catch (err) {
         handleApiError(err);
     }
-}
+};
 
-export const 
+export const getInvoiceWithStatus = async (status) => {
+    try {
+        const params = {
+            status: status,
+        };
+        const response = await api.get("/invoices/index", params);
+        
+        return response.data.data;
+    } catch (err) {
+        return handleApiError(err);
+    }
+};

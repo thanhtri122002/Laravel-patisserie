@@ -67,7 +67,7 @@ Route::prefix('products/filter')->controller(ProductController::class)->group(fu
     Route::get('/discount', 'getDisCountProduct');
 });
 
-Route::prefix('admin')->name('admin.')->group(function () {
+Route::middleware('web')->prefix('admin')->name('admin.')->group(function () {
 
     Route::controller(AdminAuthController::class)->group(function () {
 
@@ -76,7 +76,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::post('logout', 'logout')->name('logout');
     });
 
-    Route::middleware('auth:admin')->prefix('dashboard')->group(function () {
+    Route::middleware('auth:sanctum')->prefix('dashboard')->group(function () {
 
         Route::get('/', [AdminAuthController::class, 'showDashboard'])->name('dashboard');
         Route::post('create', [AdminAuthController::class, 'store'])->name('store');
@@ -104,8 +104,6 @@ Route::prefix('admin')->name('admin.')->group(function () {
             Route::post('/{id}', 'update')->name('update');
             Route::post('/{id}/delete', 'delete')->name('delete');
         });
-
-        
     });
 });
 

@@ -24,10 +24,10 @@ export default function RegisterForm() {
         e.preventDefault();
         setErrors({});
         console.log('asdfasdfas');
-        const { data, error } = await register(formData);
-        if (error) {
-            setErrors(error);
-            console.log(error);
+        const { data, errors } = await register(formData);
+        if (errors) {
+            setErrors(errors);
+            console.log(errors);
         } else {
             console.log('login successs');
             window.location.href = '/home';

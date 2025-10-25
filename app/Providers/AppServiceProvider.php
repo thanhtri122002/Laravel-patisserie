@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Listeners\ProductEventSubscriber;
 use App\Listeners\UpdateProductStockSubscriber;
 use App\Models\Admin;
 use App\Models\Invoice;
@@ -48,7 +49,7 @@ class AppServiceProvider extends ServiceProvider
             };
         });
 
-        Event::subscribe(UpdateProductStockSubscriber::class);
+        Event::subscribe(ProductEventSubscriber::class);
 
     }
 }
