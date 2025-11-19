@@ -22,17 +22,22 @@ class InvoiceController extends BaseController
     {
         return $this->guard()->user();
     }
+<<<<<<< HEAD
     /**
      * A controller method call the invoice index service logic and return the response
      * 
      * @param \App\Http\Requests\InvoiceRequest
      * @return \App\Helpers\Response
      */
+=======
+
+>>>>>>> master
     public function index(InvoiceRequest $request)
     {
         $data = $request->validated();
         $perPage = $data['per_page'] ?? config('default.pagination');
         $invoices = $this->invoiceService->index($data, $perPage);
+<<<<<<< HEAD
         
         return $this->sendSuccessResponse($invoices, "Retrieved invoices successfully", Response::OK);
     }
@@ -42,6 +47,12 @@ class InvoiceController extends BaseController
      * @param int id
      * @return \App\Helpers\Response
      */
+=======
+
+        return $this->sendSuccessResponse($invoices, "Retrieved invoices successfully", Response::OK);
+    }
+
+>>>>>>> master
     public function detail($id)
     {
         $user = $this->getUser();

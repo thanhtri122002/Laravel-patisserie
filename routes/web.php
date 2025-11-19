@@ -68,6 +68,49 @@ Route::prefix('products/filter')->controller(ProductController::class)->group(fu
     Route::get('/discount', 'getDisCountProduct');
 });
 
+<<<<<<< HEAD
+=======
+Route::middleware('web')->prefix('admin')->name('admin.')->group(function () {
+
+    Route::controller(AdminAuthController::class)->group(function () {
+
+        Route::get('login', 'showLoginForm')->name('login');
+        Route::post('login', 'login')->name('login.submit');
+        Route::post('logout', 'logout')->name('logout');
+    });
+
+    Route::middleware('auth:sanctum')->prefix('dashboard')->group(function () {
+
+        Route::get('/', [AdminAuthController::class, 'showDashboard'])->name('dashboard');
+        Route::post('create', [AdminAuthController::class, 'store'])->name('store');
+
+        Route::controller(CategoryController::class)->prefix('categories')->name('categories.')->group(function () {
+
+            Route::get('/', [CategoryController::class, 'index'])->name('index');
+            Route::post('/', [CategoryController::class, 'create'])->name('create');
+            Route::post('/{id}', [CategoryController::class, 'update'])->name('update');
+            Route::post('/{id}/delete', [CategoryController::class, 'delete'])->name('delete');
+        });
+
+        Route::controller(ProductController::class)->prefix('products')->name('products.')->group(function () {
+
+            Route::post('/', 'store')->name('store');
+            Route::get('/{id}', 'detail')->name('detail');
+            Route::post('/{id}', 'update')->name('update');
+            Route::post('/{id}/delete', 'delete')->name('delete');
+        });
+
+        Route::controller(ProductImageController::class)->prefix('productImages')->name('productImages.')->group(function () {
+            Route::get('/', 'index')->name('index');
+            Route::post('/', 'store')->name('store');
+            Route::get('/{id}', 'detail')->name('detail');
+            Route::post('/{id}', 'update')->name('update');
+            Route::post('/{id}/delete', 'delete')->name('delete');
+        });
+    });
+});
+
+>>>>>>> master
 //All route require to protect sensitive info will need to be implements the authentication of middleware
 
 //Note: prefix user + login => user/login

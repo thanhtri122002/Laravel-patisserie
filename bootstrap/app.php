@@ -23,6 +23,10 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->validateCsrfTokens(except: [
             'user/checkoutSession/*',
         ]);
+<<<<<<< HEAD
+=======
+        $middleware->statefulApi();
+>>>>>>> master
         $middleware->alias([
             'abilities' => CheckAbilities::class,
             'ability' => CheckForAnyAbility::class,

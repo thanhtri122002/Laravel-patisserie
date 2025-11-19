@@ -9,10 +9,18 @@ import { useEffect } from "react";
  * @returns {MotionValue<number>} - A reactive rounded motion value you can bind directly in motion components.
  *
  */
+<<<<<<< HEAD
 export default function useCountUp(target, duration = 5) {
     const x = useMotionValue(0);
     const rounded = useTransform(x, (latest) => Math.round(latest));
     const [_ , animate] = useAnimate(); 
+=======
+
+export default function useCountUp(target, duration = 5) {
+    const x = useMotionValue(0);
+    const rounded = useTransform(x, (latest) => Math.round(latest));
+    const [scope, animate] = useAnimate(); 
+>>>>>>> master
     useEffect(() => {
         const control = animate(x, target, { duration });
 
@@ -24,6 +32,10 @@ export default function useCountUp(target, duration = 5) {
     return rounded;
 }
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> master
 /**
  * Note
  * 1/ useMotionvalue creates a special reactive variable that stores an animatable value. 

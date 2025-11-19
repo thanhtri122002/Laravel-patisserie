@@ -20,10 +20,18 @@ export default function ProductCard({ productData }) {
 
     return (
         <div
+<<<<<<< HEAD
             className={`product-card flex flex-col bg-white shadow-lg rounded-2xl overflow-hidden hover:shadow-xl transition-shadow duration-300 ${productData.stock === 0 ? "opacity-70" : ""
                 }`}
         >
         <div className="product-card__img-container relative z-10 aspect-square">
+=======
+            className={`product-card flex flex-col bg-white shadow-lg rounded-2xl overflow-hidden hover:shadow-xl transition-shadow duration-300 ${
+                productData.stock === 0 ? "opacity-70" : ""
+            }`}
+        >
+            {/* Image Section */}            <div className="product-card__img-container relative aspect-square">
+>>>>>>> master
                 <img
                     className="w-full h-full object-cover"
                     src={

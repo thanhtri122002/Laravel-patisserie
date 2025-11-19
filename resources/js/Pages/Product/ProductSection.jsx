@@ -4,9 +4,12 @@ import Pagination from "../../Components/Pagination";
 import DualPriceRange from "./Component/DualPriceRange";
 import useProductSection from "../../hooks/useProductSection";
 import LoadingSpinner from "../../Components/LoadingSpinner";
+import LoadingSpinner from "../../Components/LoadingSpinner";
 export default function ProductSection() {
     const {
         categories,
+        selectedCategoryId,
+        handleCategoryChange,
         selectedCategoryId,
         handleCategoryChange,
         products,

@@ -59,11 +59,14 @@ class User extends Authenticatable
         return $this->hasOne(Cart::class);
     }
 
+<<<<<<< HEAD
     public function profileImages(): MorphMany
     {
         return $this->morphMany(ProfilePicture::class, 'imageable');
     }
 
+=======
+>>>>>>> master
     public function scopeGetUserWithRole(Builder $query, $role): void
     {
         $query->where('role', $role);

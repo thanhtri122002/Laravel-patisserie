@@ -26,6 +26,11 @@ export default function useFetch(MainService, additionalAction = null, ...args) 
             try {
                 setLoading(true);
                 const result = await MainService(...args);
+<<<<<<< HEAD
+=======
+                
+                console.log('this iasdfiausdf :', result.data);
+>>>>>>> master
                 if (!isMounted) return;
                 setData(result.data);
                 if (typeof additionalAction === "function") {
@@ -45,7 +50,10 @@ export default function useFetch(MainService, additionalAction = null, ...args) 
 
     return { data, setData, loading, error };
 }
+<<<<<<< HEAD
 
 /**
  * The data set data in this is used to return the fetched data, let's try to figure outs what it can do more?
  */
+=======
+>>>>>>> master

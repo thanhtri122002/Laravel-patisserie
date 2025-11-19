@@ -3,7 +3,10 @@ import { handleApiError } from '../../utils/helpers.js';
 
 const login = async (formData = {}) => {
     try {
+<<<<<<< HEAD
     
+=======
+>>>>>>> master
         const response = await api.post("/user/login", formData);
         console.log(response);
         return { data: response.data, errors: null };

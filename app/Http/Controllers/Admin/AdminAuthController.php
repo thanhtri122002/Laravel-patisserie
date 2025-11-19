@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Auth;
 
 class AdminAuthController extends BaseController
 {
+<<<<<<< HEAD
     /**
      * a function to get currently auth user
      * 
@@ -20,6 +21,13 @@ class AdminAuthController extends BaseController
     public function getCurrentAuthUser(Request $request)
     {   
         return response()->json($request->user());
+=======
+
+    protected function getCurrentAuthUser()
+    {
+
+        return $this->guard()->user();
+>>>>>>> master
     }
     /**
      * Log in controller for the admin which receive the formrequest 
@@ -48,6 +56,7 @@ class AdminAuthController extends BaseController
                 );
         }
 
+<<<<<<< HEAD
         return $this->sendFailedResponse(null, "Something wrong", Response::UNAUTHORIZED, ['email' => ['The provided credentials do not match our records.']]);
     }
     /**
@@ -84,6 +93,40 @@ class AdminAuthController extends BaseController
         $admin = $this->getCurrentAuthUser();
         $registerResult = AuthService::getInstance()->withUser($admin)->store($validated);
 
+=======
+    public function showLoginForm()
+    {
+
+        return view('admin.login');
+    }
+
+    public function login(LoginRequest $request)
+    {   
+        $isSuccess = AuthService::getInstance()->login($request);
+
+        if ($isSuccess) {
+            return $this->sendSuccessResponse($isSuccess, "Log in successfully", Response::ACCEPTED);
+        }
+
+        return $this->sendFailedResponse(null, "Something wrong", Response::UNAUTHORIZED, ['email' => ['The provided credentials do not match our records.']]);
+    }
+
+    public function logout(Request $request)
+    {
+        $admin = $this->getCurrentAuthUser();
+
+        $logoutResult = AuthService::getInstance()->withUser($admin)->logout($request);
+
+        return redirect()->route('admin.login')->withSuccess(['message' => $logoutResult['message']]);
+    }
+
+    public function store(RegisterRequest $request)
+    {
+
+        $admin = $this->getCurrentAuthUser();
+
+        $registerResult = AuthService::getInstance()->withUser($admin)->store($request);
+>>>>>>> master
         return $this->sendSuccessResponse($registerResult, "create admin success", Response::OK);
     }
 }

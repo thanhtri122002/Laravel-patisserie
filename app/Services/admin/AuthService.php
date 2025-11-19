@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Hash;
 
 class AuthService extends Service
 {
+<<<<<<< HEAD
     /**
      * Log in service
      * First validate the request form then attempt to log the admin 
@@ -28,10 +29,22 @@ class AuthService extends Service
             $plainToken = $tokenParts[1];
 
             return $plainToken;
+=======
+
+    public function login($request)
+    {   
+        $credentials = $request->validated();
+
+        if (Auth::attempt($credentials)) {
+            $request->session()->regenerate();
+
+            return true;
+>>>>>>> master
         }
 
         return false;
     }
+<<<<<<< HEAD
     /**
      * Log out service
      * 
@@ -39,6 +52,9 @@ class AuthService extends Service
      * 
      * @return boolean
      */
+=======
+
+>>>>>>> master
     public function logout($request)
     {
         Auth::guard('admin')->logout();
@@ -47,6 +63,7 @@ class AuthService extends Service
 
         return true;
     }
+<<<<<<< HEAD
     /**
      * Register new admin 
      * 
@@ -54,6 +71,9 @@ class AuthService extends Service
      * 
      * @return \App\Models\Admin
      */
+=======
+
+>>>>>>> master
     public function store($validate)
     {
         $validate['password'] = Hash::make($validate['password']);

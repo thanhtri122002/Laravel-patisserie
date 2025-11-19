@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import { useState, useCallback, useContext, createContext } from "react";
 import useProducts from "./useProducts";
 import useCategories from "./useCategories";
@@ -51,6 +52,13 @@ import usePagination from "./usePagination";
  */
 
 const productDataContext = createContext();
+=======
+import { useState, useCallback } from "react";
+import useProducts from "./useProducts";
+import useCategories from "./useCategories";
+import usePagination from "./usePagination";
+
+>>>>>>> master
 
 export default function useProductSection() {
     
@@ -61,7 +69,11 @@ export default function useProductSection() {
         loading: categoryLoading,
         error: categoryError,
     } = useCategories();
+<<<<<<< HEAD
 
+=======
+    console.log(categories);
+>>>>>>> master
     const [searchInput, setSearchInput] = useState("");
     const [priceRange, setPriceRange] = useState([0.0, 1000000.0]);
 
@@ -91,6 +103,10 @@ export default function useProductSection() {
         [resetPagination]
     );
 
+<<<<<<< HEAD
+=======
+    
+>>>>>>> master
     const { products, loading: productLoading, error: productError } = useProducts(
         selectedCategoryId,
         priceRange,

@@ -102,7 +102,11 @@ export default function ProductPage() {
                                 <img
                                     src="https://images.unsplash.com/photo-1551024709-8f23befc6f87?w=240&q=80"
                                     alt="Baking process"
+<<<<<<< HEAD
                                     className="absolute inset-0 h-full w-full object-cover transition-transform duration-300 hover:scale-105 rounded-2xl shadow-lg"
+=======
+                                    class="absolute inset-0 h-full w-full object-cover transition-transform duration-300 hover:scale-105 rounded-2xl shadow-lg"
+>>>>>>> master
                                 />
                             </div>
 
@@ -234,6 +238,10 @@ export default function ProductPage() {
                     </div>
                 </div>
             </section>
+<<<<<<< HEAD
+=======
+
+>>>>>>> master
             <CartButton />
         </>
     );

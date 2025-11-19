@@ -1,9 +1,15 @@
 import { useState, useEffect, Suspense } from "react";
 import { motion } from "motion/react";
 import { getProducts } from "../../../Services/product.service";
+<<<<<<< HEAD
 import { getCountUser } from "../../../Services/user.service";
 import useCountUp from "../../../hooks/useCountUp";
 import { getCountInvoiceWithStatus } from "../../../Services/invoice.service";
+=======
+import { getUsers } from "../../../Services/user.service";
+import { getInvoiceWithStatus } from "../../../Services/invoice.service";
+import useCountUp from "../../../hooks/useCountUp";
+>>>>>>> master
 
 function Loading() {
     return (
@@ -13,6 +19,7 @@ function Loading() {
         </div>
     );
 }
+<<<<<<< HEAD
 /**
  * OurImpact Component
  *
@@ -27,6 +34,9 @@ function Loading() {
  * @component
  * @returns {JSX.Element} A section with three counters for products, customers, and orders
  */
+=======
+
+>>>>>>> master
 export default function OurImpact() {
     const [totals, setTotals] = useState({
         products: 0,
@@ -37,6 +47,7 @@ export default function OurImpact() {
     useEffect(() => {
         (async () => {
             const responseProduct = await getProducts();
+<<<<<<< HEAD
             const userTotal = await getCountUser();
             const invoiceTotal = await getCountInvoiceWithStatus(2);
             setTotals({
@@ -47,6 +58,19 @@ export default function OurImpact() {
         })();
     }, []);
     
+=======
+            const responseUser = await getUsers();
+            const responseInvoice = await getInvoiceWithStatus(2);
+
+            setTotals({
+                products: responseProduct.data.total,
+                customers: responseUser.total,
+                invoices: responseInvoice.total,
+            });
+        })();
+    }, []);
+
+>>>>>>> master
     const products = useCountUp(totals.products);
     const customers = useCountUp(totals.customers);
     const invoices = useCountUp(totals.invoices);

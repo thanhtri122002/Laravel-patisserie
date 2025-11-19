@@ -17,7 +17,7 @@ const getProducts = async (
             input_search: searchInput,
             page: page,
         };
-
+        console.log(categoryIds);
         const queryString = makeQueryString(params);
         const url = `/api/public/Indexproducts?${queryString}`;
         const response = await api.get(url);

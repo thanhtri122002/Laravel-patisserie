@@ -20,7 +20,11 @@ import GuestsNotification from "../../Components/GuestsNotifications";
  * Provides a forgot password link in case users forget their password
  *
  * @component
+<<<<<<< HEAD
  * 
+=======
+ * ]
+>>>>>>> master
  * @returns {JSX.Element} A styled login form
  *
  * @example
@@ -31,6 +35,10 @@ export default function LoginForm() {
         email: "",
         password: "",
     });
+<<<<<<< HEAD
+=======
+    let status;
+>>>>>>> master
     const [errors, setErrors] = useState({});
 
     const handleChange = (event) => {
@@ -43,15 +51,27 @@ export default function LoginForm() {
         setErrors({});
 
         const { data, errors } = await login(formData);
+<<<<<<< HEAD
         if (errors) {
             status = false;
+=======
+        console.log(data);
+        if (errors) {
+            console.log(errors);
+            status = false;
+            setErrors(errors);
+>>>>>>> master
         } else {
             window.location.href = "/home";
         }
     };
 
     const memoizedErrors = useMemo(() => errors, [errors]);
+<<<<<<< HEAD
 
+=======
+    console.log(formData);
+>>>>>>> master
     return (
         <div className="form-wrapper">
             <GuestsNotification NotiData={memoizedErrors} status={false} />

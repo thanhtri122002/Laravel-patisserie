@@ -3,9 +3,16 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Helpers\Response;
+<<<<<<< HEAD
 use App\Http\Requests\UserRequest;
 use App\Models\User;
 use App\Services\admin\UserService;
+=======
+use App\Http\Controllers\Controller;
+use App\Http\Requests\UserRequest;
+use App\Services\admin\UserService;
+use Illuminate\Http\Request;
+>>>>>>> master
 
 class UserController extends BaseController
 {
@@ -24,6 +31,7 @@ class UserController extends BaseController
 
         return $this->sendSuccessResponse($users, 'Retrieved users successfully', Response::OK);
     }
+<<<<<<< HEAD
     
     public function count ()
     {
@@ -31,4 +39,6 @@ class UserController extends BaseController
         
         return $this->sendSuccessResponse($total, 'Retrieved number of users successfully', Response::OK);
     }
+=======
+>>>>>>> master
 }

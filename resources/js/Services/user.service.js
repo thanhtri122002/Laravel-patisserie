@@ -1,3 +1,7 @@
+<<<<<<< HEAD
+=======
+import axios from "axios";
+>>>>>>> master
 import api from "./api/axios";
 import { makeQueryString, handleApiError } from "../utils/helpers";
 
@@ -6,8 +10,13 @@ const getUsers = async (role) => {
         const params = {
             role: role,
         };
+<<<<<<< HEAD
         
         const response = await api.get("/api/public/user/index", params);
+=======
+
+        const response = await api.get("/user", params);
+>>>>>>> master
 
         return response.data.data;
     } catch (err) {
@@ -15,6 +24,7 @@ const getUsers = async (role) => {
     }
 };
 
+<<<<<<< HEAD
 const getCountUser = async () => {
     try {
         const response = await api.get("/api/public/user/count");
@@ -26,3 +36,6 @@ const getCountUser = async () => {
 }
 
 export { getUsers, getCountUser };
+=======
+export { getUsers };
+>>>>>>> master

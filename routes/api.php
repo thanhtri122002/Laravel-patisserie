@@ -1,5 +1,5 @@
-<?php
 
+<<<<<<< HEAD
 use App\Http\Controllers\Admin\AdminAuthController;
 use App\Http\Controllers\admin\ProductController;
 use App\Http\Controllers\Admin\CategoryController;
@@ -52,3 +52,5 @@ Route::prefix('admin')->name('admin.')->group(function () {
         });
     });
 });
+=======
+>>>>>>> master

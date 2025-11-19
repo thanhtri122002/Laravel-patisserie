@@ -10,6 +10,7 @@ export const getInvoice = async (id) => {
         handleApiError(err);
     }
 };
+<<<<<<< HEAD
 
 export const getCountInvoiceWithStatus = async (status) => {
     try {
@@ -41,3 +42,18 @@ export const getCountInvoiceWithStatus = async (status) => {
 // };
 
 
+=======
+
+export const getInvoiceWithStatus = async (status) => {
+    try {
+        const params = {
+            status: status,
+        };
+        const response = await api.get("/invoices/index", params);
+        
+        return response.data.data;
+    } catch (err) {
+        return handleApiError(err);
+    }
+};
+>>>>>>> master

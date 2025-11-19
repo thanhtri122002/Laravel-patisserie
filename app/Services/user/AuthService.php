@@ -2,6 +2,10 @@
 namespace App\Services\user;
 
 use App\Events\UserLogin;
+<<<<<<< HEAD
+=======
+use App\Http\Requests\user\Auth\LoginRequest;
+>>>>>>> master
 use App\Models\User;
 use App\Services\Service;
 use Illuminate\Http\Request;
@@ -25,6 +29,11 @@ class AuthService extends Service {
         $user = User::where('email', $credentials['email'])->first();
         if (!$user) return false;
         
+<<<<<<< HEAD
+=======
+        if (!Hash::check($credentials['password'], $user->password)) return false;
+        
+>>>>>>> master
         if (Auth::guard('web')->attempt($credentials)) {
 
             $request->session()->regenerate();
@@ -32,8 +41,11 @@ class AuthService extends Service {
             
             return true;
         }
+<<<<<<< HEAD
 
         return false;
+=======
+>>>>>>> master
     }
 
     /**
@@ -48,8 +60,11 @@ class AuthService extends Service {
         Auth::guard('web')->logout();
         $request->session()->regenerateToken();
         $request->session()->invalidate();
+<<<<<<< HEAD
 
         return true;
+=======
+>>>>>>> master
     }
 
     /**

@@ -18,6 +18,10 @@ class InvoiceService extends Service
         $this->stripe = $stripe;
     }
 
+    protected function baseQuery()
+    {
+        return Invoice::with(['productDetails', 'user']);
+    }
     /**
      * Base query which will be used as base for more complicated queries
      * 
@@ -55,7 +59,11 @@ class InvoiceService extends Service
     }
 
     public function index($data, $perPage)
+<<<<<<< HEAD
     {   
+=======
+    {
+>>>>>>> master
         return $this->baseQuery()
             ->when(isset($data['status']), function (Builder $query) use ($data) {
                 $query->GetInvoiceWithStatus($data['status']);
@@ -63,6 +71,10 @@ class InvoiceService extends Service
             ->paginate($perPage);
     }
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> master
     public function getUserInvoices($search, $perPage)
     {
         $userId = $this->getUser()->id;

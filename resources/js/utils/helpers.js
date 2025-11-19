@@ -19,7 +19,11 @@ const debounce = (fn, delay) => {
     let timer;
     return (...args) => {
         clearTimeout(timer);
+<<<<<<< HEAD
         
+=======
+        console.log(timer);
+>>>>>>> master
         return new Promise((resolve, reject) => {
             timer = setTimeout(async () => {
                 try {
