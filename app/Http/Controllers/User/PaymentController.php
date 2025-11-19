@@ -2,10 +2,9 @@
 
 namespace App\Http\Controllers\User;
 
+use Illuminate\Http\Request;
 use App\Services\StripeService;
 use App\Services\user\InvoiceService;
-use Illuminate\Http\Request;
-use App\Models\Invoice;
 class PaymentController extends BaseController
 {   
     protected $invoiceService;

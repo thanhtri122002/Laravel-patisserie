@@ -8,8 +8,6 @@ use App\Http\Requests\admin\Auth\RegisterRequest;
 use App\Services\admin\AuthService;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Admin\BaseController;
-use Illuminate\Support\Facades\Auth;
-
 class AdminAuthController extends BaseController
 {
     /**

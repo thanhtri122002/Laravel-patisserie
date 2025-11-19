@@ -1,4 +1,5 @@
 <?php
+namespace App\Services\admin\AdminDashboard;
 
 use App\Models\Invoice;
 use App\Models\Product;

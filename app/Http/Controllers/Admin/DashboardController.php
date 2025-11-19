@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Helpers\Response;
-use App\Services\AdminDashboard\CoreStatsService;
+use App\Services\admin\AdminDashboard\CoreStatsService;
 use Illuminate\Http\Request;
 
 class DashboardController extends BaseController

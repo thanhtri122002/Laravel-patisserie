@@ -1,6 +1,18 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-
+/**
+ * GuestsNotification
+ * 
+ * A floating notification component that displays a temporary message
+ * for guests, with success or failure status styling. The notification
+ * automatically disappears after 5 seconds.
+ * 
+ * @param {Object} props - Component props
+ * @param {{ message: string }} props.NotiData - Notification data object containing the message to display.
+ * @param {boolean} props.status - Status of the notification; `true` for success, `false` for failure.
+ * 
+ * @returns {JSX.Element} A floating notification element with animation using Framer Motion.
+ */
 export default function GuestsNotification({ NotiData, status }) {
     const [notification, setNotification] = useState(null);
 
@@ -12,10 +24,10 @@ export default function GuestsNotification({ NotiData, status }) {
         }[status] || "text-[--text-default]");
 
     useEffect(() => {
-        if (!NotiData.message) return;
-
+        if (!NotiData?.message) return;
+    
         setNotification(NotiData);
-
+        console.log(notification);
         const timeout = setTimeout(() => {
             setNotification(null);
         }, 5000);

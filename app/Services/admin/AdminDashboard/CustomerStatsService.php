@@ -1,5 +1,7 @@
 <?php
 
+namespace App\Services\admin\AdminDashboard;
+
 use App\Models\Invoice;
 use App\Models\User;
 use App\Services\Service;
@@ -58,7 +60,5 @@ class CustomerStatsService extends Service {
                     ->limit($limit)
                     ->get();
     }
-    public function getCustomerDailyRate
-
     
 }

@@ -3,6 +3,7 @@
 use App\Http\Controllers\admin\ProductController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\Guest\GuestController;
 use App\Http\Controllers\User\Auth\PasswordResetLinkController;
 use App\Http\Controllers\User\Auth\ResetPasswordController;
 use App\Http\Controllers\User\CartController;
@@ -11,7 +12,7 @@ use App\Http\Controllers\User\PaymentController;
 use App\Http\Controllers\User\UserAuthController;
 use Illuminate\Support\Facades\Route; 
 
-Route::prefix('home')->group(function () {
+Route::prefix('/')->group(function () {
     Route::view('/', 'landingPage');
     Route::get('teams', function () {
         return view('Teams');
@@ -56,6 +57,7 @@ Route::prefix('api/public')->name('public')->group(function () {
     Route::get('/user/index', [UserController::class, 'index']);
     Route::get('/user/count', [UserController::class, 'count']);
     Route::get('/invoices/count', [InvoiceController::class, 'count']);
+    Route::post('/sendContact', [GuestController::class, 'sendContact']);
 });
 Route::prefix('products/filter')->controller(ProductController::class)->group(function () {
     Route::get('/new/{limit?}', 'getNewProduct');

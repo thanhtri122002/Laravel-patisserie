@@ -25,4 +25,15 @@ const getCountUser = async () => {
     }
 }
 
+const sendContact = async (params) => {
+    try {
+        const response = await api.post("api/public/sendContact", { params });
+
+        return response.data;
+    } catch (err) {
+        
+        return handleApiError(err);
+    }
+}
+
 export { getUsers, getCountUser };

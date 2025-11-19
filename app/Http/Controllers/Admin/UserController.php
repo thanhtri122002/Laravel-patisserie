@@ -31,4 +31,5 @@ class UserController extends BaseController
         
         return $this->sendSuccessResponse($total, 'Retrieved number of users successfully', Response::OK);
     }
+
 }

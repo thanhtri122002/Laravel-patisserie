@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services\AdminDashboard;
+namespace App\Services\admin\AdminDashboard;
 
 use App\Models\Invoice;
 use App\Services\Service;
