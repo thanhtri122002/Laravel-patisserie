@@ -1,4 +1,4 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback, useContext, createContext } from "react";
 import useProducts from "./useProducts";
 import useCategories from "./useCategories";
 import usePagination from "./usePagination";
@@ -49,6 +49,9 @@ import usePagination from "./usePagination";
  *   error,
  * } = useProductSection();
  */
+
+const productDataContext = createContext();
+
 export default function useProductSection() {
     
     const {
