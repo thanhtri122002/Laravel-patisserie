@@ -6,8 +6,10 @@ import CartButton from "../../Components/CartButton";
 import { ChefHat, CakeSlice, AlarmClockCheck } from "lucide-react";
 
 export default function ProductPage() {
+    
     return (
         <>
+            {/* a stacking context relative */}
             <HeroBanner
                 title="Products"
                 subtitle="Delight in every bite - from delicate pastries to decadent cakes"
@@ -100,7 +102,7 @@ export default function ProductPage() {
                                 <img
                                     src="https://images.unsplash.com/photo-1551024709-8f23befc6f87?w=240&q=80"
                                     alt="Baking process"
-                                    class="absolute inset-0 h-full w-full object-cover transition-transform duration-300 hover:scale-105 rounded-2xl shadow-lg"
+                                    className="absolute inset-0 h-full w-full object-cover transition-transform duration-300 hover:scale-105 rounded-2xl shadow-lg"
                                 />
                             </div>
 
@@ -232,7 +234,6 @@ export default function ProductPage() {
                     </div>
                 </div>
             </section>
-
             <CartButton />
         </>
     );
