@@ -79,6 +79,7 @@ const Filter = React.memo(function Filter({
                 </PrimaryButton>
             )}
             <AnimatePresence>
+                
                 <Modal
                     open={isOpenModal}
                     setIsOpen={setIsOpenModal}
@@ -88,7 +89,7 @@ const Filter = React.memo(function Filter({
                         initial={{ y: "100%", opacity: 0 }}
                         animate={{ y: 0, opacity: 1 }}
                         exit={{ y: "100%", opacity: 0 }}
-                        className="w-full flex flex-col gap-5 p-5 isolation-isolate"
+                        className="w-full flex flex-col gap-5 p-5"
                     >
                         <div className="flex justify-between items-center mb-4">
                             <h2 className="font-mer text-h3 text-[--Pink-Primary]">
