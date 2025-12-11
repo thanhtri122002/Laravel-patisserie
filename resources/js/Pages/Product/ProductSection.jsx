@@ -22,7 +22,7 @@ export default function ProductSection() {
     return (
         <div className="product-section flex flex-col lg:flex-row gap-10 py-10">
             {/* Sidebar Filter */}
-            <aside className="lg:w-1/4 w-full bg-[--White-Primary] border border-[--Pink-Primary]/20 shadow-lg rounded-3xl p-6 sticky top-24 h-fit">
+            <aside className="lg:w-1/4 w-full bg-[--White-Primary] border border-[--Pink-Primary]/20 shadow-lg rounded-3xl p-6 sticky z-50 top-24 h-fit">
                 <p className="font-mer text-h1 text-center text-[--Pink-Primary] mb-6">
                     Filters
                 </p>

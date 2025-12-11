@@ -2,7 +2,8 @@
 
 namespace App\Helpers;
 
-class Response {
+class Response
+{
 
     const CONTINUE = 100;
     const SWITCHING_PROTOCOLS = 101;
@@ -33,7 +34,8 @@ class Response {
     const SERVICE_UNAVAILABLE = 503;
     const GATEWAY_TIMEOUT = 504;
 
-    public static function sendResponse($data ,$message , $status, $errors) {
+    public static function sendResponse($data, $message, $status, $errors)
+    {
         return response()->json([
             'data' => $data,
             'message' => $message,

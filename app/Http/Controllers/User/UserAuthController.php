@@ -70,6 +70,6 @@ class UserAuthController extends BaseController
         $user = $this->getCurrentUser();
         $isSuccess = AuthService::getInstance()->withUser($user)->logout($request);
 
-        return $this->sendSuccessResponse($isSuccess, "Log out successfully", Response::OK);
+        return redirect('/');
     }
 }

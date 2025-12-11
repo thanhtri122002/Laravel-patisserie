@@ -1,7 +1,22 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import useNotification from "../hooks/useNoti";
-
+/**
+ * UsersNotifications
+ * 
+ * A React component that displays real-time notifications for the current user.
+ * Notifications are received via a custom `useNotification` hook (Laravel Echo / Reverb)
+ * and automatically disappear after 8 seconds.
+ * 
+ * Each notification is animated using Framer Motion and styled based on its status.
+ * 
+ * @component
+ * 
+ * @example
+ * <UsersNotifications />
+ * 
+ * @returns {JSX.Element} A floating list of notifications positioned at the bottom-right of the screen.
+ */
 export default function UsersNotifications() {
     const [notifications, setNotifications] = useState([]);
 
@@ -13,6 +28,8 @@ export default function UsersNotifications() {
         }[status] || "text-[--text-default]");
 
     useNotification(`App.Models.User.${window.userId}`, (notification) => {
+        console.log(notification);
+        console.log(notification.data);
         const payload = notification.data || notification;
         setNotifications((prev) => [payload, ...prev]);
 

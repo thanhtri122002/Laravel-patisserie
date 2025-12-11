@@ -4,14 +4,15 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 
 class ProfilePicture extends Model
 {
     use HasFactory;
 
-    public function imageable(): MorphTo
+    public function profile(): BelongsTo
     {
-        return $this->morphTo();
+        return $this->belongsTo(Profile::class);
     }
 }

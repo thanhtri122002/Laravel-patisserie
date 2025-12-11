@@ -32,7 +32,7 @@ export default function LoginForm() {
         password: "",
     });
     const [errors, setErrors] = useState({});
-
+    let status;
     const handleChange = (event) => {
         const { name, value } = event.target;
         setFormData((prevFormData) => ({ ...prevFormData, [name]: value }));
@@ -45,6 +45,7 @@ export default function LoginForm() {
         const { data, errors } = await login(formData);
         if (errors) {
             status = false;
+            setErrors(errors);
         } else {
             window.location.href = "/home";
         }

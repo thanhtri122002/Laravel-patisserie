@@ -4,10 +4,19 @@ import NewArrivalSection from "./NewArrivals";
 import BestSellers from "./BestSellers";
 import CartButton from "../../Components/CartButton";
 import { ChefHat, CakeSlice, AlarmClockCheck } from "lucide-react";
-
+/**
+ * ProductPage
+ * @component
+ * 
+ * @description - A component which represents a product page that contains other components and sections
+ * 
+ * @returns {JSX.Element}
+ */
 export default function ProductPage() {
+
     return (
         <>
+            {/* a stacking context relative */}
             <HeroBanner
                 title="Products"
                 subtitle="Delight in every bite - from delicate pastries to decadent cakes"
@@ -100,7 +109,7 @@ export default function ProductPage() {
                                 <img
                                     src="https://images.unsplash.com/photo-1551024709-8f23befc6f87?w=240&q=80"
                                     alt="Baking process"
-                                    class="absolute inset-0 h-full w-full object-cover transition-transform duration-300 hover:scale-105 rounded-2xl shadow-lg"
+                                    className="absolute inset-0 h-full w-full object-cover transition-transform duration-300 hover:scale-105 rounded-2xl shadow-lg"
                                 />
                             </div>
 
@@ -166,31 +175,56 @@ export default function ProductPage() {
                 </div>
             </section>
 
-            <section className="newsletter-section w-full py-[6rem] bg-[--Light-Pink]/50">
+            <section className="reviews-section w-full py-[6rem] bg-[--Light-Pink]/50">
                 <div className="full-container mx-auto text-center">
                     <p className="font-mer text-h2 text-[--Pink-Primary] mb-3">
-                        Join Our Sweet List
+                        What Our Customers Say
                     </p>
-                    <p className="font-mer text-h3 text-[--text-default] mb-8">
-                        Be the first to know about new treats and exclusive
-                        offers 🍓
+                    <p className="font-mer text-h3 text-[--text-default] mb-12">
+                        Sweet words from those who tasted the magic 🍰
                     </p>
 
-                    <form className="flex flex-col sm:flex-row justify-center items-center gap-4 max-w-xl mx-auto">
-                        <input
-                            type="email"
-                            placeholder="Enter your email"
-                            className="px-5 py-3 w-full sm:w-[20rem] rounded-full border border-[--Pink-Primary] focus:outline-none"
-                        />
-                        <button
-                            type="submit"
-                            className="bg-[--Pink-Primary] text-[--White-Primary] px-6 py-3 rounded-full transition-all hover:scale-105 hover:shadow-[0_0_15px_var(--Pink-Primary)]"
-                        >
-                            Subscribe
-                        </button>
-                    </form>
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                        <div className="bg-white p-6 rounded-2xl shadow-md flex flex-col items-center">
+                            <img
+                                src="https://ui-avatars.com/api/?name=Emily+A&background=ffafcc"
+                                className="w-16 h-16 rounded-full mb-4"
+                            />
+                            <p className="font-mer text-h4 text-[--text-default] mb-2">Emily A.</p>
+                            <p className="text-[--Pink-Primary] text-lg mb-2">★★★★★</p>
+                            <p className="text-body text-[--text-muted]">
+                                “The strawberry cream cake was absolutely heavenly. Fresh, soft,
+                                and truly artisanal!”
+                            </p>
+                        </div>
+
+                        <div className="bg-white p-6 rounded-2xl shadow-md flex flex-col items-center">
+                            <img
+                                src="https://ui-avatars.com/api/?name=Lucas+T&background=ffd6a5"
+                                className="w-16 h-16 rounded-full mb-4"
+                            />
+                            <p className="font-mer text-h4 text-[--text-default] mb-2">Lucas T.</p>
+                            <p className="text-[--Pink-Primary] text-lg mb-2">★★★★★</p>
+                            <p className="text-body text-[--text-muted]">
+                                “Best croissants in town. Light, buttery, and baked to perfection.”
+                            </p>
+                        </div>
+
+                        <div className="bg-white p-6 rounded-2xl shadow-md flex flex-col items-center">
+                            <img
+                                src="https://ui-avatars.com/api/?name=Sophia+K&background=caffbf"
+                                className="w-16 h-16 rounded-full mb-4"
+                            />
+                            <p className="font-mer text-h4 text-[--text-default] mb-2">Sophia K.</p>
+                            <p className="text-[--Pink-Primary] text-lg mb-2">★★★★★</p>
+                            <p className="text-body text-[--text-muted]">
+                                “Ordered a birthday cake and it was both stunning and delicious. Highly recommend!”
+                            </p>
+                        </div>
+                    </div>
                 </div>
             </section>
+
 
             <section className="w-full font-mer text-h3 text-[--text-default] py-[6rem] bg-[--Light-Pink] overflow-hidden">
                 <div className="small-container mx-auto text-center relative bg-[--section-light] rounded-md p-6">
@@ -232,7 +266,6 @@ export default function ProductPage() {
                     </div>
                 </div>
             </section>
-
             <CartButton />
         </>
     );

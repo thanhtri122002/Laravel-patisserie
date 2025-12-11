@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
+use Illuminate\Database\Eloquent\Relations\MorphOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Cashier\Billable;
@@ -59,11 +60,10 @@ class User extends Authenticatable
         return $this->hasOne(Cart::class);
     }
 
-    public function profileImages(): MorphMany
+    public function profile(): MorphOne
     {
-        return $this->morphMany(ProfilePicture::class, 'imageable');
+        return $this->morphOne(Profile::class, 'profilable');
     }
-
     public function scopeGetUserWithRole(Builder $query, $role): void
     {
         $query->where('role', $role);

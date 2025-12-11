@@ -6,7 +6,13 @@ const quotes = [
   { text: "Precision in baking is what sets magic in motion.", author: "Chef Minh" },
   { text: "We don’t bake to impress—we bake to connect.", author: "Chef Lena" },
 ];
-
+/**
+ * A slider section that ultilize framer motion to make slider presenting some quotes
+ * 
+ * Description 
+ * Change the quote every five seconds 
+ * @returns {JSX.Element}
+ */
 export default function QuoteSlider() {
     const [active, setActive] = useState(0);
 
@@ -21,7 +27,9 @@ export default function QuoteSlider() {
     return (
         <>
             <div className="w-full mx-auto text-center py-12 px-6 relative min-h-[100px] mt-10">
+
                 <AnimatePresence mode='wait'>
+
                     <motion.div
                         key={active}
                         initial={{ opacity: 0, x: 100 }}
@@ -37,7 +45,9 @@ export default function QuoteSlider() {
                             —{quotes[active].author}
                         </p>
                     </motion.div>
+
                 </AnimatePresence>
+
                 <div className="flex justify-center gap-2 mt-6">
                     {quotes.map((_, i) => (
                     <div

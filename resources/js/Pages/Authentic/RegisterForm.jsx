@@ -23,11 +23,10 @@ export default function RegisterForm() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         setErrors({});
-        console.log('asdfasdfas');
+
         const { data, errors } = await register(formData);
         if (errors) {
             setErrors(errors);
-            console.log(errors);
         } else {
             console.log('login successs');
             window.location.href = '/home';
