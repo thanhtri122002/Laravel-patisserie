@@ -1,10 +1,40 @@
 import { Mail, ExternalLink, Instagram, Twitter, Youtube } from "lucide-react";
 import TextInput from "../../Components/TextInput";
 import InputLabel from "../../Components/InputLabel";
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { sendContact } from "../../Services/guest.service";
 import GuestsNotification from "../../Components/GuestsNotifications";
 
+/**
+ * Contact Page
+ *
+ * @component
+ *
+ * @typedef {Object} PayloadState
+ * @property {string} name       - User's name input
+ * @property {string} email      - User's email input
+ * @property {string} message    - User's message input
+ *
+ * @typedef {Object} ErrorState
+ * @property {string} [name]     - Validation error for name
+ * @property {string} [email]    - Validation error for email
+ * @property {string} [message]  - Validation error for message
+ * @property {string} [general]  - General API error message
+ *
+ * @typedef {Object} NotificationData
+ * @property {string} type       - Notification type (e.g., "success", "error")
+ * @property {string} message    - Message to display in the notification system
+ *
+ * @state {PayloadState} payload - Stores all form input values
+ * @state {ErrorState} errors    - Stores validation or API errors
+ * @state {NotificationData} notiData - Stores data forwarded to the notification system
+ *
+ * @function handleChange Updates form inputs and payload state
+ * @function handleSubmit Handles submit event: clears previous errors, sends API request,
+ *                        sets notification data, and populates errors when API returns issues
+ *
+ * @returns {JSX.Element} The contact page component
+ */
 export default function ContactPage() {
     const [payload, setPayload] = useState({
         firstName: "",
@@ -13,7 +43,8 @@ export default function ContactPage() {
         message: "",
     });
     
-    const [errors, setErrors] = useState({});
+    const [errors, setErrors] = useState({data: null, status: false});
+    const [notiData, setNotiData] = useState();
     
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -24,19 +55,27 @@ export default function ContactPage() {
         setErrors({});
         try {
             const response = await sendContact(payload);
-
+            setNotiData({
+                message: response.message,
+                data: response.data,
+                status: true,
+            });
+            console.log(notiData);
         } catch (err) {
             setErrors(err);
-            console.log(err);
+            setNotiData({
+                message: err.response?.data?.message || "Something went wrong",
+                data: null,
+                status: false,
+            });
         }
 
     }
     return (
         <>  
-            <GuestsNotification notiData={response} status={true}/>
+            <GuestsNotification NotiData={notiData} status={notiData?.status}/>
             <div className="huge-container mx-auto h-[70dvh] flex">
                 <div className="my-auto px-20 py-10 w-full h-[2/3] flex flex-col justify-center md:flex-row">
-                    {/* Left Side */}
                     <div className="w-1/2 flex flex-col gap-y-32">
                         <div className="flex flex-col gap-y-10">
                             <p className="font-mer text-h1">Get In Touch</p>
@@ -62,8 +101,6 @@ export default function ContactPage() {
                             </div>
                         </div>
                     </div>
-
-                    {/* Right Side Form */}
                     <div onSubmit={handleSubmit} className="w-1/2 flex justify-center items-center">
                         <form className="flex flex-col gap-y-5 p-5">
                             <div className="flex flex-row justify-center items-center gap-x-10">

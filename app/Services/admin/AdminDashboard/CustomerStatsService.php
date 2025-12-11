@@ -60,5 +60,29 @@ class CustomerStatsService extends Service {
                     ->limit($limit)
                     ->get();
     }
-    
+    public function getNewUserInEachMonth()
+    {
+        $currentYear = now()->year;
+
+        return User::whereYear('created_at', $currentYear)
+                    ->selectRaw('MONTH(created_at) as month, COUNT(*) as total_users')
+                    ->groupBy('month')
+                    ->orderBy('month')
+                    ->get();
+    }
+    public function getCustomersWhoPurchased ()
+    {
+        return User::join('invoices', 'users.id', '=', 'invoices.user_id')
+            ->where('invoices.status', Invoice::PAID)
+            ->select('users.*')
+            ->distinct()
+            ->get();
+    }
+    public function getPaidCustomerRatio()
+    {
+        $totalUsers = User::count(); 
+        $purchasingUsers = $this->getCustomersWhoPurchased()->count();
+
+        return $totalUsers > 0 ? ($purchasingUsers / $totalUsers) * 100 : 0;
+    }
 }

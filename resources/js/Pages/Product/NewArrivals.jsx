@@ -1,7 +1,24 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { getNewProducts } from "../../Services/product.service";
-
+/**
+ * New Arrival Section Component
+ *
+ * Fetches and displays a rotating carousel of newly added products.
+ * @description - This component displays an area which will displays a fetched product in a particular time 
+ *                and then switch to next product which ultilizes the framer motion for transition and animation
+ *
+ * @component
+ *
+ * @param {Object} props
+ * @param {number} [props.limit=3] - Number of new products to fetch.
+ * @param {JSX.Element | JSX.Element[]} [props.children] - Optional children elements.
+ * @param {string} [props.className] - Additional CSS classes for the wrapper.
+ *
+ * @state {Array<Object>} newProducts - Array of new products
+ * @state {int} activeIndex - currently active index, representing index of displaying product
+ * @returns {JSX.Element} A section displaying animated new arrival products.
+ */
 export default function NewArrivalSection({
     limit = 3,
     children,

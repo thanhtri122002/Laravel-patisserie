@@ -10,33 +10,27 @@ use App\Http\Controllers\User\CartController;
 use App\Http\Controllers\User\InvoiceController;
 use App\Http\Controllers\User\PaymentController;
 use App\Http\Controllers\User\UserAuthController;
-use Illuminate\Support\Facades\Route; 
+use Illuminate\Support\Facades\Route;
 
-Route::prefix('/')->group(function () {
-    Route::view('/', 'landingPage');
-    Route::get('teams', function () {
-        return view('Teams');
-    });
-
-    Route::get('products', function () {
-        return view('products');
-    });
+Route::prefix('/home')->name('site.')->middleware('site')->group(function () {
+    Route::view('/', 'landingPage')->name('index');
+    Route::view('teams', 'Teams')->name('teams');
+    Route::view('products', 'products')->name('products');
+    Route::view('cart', 'cart')->name('cart');
+    Route::view('contact', 'contact')->name('contact');
 
     Route::get('products/{id}', function ($id) {
         return view("productInfo", ['productId' => $id]);
-    });
-    Route::get('cart', function () {
-        return view('cart');
-    });
-    Route::view('contact', 'contact');
-    
+    })->name('products.show');
 });
+
 Route::get('/authToggle', function () {
     return view('auth_form_toggle', [
         'hideHeader' => true,
         'hideFooter' => true,
     ]);
 })->name('user.auth');
+
 Route::get('forgot-password', function () {
     return view(
         'auth.forgot-password',
@@ -48,7 +42,7 @@ Route::get('forgot-password', function () {
 });
 
 
-Route::prefix('api/public')->name('public')->group(function () {
+Route::prefix('api/public')->name('api.public')->group(function () {
     Route::get('/categories', [CategoryController::class, 'index'])->name('api.public.categories');
     Route::get('/products', [ProductController::class, 'index'])->name('api.public.products');
     Route::get('/Indexproducts', [ProductController::class, 'productIndex']);
@@ -90,19 +84,18 @@ Route::prefix('user')->name('user.')->group(function () {
     });
 
     Route::middleware("auth")->group(function () {
-        
+
         Route::controller(PaymentController::class)->prefix('checkoutSession')->name('checkout.')->group(function () {
-            
+
             Route::view('/checkout', 'checkoutPage');
             Route::view('/complete', 'checkoutPage');
             Route::post('/createSession/{id}', 'checkoutSession')->name('checkoutSession');
             Route::post('/retrieve-status', 'retrieveStatus')->name('retrieveStatus');
-           
         });
 
         Route::controller(CartController::class)->prefix('cart')->name('cart.')->group(function () {
 
-            Route::post('/submit', 'submitCart')->name('submit'); 
+            Route::post('/submit', 'submitCart')->name('submit');
             Route::post('/', 'addToCart')->name('addProduct');
             Route::post('/{productDetailId}', 'update')->name('updateProductDetail');
             Route::post('/{productDetailId}/delete', 'deleteProduct')->name('deleteProductDetail');

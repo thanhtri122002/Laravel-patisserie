@@ -3,7 +3,10 @@
 namespace App\Services\admin\AdminDashboard;
 
 use App\Models\Invoice;
+use App\Models\Visit;
 use App\Services\Service;
+use Carbon\Carbon;
+use Carbon\CarbonImmutable;
 use Illuminate\Support\Facades\DB;
 
 class CoreStatsService extends Service
@@ -140,6 +143,11 @@ class CoreStatsService extends Service
             ->orderBy('day', 'asc')
             ->get();
     }
+    /**
+     * Get the revenue growthRate between month in a year
+     * 
+     * @return array growthRate - array that contain growth rate between successive month
+     */
     public function monthLyGrowRate()
     {
         $monthlyRevenue = $this->getMonthlyRevenue();
@@ -148,7 +156,7 @@ class CoreStatsService extends Service
 
         foreach ($monthlyRevenue as $month => $income) {
             $income = (float) $income;
-            
+
             if ($prevMonth === null) {
                 $growthRate[$month] = 0;
             } else {
@@ -160,11 +168,209 @@ class CoreStatsService extends Service
 
         return $growthRate;
     }
-
-
+    /**
+     * a function to get the growthRate of years
+     * 
+     * @param int $delta - the distance between current year backward
+     * 
+     * @return array $growthRate - the growthRate of each successive year
+     */
     public function getAnnualGrowthRate($delta)
     {
         $annualRevenue = $this->getAnnualRevenue($delta);
+        $prevYear = null;
+        $growthRate = [];
 
+        foreach ($annualRevenue as $year => $income) {
+            $income = (float) $income;
+
+            if ($prevYear === null) {
+                $growthRate[$year] = 0;
+            } else {
+                $growthRate[$year] = (($income - $prevYear) / $prevYear) * 100;
+            }
+            $prevYear =  $income;
+        }
+
+        return $growthRate;
     }
+    public function groupMonthsByRevenue()
+    {
+        $raw = $this->getMonthlyRevenue();
+        $monthly = array_fill(0, 12, null);
+
+        foreach ($raw as $item) {
+            $monthly[$item->month - 1] = $item;
+        }
+
+        $quarterNames = ['first quarter', 'second quarter', 'third quarter', 'fourth quarter'];
+        $quarters = [];
+
+        $currentQuarter = 0;
+        $countMonthsInQuarter = 0;
+
+        for ($i = 0; $i < 12; $i++) {
+
+            $quarters[$quarterNames[$currentQuarter]][] = $monthly[$i];
+
+            $countMonthsInQuarter++;
+
+            if ($countMonthsInQuarter === 3) {
+                $countMonthsInQuarter = 0;
+                $currentQuarter++;
+            }
+        }
+
+        return $quarters;
+    }
+    public function getQuarterRevenue(): mixed
+    {
+        $quarterName = ['first quarter', 'second quarter', 'third quarter', 'fourth quarter'];
+
+        return Invoice::where(column: 'status', operator: Invoice::PAID)
+            ->selectRaw("QUARTER(created_at) as quarter, SUM(cost) as total_income")
+            ->groupBy('quarter')
+            ->orderBy('quarter')
+            ->get()
+            ->map(function ($item) use ($quarterName) {
+                return [
+                    'quarter' => $quarterName[$item->quarter - 1],
+                    'total_income' => $item->total_income
+                ];
+            })
+            ->values();
+    }
+    /**
+     * Logic to get the visit of this year which is grouped by month
+     * This method returns a collection where each item represents a month
+     * and the total number of unique visitors (based on `visitor_id`) for that month.
+     * The results are ordered from January to December.
+     * @return \Illuminate\Support\Collection<int, object{month:int, total:int}>
+     * 
+     */
+    public function getVisitThisYear(): mixed
+    {
+        $currentYear = now()->year;
+
+        return Visit::whereYear('created_at', $currentYear)
+            ->selectRaw('MONTH(created_at) as month, COUNT(DISTINCT visitor_id) as total')
+            ->groupBy('month')
+            ->orderBy('month', 'asc')
+            ->get();
+    }
+    /**
+     * Summary of getTopVisitMonths
+     * 
+     * @param int $limit
+     * @return \Illuminate\Support\Collection<int, object|object{month: int, total: int>}
+     */
+    public function getTopVisitMonths($limit): mixed
+    {
+        $visitThisYear = $this->getVisitThisYear();
+        $topMonths = $visitThisYear->sortbyDesc(callback: 'total')->take(limit: $limit)->values();
+
+        return $topMonths;
+    }
+    /**
+     * Summary of getVisitorSDeviceThisYear
+     * 
+     * @return \Illuminate\Support\Collection<object|object{device: string, total: int>}
+     */
+    public function getVisitorSDeviceThisYear()
+    {
+        return Visit::selectRaw('device, COUNT(*) as total')
+            ->groupBy('device')
+            ->get();
+    }
+    /**
+     * Summary of getMonthOverMonthGrowthRate
+     * @description 
+     * A service which get the growth rate of 2 successive months
+     * if the current date is < 15, compute the previous month and the month before the previous month
+     * 
+     * @return array{currentMonth: int, currentTotal: int, growthRate: float|int|null, previousMonth: int, previousTotal: int}
+     */
+    public function getMonthOverMonthGrowthRate()
+    {
+        $visitThisYear = $this->getVisitThisYear();
+        $today = CarbonImmutable::today();
+
+        $currentMonth = $today->day < 15 ? $today->subMonth() : $today;
+
+        $previousMonth = $currentMonth->subMonth();
+        $currentTotal = $visitThisYear->firstWhere('month', $currentMonth->month)->total ?? 0;
+        $previousTotal = $visitThisYear->firstWhere('month', $previousMonth->month)->total ?? 0;
+
+        $growthRate = $previousTotal > 0
+            ? (($currentTotal - $previousTotal) / $previousTotal) * 100
+            : null;
+
+        return [
+            'currentMonth' => $currentMonth->month,
+            'previousMonth' => $previousMonth->month,
+            'currentTotal' => $currentTotal,
+            'previousTotal' => $previousTotal,
+            'growthRate' => $growthRate,
+        ];
+    }
+    public function getMostVisitedDay()
+    {
+        return Visit::selectRaw('DAYNAME(created_at) as day, COUNT(*) as total')
+            ->groupBy('day')
+            ->orderBy('total', 'desc')
+            ->first()
+            ?->day;
+    }
+
+    public function getMostHourViewed()
+    {
+        return Visit::selectRaw('HOUR(created_at) as hour, COUNT(*) as total')
+            ->groupBy('hour')
+            ->orderBy('hour', 'desc')
+            ->first()
+            ?->hour;
+    }
+
+    public function getUsedBrowserCount()
+    {
+        return Visit::selectRaw('COUNT(*) as total, browser')
+            ->groupBy('browser')
+            ->orderBy('total', 'desc')
+            ->get();
+    }
+    public function getAvgLast30Days()
+    {
+        return Visit::selectRaw("DATE(created_at) as day, COUNT(*) as total")
+            ->where('created_at', '>=', now()->subDays(30))
+            ->groupBy('day')
+            ->get()
+            ->avg('total');
+    }
+
+    public function getBounceRate ()
+    {
+        $singlePageVisitor = Visit::select('visitor_id')->groupBy('visitor_id')
+            ->havingRaw("COUNT(*) = 1")
+            ->get()
+            ->count();
+        $totalVisit = Visit::distinct()->count('visitor_id');
+
+        return ($singlePageVisitor / $totalVisit) * 100;
+    }
+
+    public function getReturnRate ()
+    {
+        $visitors = Visit::select('visitor_id')
+            ->selectRaw('COUNT(DISTINCT DATE(created_at)) as days_visited')
+            ->groupBy('visitor_id')
+            ->get();
+
+        $returning = $visitors->filter(fn($v) => $v->days_visited > 1)->count();
+        $total = $visitors->count();
+
+        if ($total === 0) return 0;
+
+        return round(($returning / $total) * 100, 2);
+    }
+
 }

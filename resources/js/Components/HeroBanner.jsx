@@ -1,3 +1,12 @@
+/**
+ * Banner components
+ * @param {string} title
+ * @param {string} subtitle
+ * @param {string} imageUrl
+ * @param {string} height
+ *  
+ * @returns {JSX.Component}
+ */
 export default function HeroBanner ({
         title = 'Products',
         subtitle = 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, voluptatibus.',

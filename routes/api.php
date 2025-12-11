@@ -5,6 +5,7 @@ use App\Http\Controllers\admin\ProductController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\ProductImageController;
+use App\Http\Controllers\Admin\ProfileController;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('admin')->name('admin.')->group(function () {
@@ -18,15 +19,39 @@ Route::prefix('admin')->name('admin.')->group(function () {
 
         Route::get('/currentAdmin', [AdminAuthController::class, 'getCurrentAuthUser'])->name('admin');
         Route::post('/create', [AdminAuthController::class, 'store'])->name('store');
-        Route::controller(DashboardController::class)->prefix('coreStat')->name('coreStat')->group(function () {
-            
+        Route::controller(DashboardController::class)->prefix('coreStat')->name('coreStat.')->group(function () {
+    
             Route::get('/revenue', 'getRevenue')->name('revenue');
             Route::get('/dailyRevenue', 'getDailyRevenue')->name('dailyRevenue');
             Route::get('/monthlyRevenue', 'getMonthlyRevenue')->name('monthlyRevenue');
             Route::get('/annualRevenue', 'getAnnualRevenue')->name('annualRevenue');
             Route::get('/monthGrowthRate', 'getMonthGrowthRate')->name('monthGrowthRate');
+            Route::get('/quarterRevenue', 'getQuarterRevenue')->name('quarterRevenue');
+            Route::get('/newUserCreatedEachMonth', "getNewUserInEachMonth")->name('newUserCreated');
+            Route::get('/paidCustomerRatio', 'getPaidCustomerRatio')->name('paidCustomerRatio');
+            Route::get('/trackVisitThisYear', 'getVisitThisYear')->name('visitThisYear');
+            Route::get('/visitorsDeviceCount', 'getVisitorsDeviceCount')->name('visitorsDeviceCount');
+            Route::get('/monthOverMonthGrowthRate', 'getMonthOverMonthGrowthRate')->name('monthOverMonthGrowthRate');
+            Route::get('/topVisitMonths', 'getTopVisitMonths')->name('topVisitMonth');
+            
+            Route::prefix('userBehavior')->name('userBehavior')->group(function () {
+                Route::get('/mostVisitedDay', 'getMostVisitedDay')->name('mostVisitedDay');
+                Route::get('/mostViewedHour', 'getMostHourViewed');
+                Route::get('/browserCount', 'getUserBrowserCount');
+                Route::get('/bounceRate', 'getBounceRate');
+                Route::get('/returnRate', 'getReturnRate');
+            });
         });
 
+        Route::controller(ProfileController::class)->prefix('profiles')->name('profiles.')->group(function () {
+            Route::get('/detail', 'detail');
+            Route::get('/profilesOwner', 'getProfilesOwner');
+            Route::post('/create', 'create');
+            Route::get('/avatarImg', 'getAvatarImg');
+            Route::get('/profileImages', 'getProfileImages');
+            Route::post('/update', 'update');
+           
+        });
         Route::controller(CategoryController::class)->prefix('categories')->name('categories.')->group(function () {
 
             Route::get('/', [CategoryController::class, 'index'])->name('index');

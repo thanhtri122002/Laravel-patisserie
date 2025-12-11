@@ -31,6 +31,7 @@ class AdminAuthController extends BaseController
     public function login(LoginRequest $request)
     {   
         $accessToken = AuthService::getInstance()->login($request);
+        
         if ($accessToken) {
             return $this->sendSuccessResponse($accessToken, "Log in successfully", Response::ACCEPTED)
                 ->cookie(

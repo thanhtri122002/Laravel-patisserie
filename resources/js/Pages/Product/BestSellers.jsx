@@ -5,7 +5,28 @@ import { motion } from "motion/react";
 function shuffle(array) {
     return array.sort(() => Math.random() - 0.5);
 }
-
+/**
+ * Best Sellers Component
+ *
+ * Fetches the top-selling products and displays them in a dynamically
+ * shuffled, animated grid using Motion layout transitions.
+ *
+ * @component
+ *
+ * @param {Object} props
+ * @param {JSX.Element | JSX.Element[]} [props.children] - Optional children elements.
+ * @param {string} [props.className] - Additional tailwind or custom class names.
+ * @param {...any} props - Additional props passed to the root element.
+ *
+ * @state {Array<Object>} topSellingProducts - The fetched list of top sellers.
+ *
+ * @description
+ * - Fetches top-selling products on mount.
+ * - Every 3 seconds, the list is shuffled to trigger Motion layout animations.
+ * - Uses a cleanup function to avoid state updates on unmounted components.
+ *
+ * @returns {JSX.Element} Animated list of best-selling products.
+ */
 export default function BestSellers ({ children, className, ...props }) {
     const [topSellingProducts, setTopSellingProducts] = useState([]);
     const limit = 4;
