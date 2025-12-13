@@ -28,7 +28,7 @@ class ProductStatsService extends Service
             ->whereYear('created_at', $currentYear)
             ->get();
     }
-    public function getTopSellingProd(int $limit)
+    public function getTopSelling  (int $limit)
     {
         return Product::join('product_details', 'products.id', '=', 'product_details.product_id')
                     ->join('invoices', 'product_details.invoice_id', '=', 'invoices.id')
@@ -83,7 +83,7 @@ class ProductStatsService extends Service
     {
         return Product::where('stock', '<', $threshold)->orderBy('stock', 'asc')->get();
     }
-    public function getLowSellingProducts(int $limit, int $threshold)
+    public function getLowProfit (int $limit, int $threshold)
     {
         return Product::join('product_details', 'product_details.product_id', '=', 'products.id')
                     ->join('invoices', 'product_details.invoice_id', '=', 'invoices.id')

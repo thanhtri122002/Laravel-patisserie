@@ -16,7 +16,7 @@ Route::prefix('api/public')->group(function () {
 Route::prefix('products/filter')->controller(ProductController::class)->group(function () {
     Route::get('/new/{limit?}', 'getNewProduct');
     Route::get('/price-range', 'getProductsInPriceRange');
-    Route::get('/top-selling/{limit}', 'getTopSellingProducts');
+    Route::get('/top-selling/{limit}', 'getTopSelling');
     Route::get('/search/{inputString}', 'getProductsBySearching');
     Route::get('/most-profitable', 'getMostProfitableProducts');
     Route::get('/current-month', 'getCurrentMonthNewProduct');

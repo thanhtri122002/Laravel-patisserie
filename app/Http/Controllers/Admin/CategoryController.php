@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Helpers\Response;
 
 use App\Http\Requests\admin\CategoryRequest;
+use App\Services\admin\AdminDashboard\CategoryStatService;
 use App\Services\admin\CategoryService;
 use Illuminate\Http\Request;
 
@@ -17,12 +18,43 @@ class CategoryController extends BaseController
     public function index(CategoryRequest $request) 
     {   
         $user = $this->getUser();
-        $categorySerice = CategoryService::getInstance()->withUser($user)->index();
+        $data = CategoryService::getInstance()->withUser($user)->index();
 
-        return $this->sendSuccessResponse($categorySerice, "success retrieveeeee", Response::OK);
+        return $this->sendSuccessResponse($data, "success retrieveeeee", Response::OK);
     }
 
-    public function create(CategoryRequest $request) {
+    public function getHaveMostProducts (Request $request)
+    {   
+        $user = $this->getUser();
+        $validated = $request->validate([
+            'limit' => ['required', 'integer'],
+        ]);
+
+        $data = CategoryStatService::getInstance()->withUser($user)->getHaveMostProducts($validated['limit']);
+
+        return $this->sendSuccessResponse($data, "Retrieved data successfully", Response::OK);
+    }
+
+    public function getMostProfit (Request $request)
+    {
+        $user = $this->getUser();
+        $validated = $request->validate([
+            'limit' => ['required', 'integer'],
+        ]);
+        $data = CategoryStatService::getInstance()->withUser($user)->getMostProfit($validated['limit']);
+
+        return $this->sendSuccessResponse($data, "Retrieved data successfully", Response::OK);
+    }
+
+    public function getHaveNoProducts ()
+    {   
+        $user = $this->getUser();
+        $data = CategoryStatService::getInstance()->withUser($user)->getHaveNoProducts();
+
+        return $this->sendSuccessResponse($data, "Retrieved data successfully", Response::OK);
+    }
+
+    public function create (CategoryRequest $request) {
         $user = $this->getGuard();
         $data = $request->validated();
         $createResult = CategoryService::getInstance()->withUser($user)->create($data);

@@ -41,7 +41,6 @@ Route::get('forgot-password', function () {
     );
 });
 
-
 Route::prefix('api/public')->name('api.public')->group(function () {
     Route::get('/categories', [CategoryController::class, 'index'])->name('api.public.categories');
     Route::get('/products', [ProductController::class, 'index'])->name('api.public.products');

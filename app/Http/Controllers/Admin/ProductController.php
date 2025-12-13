@@ -5,16 +5,18 @@ namespace App\Http\Controllers\Admin;
 use App\Helpers\Response;
 use App\Http\Controllers\Admin\BaseController;
 use App\Http\Requests\Admin\ProductRequest;
+use App\Services\admin\AdminDashboard\ProductStatsService;
 use App\Services\admin\ProductService;
 use Illuminate\Http\Request;
 use Livewire\Attributes\Validate;
 
 class ProductController extends BaseController
-{   
+{
     /**
      * @var object
      */
     protected $service;
+    protected $statisticsService;
 
     /**
      * ProductController constructor 
@@ -22,9 +24,10 @@ class ProductController extends BaseController
      * @param \App\Services\admin\ProductService $service The service instance responsible 
      * for the product-related logic
      */
-    public function __construct(ProductService $service)
+    public function __construct(ProductService $service, ProductStatsService $statisticService)
     {
         $this->service = $service;
+        $this->statisticsService = $statisticService;
     }
 
     /**
@@ -32,7 +35,8 @@ class ProductController extends BaseController
      * 
      * @return \Illuminate\Contracts\Auth\Guard::user
      */
-    public function getUser(){
+    public function getUser()
+    {
 
         return $this->guard()->user();
     }
@@ -45,7 +49,7 @@ class ProductController extends BaseController
 
         return $this->sendSuccessResponse($listProducts, "Retrieved products successfully", Response::OK);
     }
-    
+
     /**
      * A function receives the request from the user and call the product-related logic 
      * 
@@ -53,7 +57,8 @@ class ProductController extends BaseController
      *
      * @return \Illuminate\Http\JsonResponse 
      */
-    public function index(ProductRequest $request) {
+    public function index(ProductRequest $request)
+    {
 
         $validate = $request->validated();
         $categoryId = $validate['category_id'] ?? [];
@@ -61,7 +66,7 @@ class ProductController extends BaseController
         $user = $this->getUser();
 
         $listProducts = $this->service->withUser($user)->index($categoryId, $perPage);
-        
+
         return $this->sendSuccessResponse($listProducts, null, Response::OK);
     }
 
@@ -87,10 +92,9 @@ class ProductController extends BaseController
         $storeResult = $this->service->withUser($user)->store($validate);
 
         return $this->sendSuccessResponse($storeResult, "store new product success", Response::OK);
-
     }
 
-    public function update(ProductRequest $request, $id) 
+    public function update(ProductRequest $request, $id)
     {
         $user = $this->getUser();
         $validate = $request->validated();
@@ -99,7 +103,7 @@ class ProductController extends BaseController
         return $this->sendSuccessResponse($updateResult, "update product success", Response::OK);
     }
 
-    public function delete($id) 
+    public function delete($id)
     {
         $user = $this->getUser();
         $deleteResult = $this->service->withUser($user)->delete($id);
@@ -107,14 +111,14 @@ class ProductController extends BaseController
         return $this->sendSuccessResponse($deleteResult, "delete success", Response::OK);
     }
 
-    public function getNewProduct($limit)
+    public function getNewProducts ($limit)
     {
-        $result = $this->service->getNewProduct($limit);
+        $result = $this->statisticsService->getNewProds($limit);
 
         return $this->sendSuccessResponse($result, "Retrieve data success", Response::OK);
     }
 
-    public function getProductsInPriceRange(Request $request)
+    public function getProductsInPriceRange (Request $request)
     {
         $validated = $request->validate([
             'price_limit' => ['required', 'numeric', 'min:0'],
@@ -129,15 +133,15 @@ class ProductController extends BaseController
         return $this->sendSuccessResponse($result, 'Retrieve data success', Response::OK);
     }
 
-    public function getTopSellingProducts($limit)
+    public function getTopSelling  ($limit)
     {
-        $result = $this->service->getTheTopSellingProduct($limit);
+        $result = $this->service->getTopSelling ($limit);
 
         return $this->sendSuccessResponse($result, 'Retrieve data success', Response::OK);
     }
 
-    public function getMostProfitableProducts(Request $request)
-    {   
+    public function getMostProfit (Request $request)
+    {
         $validated = $request->validate([
             'limit' => ['required', 'integer'],
         ]);
@@ -154,15 +158,32 @@ class ProductController extends BaseController
         return $this->sendSuccessResponse($result, 'Retrieve data success', Response::OK);
     }
 
-    public function getOutOfStockProduct()
+    public function getOutOfStockProduct ()
     {
         $result = $this->service->getOutOfStockProduct();
+
+        return $this->sendSuccessResponse($result, "Retrieved data successfully", Response::OK);
     }
 
-    public function getDiscountProduct()
+    public function getDiscountProduct ()
     {
         $result = $this->service->getDiscountProduct();
 
         return $this->sendSuccessResponse($result, 'Retrieve data success', Response::OK);
+    }
+
+    public function getLowProfit (Request $request)
+    {
+        $validated = $request->validate([
+            'limit' => ['required', 'integer'],
+            'threshold' => ['required', 'integer'],
+        ]);
+
+        $limit = $validated['limit'];
+        $threshold = $validated['threshold'];
+
+        $result = $this->statisticsService->getLowProfit($limit, $threshold);
+
+        return response()->json($result);
     }
 }
