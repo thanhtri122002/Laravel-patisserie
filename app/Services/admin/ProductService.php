@@ -79,7 +79,7 @@ class ProductService extends Service {
         return true;
     }
 
-    public function getNewProduct($limit)
+    public function getNewProduct ($limit)
     {
         return Product::orderBy('created_at', 'desc')
                     ->limit($limit)
@@ -94,7 +94,7 @@ class ProductService extends Service {
      * 
      * @return \Illuminate\Database\Eloquent\Collection   
      */
-    public function getProductsInPriceRange($priceLimit, $order = 'asc') 
+    public function getProductsInPriceRange ($priceLimit, $order = 'asc') 
     {
         return Product::where('price' , '<', $priceLimit)
                     ->orderBy('price', $order)
@@ -109,11 +109,11 @@ class ProductService extends Service {
      * 
      * @return \Illuminate\Database\Eloquent\Collection 
      */
-    public function getTheTopSellingProduct($limit)
+    public function getTopSelling ($limit)
     {   
         return Product::join('product_details', 'products.id', '=', 'product_details.product_id')
             ->join('invoices', 'product_details.invoice_id', '=', 'invoices.id')
-            ->leftJoin('product_images', 'products.id', '=', 'product_images.product_id') // ✅ join images
+            ->leftJoin('product_images', 'products.id', '=', 'product_images.product_id') 
             ->where('invoices.status', Invoice::PAID)
             ->select(
                 'products.id',
@@ -134,7 +134,6 @@ class ProductService extends Service {
             ->get();
     }
 
-
     public function getProductsBySearching($inputString)
     {   
         $pattern = '%' . $inputString . '%';
@@ -149,14 +148,14 @@ class ProductService extends Service {
         })->get();
     }
 
-    public function getMostProfitableProducts($limit)
+    public function getMostProfitableProducts ($limit)
     {
         return $this->baseQuery()->join('product_details', 'products.id', '=', 'product_details.product_id')
                         ->join('invoices', 'product_details.invoice_id', '=', 'invoices.id')
                         ->where('invoices.status', Invoice::PAID)
                         ->select('products.name', 'products.description')
                         ->selectRaw('SUM(product_details.cost) as total_profit')
-                        ->groupBy('products.id', 'products.name', 'products.description')
+                        ->groupBy('products.name', 'products.description')
                         ->orderByDesc('total_profit')
                         ->limit($limit)
                         ->get();
@@ -167,7 +166,7 @@ class ProductService extends Service {
         
     }
 
-    public function getCurrentMonthNewProduct()
+    public function getCurrentMonthNewProduct ()
     {
         $currentMonth = now()->month;
 
@@ -175,9 +174,9 @@ class ProductService extends Service {
 
     }
 
-    public function getOutOfStockProduct()
+    public function getOutOfStockProduct ()
     {
-        return Product::where('quantity', 0)->get();
+        return Product::where('stock', 0)->get();
     }
 
     public function getDisCountProduct()

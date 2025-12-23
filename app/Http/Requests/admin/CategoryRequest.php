@@ -25,7 +25,7 @@ class CategoryRequest extends FormRequest
         return [
             'id' => ['sometimes', 'array'],
             'id.*' => ['integer', new CategoryExists],
-            'name' => "sometimes|string|unique:categories",
+            'name' => "required|string|unique:categories",
         ];
     }
 }

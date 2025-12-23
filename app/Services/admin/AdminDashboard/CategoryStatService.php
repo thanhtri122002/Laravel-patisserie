@@ -3,11 +3,22 @@
 namespace App\Services\admin\AdminDashboard;
 
 use App\Models\Category;
+use App\Models\Invoice;
 use App\Models\Product;
 use App\Services\Service;
 
 class CategoryStatService extends Service {
-
+    
+    public function getNew ($limit) 
+    {
+        return Category::join('products', 'products.category_id', '=', 'categories.id')
+                        ->select('categories.name', 'categories.id')
+                        ->selectRaw('COUNT(DISTINCT products.id) as total_product')
+                        ->groupBy('categories.id', 'categories.name', 'categories.created_at')
+                        ->orderBy('categories.created_at', 'desc')
+                        ->limit($limit)
+                        ->get();
+    }
     public function getHaveMostProducts ($limit)
     {
         return Product::join("categories", 'products.category_id', '=', 'categories.id')
@@ -18,11 +29,12 @@ class CategoryStatService extends Service {
                         ->limit($limit)
                         ->get();
     }
-
     public function getMostProfit ($limit) 
     {
         return Product::join('categories', 'products.category_id', '=', 'categories.id')
                         ->join('product_details', 'products.id', '=', 'product_details.product_id')
+                        ->join('invoices', 'invoices.id', '=', 'product_details.invoice_id')
+                        ->where('invoices.status', Invoice::PAID)
                         ->select('categories.name', 'categories.id')
                         ->selectRaw('SUM(product_details.cost) as income')
                         ->groupBy('categories.name', 'categories.id')
@@ -38,6 +50,17 @@ class CategoryStatService extends Service {
                         ->select('categories.name')
                         ->get();
     }
-    
+    public function getMostSaled ()
+    {
+        return Category::join('products', 'products.category_id', '=', 'categories.id')
+                        ->join('product_details', 'products.id', '=', 'product_details.product_id')
+                        ->join('invoices', 'invoices.id', '=', 'product_details.invoice_id')
+                        ->where('invoices.status', Invoice::PAID)
+                        ->select('categories.name')
+                        ->selectRaw('SUM(product_details.quantity) as total_sold')
+                        ->groupBy('categories.id', 'categories.name')
+                        ->orderByDesc('total_sold')
+                        ->get();
+    }
 }
 

@@ -51,7 +51,7 @@ class Product extends Model
         $query->orderBy('created_at', 'desc')->limit($limit);
     }
 
-    public function scopeGetTopSellingProducts(Builder $query, $limit): void
+    public function scopeGetTopSelling(Builder $query, $limit): void
     {
         $query->join('product_details', 'products.id', '=', 'product_details.id')
             ->join('invoices', 'invoices.id', '=', 'product_details.invoice_id')

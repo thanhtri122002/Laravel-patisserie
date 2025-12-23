@@ -21,11 +21,22 @@ class ProductFactory extends Factory
     public function definition(): array
     {
         return [
-            'category_id' => Category::factory(),
+            'category_id' => Category::inRandomOrder()->first()?->id ?? Category::factory(),
             'name' => fake()->unique()->sentence(3),
             'description' => fake()->sentence(),
             'price' => fake()->numberBetween(30000, 100000),
             'stock' => fake()->numberBetween(1, 100),
         ];
     }
+
+    public function outOfStock(): Factory
+    {
+        return $this->state(function (array $attributes) {
+            return [
+                'stock' => 0
+            ];
+        });
+    }
+
+    public function TopProductTrend
 }

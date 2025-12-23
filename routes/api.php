@@ -42,7 +42,6 @@ Route::prefix('admin')->name('admin.')->group(function () {
                 Route::get('/returnRate', 'getReturnRate');
             });
         });
-
         Route::controller(ProfileController::class)->prefix('profiles')->name('profiles.')->group(function () {
             Route::get('/detail', 'detail');
             Route::get('/profilesOwner', 'getProfilesOwner');
@@ -55,23 +54,25 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::controller(CategoryController::class)->prefix('categories')->name('categories.')->group(function () {
 
             Route::get('/', [CategoryController::class, 'index'])->name('index');
-            Route::get('/haveMostProducts/{limit}', 'getHaveMostProducts')->name('categoriesHaveMostProducts');
-            Route::get('/mostProfit/{limit}', 'getMostProfit')->name('mostProfit');
+            Route::get('/new', 'getNew')->name('new');
+            Route::get('/haveMostProducts', 'getHaveMostProducts')->name('categoriesHaveMostProducts');
+            Route::get('/mostProfit', 'getMostProfit')->name('mostProfit');
             Route::get('/haveNoProducts', 'getHaveNoProducts')->name('haveNoProduct');
             Route::post('/', [CategoryController::class, 'create'])->name('create');
             Route::post('/{id}', [CategoryController::class, 'update'])->name('update');
             Route::post('/{id}/delete', [CategoryController::class, 'delete'])->name('delete');
         });
-
         Route::controller(ProductController::class)->prefix('products')->name('products.')->group(function () {
 
             Route::post('/', 'store')->name('store');
-            Route::get('/{id}', 'detail')->name('detail');
             Route::get('/newProducts', 'getNewProducts')->name('newProducts');
             Route::get('/topSelling/{limit}', 'getTopSelling')->name('topSellingProducts');
-            Route::get('/mostProfitProducts/{limit}', 'getMostProfit')->name('mostProfit');
-            Route::get('/outOfStock', 'getOutOfStockProduct')->name("outOfStock");
+            Route::get('/mostProfit', 'getMostProfit')->name('mostProfit');
+            Route::get('/outOfStock', 'getOutOfStock')->name("outOfStock");
+            Route::get('/topSellingTrend', 'getTopSellingTrend')->name('topSellingTrend');
             Route::get('/lowProfit/{limit}', 'getLowProfit')->name('lowProfit');
+        
+            Route::get('/{id}', 'detail')->name('detail');
             Route::post('/{id}', 'update')->name('update');
             Route::post('/{id}/delete', 'delete')->name('delete');
         });

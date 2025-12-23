@@ -31,7 +31,6 @@ export default function useCategories() {
             prev.length === 0 ? result.data.map((c) => c.id) : prev
         );
     }, []);
-
     const { data, loading, error } = useFetch(getCategories, handleSetInitialCategories);
     
     const handleUpdateSelectedCategory = useCallback(

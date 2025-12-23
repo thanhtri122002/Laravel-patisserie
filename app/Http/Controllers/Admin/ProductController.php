@@ -8,6 +8,7 @@ use App\Http\Requests\Admin\ProductRequest;
 use App\Services\admin\AdminDashboard\ProductStatsService;
 use App\Services\admin\ProductService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Livewire\Attributes\Validate;
 
 class ProductController extends BaseController
@@ -29,7 +30,6 @@ class ProductController extends BaseController
         $this->service = $service;
         $this->statisticsService = $statisticService;
     }
-
     /**
      * A function to get the current authenticated user
      * 
@@ -49,7 +49,6 @@ class ProductController extends BaseController
 
         return $this->sendSuccessResponse($listProducts, "Retrieved products successfully", Response::OK);
     }
-
     /**
      * A function receives the request from the user and call the product-related logic 
      * 
@@ -69,7 +68,6 @@ class ProductController extends BaseController
 
         return $this->sendSuccessResponse($listProducts, null, Response::OK);
     }
-
     /**
      * A controller function call the product-related logic service to get the
      * detail of a specific product
@@ -111,7 +109,7 @@ class ProductController extends BaseController
         return $this->sendSuccessResponse($deleteResult, "delete success", Response::OK);
     }
 
-    public function getNewProducts ($limit)
+    public function getNew ($limit)
     {
         $result = $this->statisticsService->getNewProds($limit);
 
@@ -133,9 +131,9 @@ class ProductController extends BaseController
         return $this->sendSuccessResponse($result, 'Retrieve data success', Response::OK);
     }
 
-    public function getTopSelling  ($limit)
+    public function getTopSelling ($limit)
     {
-        $result = $this->service->getTopSelling ($limit);
+        $result = $this->service->getTopSelling($limit);
 
         return $this->sendSuccessResponse($result, 'Retrieve data success', Response::OK);
     }
@@ -147,18 +145,18 @@ class ProductController extends BaseController
         ]);
         $limit = $validated['limit'];
         $result = $this->service->getMostProfitableProducts($limit);
-
+        Log::info($result);
         return $this->sendSuccessResponse($result, 'Retrieve data success', Response::OK);
     }
 
-    public function getCurrentMonthNewProduct()
+    public function getCurrentMonthNewProduct ()
     {
         $result = $this->service->getCurrentMonthNewProduct();
 
         return $this->sendSuccessResponse($result, 'Retrieve data success', Response::OK);
     }
 
-    public function getOutOfStockProduct ()
+    public function getOutOfStock ()
     {
         $result = $this->service->getOutOfStockProduct();
 
@@ -185,5 +183,17 @@ class ProductController extends BaseController
         $result = $this->statisticsService->getLowProfit($limit, $threshold);
 
         return response()->json($result);
+    }
+
+    public function getTopSellingTrend (Request $request)
+    {
+        $validated = $request->validate([
+            'limit' => ['required', 'integer'],
+        ]);
+
+        $limit = $validated['limit'];
+        $result = $this->statisticsService->getTopSellingTrend($limit);
+        
+        return $this->sendSuccessResponse($result, "Retrieved data successfully", Response::OK);
     }
 }
