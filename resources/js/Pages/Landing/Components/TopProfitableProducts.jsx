@@ -14,6 +14,7 @@ export default function TopProfitableProduct() {
     const [isLoading, setIsLoading] = useState(true);
     const swiperRef = useRef(null);
     const limit = 5;
+    console.log(products);
     useEffect(() => {
         let isMounted = true;
         (async () => {
@@ -53,8 +54,9 @@ export default function TopProfitableProduct() {
                                     <motion.img
                                         className="w-full h-full object-cover rounded-lg shadow-lg"
                                         src={
-                                            product.product_images?.[0] ??
-                                            getRandomImages(1)
+                                            `/storage/products/${product.first_image}`
+                                            // product.product_images?.[0] ??
+                                            // getRandomImages(1)
                                         }
                                         alt={product.name}
                                     />

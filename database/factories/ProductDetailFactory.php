@@ -5,6 +5,7 @@ namespace Database\Factories;
 use App\Models\Invoice;
 use App\Models\Product;
 use App\Models\ProductDetail;
+use App\Services\admin\ProductService;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -68,15 +69,32 @@ class ProductDetailFactory extends Factory
                 $invoiceQuery->where('status', $status);
             }
 
-            $invoice = $invoiceQuery->inRandomOrder()->first();
+            if ($invoiceQuery->count() === 0) {
+                $invoiceId = Invoice::factory()
+                    ->state(['status' => $status])
+                    ->create()
+                    ->id;
+            } else {
+                $invoiceId = $invoiceQuery->inRandomOrder()->value('id');
+            };
 
             return [
-                'invoice_id' => $invoice?->id
-                    ?? Invoice::factory()->state(['status' => $status])->create()->id,
-                'cart_id' => null
+                'invoice_id' => $invoiceId,
+                'cart_id' => null,
             ];
         });
     }
+
+    public function forProductAndInvoice (Product $product, Invoice $invoice): Factory 
+    {
+        return $this->state(fn () => [
+            'product_id' => $product->id,
+            'invoice_id' => $invoice->id,
+            'cart_id' => null,
+        ]);
+    }
+
+
 
     /**
      * Attach any invoice (regardless of status) to the factory state.
@@ -100,3 +118,14 @@ class ProductDetailFactory extends Factory
         return $this->withInvoiceStatus(Invoice::PAID);
     }
 }
+
+/**
+ * Note: 
+ * A factory state MUST RETURN ATTRIBUTES FOR ONE MODEL INSTANCE 
+ * => do not loop and create the model instance in the loop
+ * That's SEEDER logic
+ * 
+ * It is not a good practice to use service in the factories, becase 
+ * Factories should be isolated, predictable, reusebale, database-focused
+ * Service contains business logic, depend on EXISTING DATA => circular dependencies, random failures
+ */

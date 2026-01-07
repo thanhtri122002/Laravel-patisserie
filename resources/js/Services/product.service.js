@@ -36,49 +36,6 @@ const getProducts = async (
         return handleApiError(err);
     }
 };
-
-// /**
-//  * Fetches products by categories with optional pagination and image filtering.
-//  *
-//  * @async
-//  * @function getProductsByCategories
-//  * @param {Array<number>} [categoryIds=[]] - An array of category IDs to filter products by.
-//  * @param {number} [page=1] - The page number for pagination.
-//  * @param {boolean} [justFirstImage=false] - If true, includes only the first image of each product.
-//  * @returns {Promise<Object|Array>} A promise that resolves to the response data containing the products,
-//  *                                  or an empty array if an error occurs.
-//  */
-// const getProductsByCategories = async (
-//     categoryIds = [],
-//     page = 1,
-//     justFirstImage = false
-// ) => {
-//     try {
-//         const params = {
-//             category_id: categoryIds,
-//             page: page,
-//         };
-
-//         const queryString = makeQueryString(params);
-
-//         const url = `/api/public/products?${queryString}`;
-//         const response = await axios.get(url);
-
-//         if (justFirstImage && response.data?.data?.data) {
-//             response.data.data.data = response.data.data.data.map(
-//                 (product) => ({
-//                     ...product,
-//                     firstImage: product.productImages?.[0] || null,
-//                 })
-//             );
-//         }
-
-//         return response.data;
-//     } catch (err) {
-//         return handleApiError(err);
-//     }
-// };
-
 /**
  *
  * @param {number} priceLimit - Maximum product price to filter by

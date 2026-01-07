@@ -13,7 +13,7 @@ export default function ProductCard({ productData }) {
         productData.description,
         30
     );
-
+    console.log(productData.product_images);
     const getProductDetailpage = useCallback((id) => {
         window.location.href = `products/${id}`;
     }, []);
@@ -27,9 +27,10 @@ export default function ProductCard({ productData }) {
                 <img
                     className="w-full h-full object-cover"
                     src={
-                        productData.product_images?.[0]
-                            ? productData.product_images[0]
-                            : "https://placehold.co/160x160"
+                        `/storage/${productData.product_images?.[0]?.url}`
+                        // productData.product_images?.[0]
+                        //     ? productData.product_images[0]
+                        //     : "https://placehold.co/160x160"
                     }
                     alt={productData.name}
                 />

@@ -55,4 +55,18 @@ class ProductDetail extends Model
         $discount = $this->discount ?? 0;
         return $cost - $discount;
     }
+
 }
+/**
+ * Note
+ * 1/ $this refers to the CURRENT OBJECT instance 
+ * meaning it is used when you are working with ONE SPECIFIC MODEL ROW
+ * 
+ * 2/ Static refers to the CLASS ITSELF, not one row
+ *  this is used when
+ *    . DONT have a specific instance
+ *    . Work at the CLASS LEVEL
+ *    . Write query scopes
+ *    . Return new instances
+ *    . use inheritance safely class Book extends Product 
+ */

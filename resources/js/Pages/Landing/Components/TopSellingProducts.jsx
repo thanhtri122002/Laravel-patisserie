@@ -24,7 +24,8 @@ function Thumbnail({ swiper, idx, img, setMainIndex }) {
             }}
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.95 }}
-            className="cursor-pointer rounded-lg shadow-md transition-all"
+            className="cursor-pointer rounded-lg shadow-md transition-all
+                       w-24 h-24 object-cover md:w-40 md:h-40"
         />
     );
 }
@@ -35,7 +36,7 @@ export default function TopSelling() {
     const [isLoading, setIsLoading] = useState(true);
     const swiperRef = useRef(null);
     const limit = 8;
-
+    console.log(products);
     useEffect(() => {
         let isMounted = true;
         (async () => {
@@ -64,10 +65,8 @@ export default function TopSelling() {
                     <AnimatePresence mode="wait">
                         <motion.img
                             key={products[mainIndex]?.id || `main-${mainIndex}`}
-                            src={
-                                products[mainIndex]?.first_image ||
-                                getRandomImages(1)
-                            }
+                            src={`/storage/${products[mainIndex]?.first_image}`}
+
                             className="w-full h-full absolute inset-0 object-cover object-center rounded-lg shadow-lg"
                             initial={{ opacity: 0, scale: 1 }}
                             animate={{
@@ -129,10 +128,7 @@ export default function TopSelling() {
                                         <Thumbnail
                                             swiper={swiperRef.current}
                                             idx={idx}
-                                            img={
-                                                product.first_image ||
-                                                getRandomImages(1)
-                                            }
+                                            img={`/storage/${product.first_image}`}
                                             setMainIndex={setMainIndex}
                                         />
                                     </SwiperSlide>

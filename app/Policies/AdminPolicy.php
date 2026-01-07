@@ -15,20 +15,20 @@ class AdminPolicy
         //
     }
 
-    public function createAdmin(Admin $admin)
+    public function create(Admin $admin)
     {
         return $admin->role === 'superAdmin';
     }
 
-    public function updateAdmin(Admin $admin)
+    public function update(Admin $admin)
     {
         return $admin->role === 'superAdmin';
     }
 
-    public function manageUser(Admin $admin)
+    public function manageUsers(Admin $admin)
     {
        return in_array($admin->role, ['admin', 'superAdmin']);
     }
 
-    public function seeInvoice
+    
 }

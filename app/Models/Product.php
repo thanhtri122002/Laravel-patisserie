@@ -30,19 +30,16 @@ class Product extends Model
 
     public function category(): BelongsTo
     {
-        
         return $this->belongsTo(Category::class);
     }
 
     public function productDetails(): HasMany
     {
-
         return $this->hasMany(ProductDetail::class)->chaperone();
     }
 
     public function productImages(): HasMany
     {
-
         return $this->hasMany(ProductImage::class)->chaperone();
     }
 
@@ -51,7 +48,7 @@ class Product extends Model
         $query->orderBy('created_at', 'desc')->limit($limit);
     }
 
-    public function scopeGetTopSellingProducts(Builder $query, $limit): void
+    public function scopeGetTopSelling(Builder $query, $limit): void
     {
         $query->join('product_details', 'products.id', '=', 'product_details.id')
             ->join('invoices', 'invoices.id', '=', 'product_details.invoice_id')
@@ -125,5 +122,13 @@ class Product extends Model
                     $category->whereLike('name', $pattern);
                 });
         });
+    }
+    public function scopeOrderByCreatedDate(Builder $query, $order): void
+    {
+        $query->orderBy('created_at', $order);
+    }
+    public function scopeOrderByStock(Builder $query, $order): void
+    {
+        $query->orderBy('stock', $order);
     }
 }

@@ -19,12 +19,13 @@ class Admin extends Authenticatable implements CanResetPassword
     const ROLE_SUPER_ADMIN = 'superAdmin';
     const ROLE_MANAGER = 'manager';
     const ROLE_ACCOUNTANT = 'accountant';
-    const ROLE_STORAGE_CHECKER = 'storage checker';
+    const ROLE_STORAGE_CHECKER = 'storage_checker';
 
     protected $fillable = [
         'name',
         'email',
         'password',
+        'role'
     ];
     protected $hidden = [
         'password',
@@ -34,5 +35,16 @@ class Admin extends Authenticatable implements CanResetPassword
     public function profile(): MorphOne
     {
         return $this->morphOne(Profile::class, 'profilable');
+    }
+
+    public static function roles(): array
+    {
+        return [
+            self::ROLE_SUPER_ADMIN,
+            self::ROLE_ADMIN,
+            self::ROLE_MANAGER,
+            self::ROLE_ACCOUNTANT,
+            self::ROLE_STORAGE_CHECKER,
+        ];
     }
 }

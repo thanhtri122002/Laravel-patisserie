@@ -11,6 +11,7 @@ class AdminAuthMiddleware
 {
     /**
      * Handle an incoming request.
+     * This is a middleware which verifies a request whether it contains admin_token ornot
      *
      * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
      */

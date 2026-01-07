@@ -20,14 +20,14 @@ class ProductImageController extends BaseController
 
     public function store(ProductImageRequest $request)
     {
-        $validated = $request->validated();
-        $storeResult = ProductImageService::getInstance()->store($validated);
-        return $this->sendSuccessResponse($storeResult, 'store succesfully', Response::OK);
+        $storeResult = ProductImageService::getInstance()->store($request);
+
+        return $this->sendSuccessResponse($storeResult, 'store successfully', Response::OK);
     }
 
     public function detail($id) 
-    {
-        $imageDetail = ProductImageService::getInstance()->index();
+    {   
+        $imageDetail = ProductImageService::getInstance()->detail($id);
         return $this->sendSuccessResponse($imageDetail, null, Response::OK);
     }
 

@@ -11,6 +11,7 @@ import { useState, useCallback } from "react";
  */
 export default function usePagination(initialPage = 1) {
     const [pagination, setPagination] = useState({
+        
         current_page: initialPage,
         last_page: 1,
         next_page_url: null,

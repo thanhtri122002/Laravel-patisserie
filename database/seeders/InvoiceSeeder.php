@@ -12,14 +12,14 @@ class InvoiceSeeder extends Seeder
      */
     public function run(): void
     {   
-        // Invoice::factory()->count(200)->paid()->create();
+        Invoice::factory()->count(200)->paid()->create();
         Invoice::factory()->count(60)->paid()->create([
             'created_at' => function() {
                 return now()->startOfMonth()->addDays(rand(0, now()->day - 1));
             }
         ]);
         // Invoice::factory()->count(100)->pending()->create();
-        // Invoice::factory()->count(150)->unpaid()->create();
+        Invoice::factory()->count(150)->unpaid()->create();
     }
 }
 

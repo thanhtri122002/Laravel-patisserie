@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('device')->nullable();
             $table->string('browser')->nullable();
             $table->uuid('visitor_id')->nullable();
-            $table->string('url')->nullable();
+            $table->string(column: 'url')->nullable();
             $table->timestamps();
         });
     }

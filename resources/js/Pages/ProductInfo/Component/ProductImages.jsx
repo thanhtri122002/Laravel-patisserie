@@ -6,11 +6,9 @@ import ImageSwiper from "../../../Components/ImagesSwiper";
  */
 export default function ProductImages() {
     const { product } = useProductInfo();
+    console.log(product);
+    const images = product?.product_images?.map(img => img.url) ?? [];
     
-    const images =
-        product?.product_images?.length > 0
-            ? product.product_images
-            : getRandomImages();
     return (
         <ImageSwiper images={images}></ImageSwiper>
     );

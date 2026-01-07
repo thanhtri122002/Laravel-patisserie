@@ -8,7 +8,7 @@ export default function ImageSwiper({ images = [] }) {
     const [selectedIndex, setSelectedIndex] = useState(0);
     const NumberOfRender = useRef(0);
     NumberOfRender.current += 1;
-    console.log(NumberOfRender.current);
+    
     return (
         <LayoutGroup>
             <div className="relative w-full aspect-[4/3] mb-4">

@@ -8,6 +8,7 @@ use App\Models\Visit;
 use Jenssegers\Agent\Agent;
 /**
  * A middleware used to track the number of site visit
+ * 
  * @description - Retrieve a visitor id, if not create a new one, create a new visit model
  */
 class TrackVisit

@@ -18,19 +18,16 @@ Route::prefix('/home')->name('site.')->middleware('site')->group(function () {
     Route::view('products', 'products')->name('products');
     Route::view('cart', 'cart')->name('cart');
     Route::view('contact', 'contact')->name('contact');
-
     Route::get('products/{id}', function ($id) {
         return view("productInfo", ['productId' => $id]);
     })->name('products.show');
 });
-
 Route::get('/authToggle', function () {
     return view('auth_form_toggle', [
         'hideHeader' => true,
         'hideFooter' => true,
     ]);
 })->name('user.auth');
-
 Route::get('forgot-password', function () {
     return view(
         'auth.forgot-password',
@@ -40,8 +37,6 @@ Route::get('forgot-password', function () {
         ]
     );
 });
-
-
 Route::prefix('api/public')->name('api.public')->group(function () {
     Route::get('/categories', [CategoryController::class, 'index'])->name('api.public.categories');
     Route::get('/products', [ProductController::class, 'index'])->name('api.public.products');
@@ -54,18 +49,17 @@ Route::prefix('api/public')->name('api.public')->group(function () {
     Route::post('/sendContact', [GuestController::class, 'sendContact']);
 });
 Route::prefix('products/filter')->controller(ProductController::class)->group(function () {
-    Route::get('/new/{limit?}', 'getNewProduct');
+    Route::get('/new/{limit?}', 'getNew');
     Route::get('/price-range', 'getProductsInPriceRange');
-    Route::get('/top-selling/{limit}', 'getTopSellingProducts');
+    Route::get('/top-selling/{limit}', 'getTopSelling');
     Route::get('/search/{inputString}', 'getProductsBySearching');
-    Route::get('/most-profitable', 'getMostProfitableProducts');
+    Route::get('/most-profitable', 'getMostProfit');
     Route::get('/current-month', 'getCurrentMonthNewProduct');
     Route::get('/out-of-stock', 'getOutOfStockProducts');
     Route::get('/discount', 'getDisCountProduct');
 });
 
 //All route require to protect sensitive info will need to be implements the authentication of middleware
-
 //Note: prefix user + login => user/login
 
 Route::prefix('user')->name('user.')->group(function () {

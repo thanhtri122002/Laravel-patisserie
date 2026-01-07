@@ -11,8 +11,10 @@ class ProductImage extends Model
     use HasFactory;
 
     protected $fillable = [
+        'product_id',
         'name',
-        'url'
+        'url',
+        'is_displayed'
     ];
 
     protected $guared = [

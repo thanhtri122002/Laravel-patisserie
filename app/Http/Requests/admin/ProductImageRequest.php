@@ -12,7 +12,7 @@ class ProductImageRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,8 +24,7 @@ class ProductImageRequest extends FormRequest
     {
         return [
             'product_id' => ['required', 'integer', new ProductExists()],
-            'name' =>  ['required', 'string'],
-            'url' => ['required', 'string', 'unique:product_images'],
+            'images.*' => ['required', 'image', 'max:2048'], 
         ];
     }
 }

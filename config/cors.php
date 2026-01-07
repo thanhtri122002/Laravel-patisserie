@@ -1,6 +1,6 @@
 <?php
 return [
-    'paths' => ['api/*', 'admin/*'],
+    'paths' => ['api/*', 'admin/*', 'storage/*'],
     'allowed_methods' => ['*'],
     'allowed_origins' => ['http://127.0.0.1:3000'],
     'allowed_origins_patterns' => [],

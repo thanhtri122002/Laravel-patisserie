@@ -80,8 +80,8 @@ class AdminAuthController extends BaseController
     public function store(RegisterRequest $request)
     {
         $validated = $request->validated();
-        $admin = $this->getCurrentAuthUser();
-        $registerResult = AuthService::getInstance()->withUser($admin)->store($validated);
+
+        $registerResult = AuthService::getInstance()->store($validated);
 
         return $this->sendSuccessResponse($registerResult, "create admin success", Response::OK);
     }
