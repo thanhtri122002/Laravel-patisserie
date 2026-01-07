@@ -46,7 +46,7 @@ class ProductController extends BaseController
         $data = $request->validated();
         $perPage = $data['per_page'] ?? config('pagination.default');
         $listProducts = $this->service->productIndex($data, $perPage);
-
+       
         return $this->sendSuccessResponse($listProducts, "Retrieved products successfully", Response::OK);
     }
     /**

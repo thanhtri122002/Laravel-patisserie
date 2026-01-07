@@ -38,5 +38,5 @@ class ProductFactory extends Factory
         });
     }
 
-    public function TopProductTrend
+   
 }

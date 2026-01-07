@@ -92,7 +92,23 @@ class ProductStatsService extends Service
             ->orderBy('month')
             ->get();
 
-            return $topSellingTrend->groupBy('id')->values();
+        return $topSellingTrend
+            ->groupBy('id')
+            ->map(function ($product) {
+
+                $data = array_fill(0, 12, 0);
+
+                foreach ($product as $row) {
+                    $data[$row->month - 1] = (float) $row->total_profit;
+                }
+
+                return [
+                    'id' => $product[0]->id,
+                    'name' => $product[0]->name,
+                    'data' => $data,
+                ];
+            })
+            ->values();
     }
 
     public function getTopSelling (int $limit)
@@ -106,13 +122,13 @@ class ProductStatsService extends Service
             ->orderBy('total_profit', 'desc')
             ->limit($limit)
             ->get();
-    }
+    }   
 
-    public function getLowStock(int $threshold = 20)
+    public function getLowStock (int $threshold = 20)
     {
         return Product::where('stock', '<', $threshold)->orderBy('stock', 'asc')->get();
     }
-    public function getLowProfit(int $limit, int $threshold)
+    public function getLowProfit (int $limit, int $threshold)
     {
         return Product::join('product_details', 'product_details.product_id', '=', 'products.id')
             ->join('invoices', 'product_details.invoice_id', '=', 'invoices.id')
@@ -128,4 +144,11 @@ class ProductStatsService extends Service
             ->limit($limit)
             ->get();
     }
+
+    // public function productStatistic ($id) 
+    // {   
+
+
+    //     return Product::where('id', $id)->
+    // }
 }

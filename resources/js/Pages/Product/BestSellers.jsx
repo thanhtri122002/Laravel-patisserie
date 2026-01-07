@@ -57,7 +57,6 @@ export default function BestSellers ({ children, className, ...props }) {
         return () => clearInterval(interval);
     }, [topSellingProducts.length]);
 
-
     return (
         <motion.ul
             layout

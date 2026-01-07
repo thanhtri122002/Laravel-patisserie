@@ -26,8 +26,8 @@ class ProductImageController extends BaseController
     }
 
     public function detail($id) 
-    {
-        $imageDetail = ProductImageService::getInstance()->index();
+    {   
+        $imageDetail = ProductImageService::getInstance()->detail($id);
         return $this->sendSuccessResponse($imageDetail, null, Response::OK);
     }
 

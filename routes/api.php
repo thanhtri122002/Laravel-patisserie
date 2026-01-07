@@ -10,6 +10,8 @@ use Illuminate\Support\Facades\Route;
 
 Route::prefix('admin')->name('admin.')->group(function () {
 
+    Route::post('/create', [AdminAuthController::class, 'store'])->name('store');
+    
     Route::controller(AdminAuthController::class)->group(function () {
         Route::post('/login', 'login')->name('login');
         Route::post('/logout', 'logout')->name('logout');
@@ -18,7 +20,8 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::middleware('cookie.sancAuth')->prefix('dashboard')->name('dashboard.')->group(function () {
 
         Route::get('/currentAdmin', [AdminAuthController::class, 'getCurrentAuthUser'])->name('admin');
-        Route::post('/create', [AdminAuthController::class, 'store'])->name('store');
+       
+        
         Route::controller(DashboardController::class)->prefix('coreStat')->name('coreStat.')->group(function () {
     
             Route::get('/revenue', 'getRevenue')->name('revenue');
@@ -71,7 +74,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
             Route::get('/outOfStock', 'getOutOfStock')->name("outOfStock");
             Route::get('/topSellingTrend', 'getTopSellingTrend')->name('topSellingTrend');
             Route::get('/lowProfit/{limit}', 'getLowProfit')->name('lowProfit');
-        
+            
             Route::get('/{id}', 'detail')->name('detail');
             Route::post('/{id}', 'update')->name('update');
             Route::post('/{id}/delete', 'delete')->name('delete');

@@ -25,9 +25,9 @@ class ProductRequest extends FormRequest
         return [
             'category_ids' => ['sometimes' ,'array'],
             'category_ids.*' => ['integer', new CategoryExists()],  // Validate each item in the array
+            'category_id' => ['sometimes', 'integer', new CategoryExists()],
             'name' => 'sometimes|string',
-            'id' => ['sometimes', 'array'],
-            'id.*' => ['integer', new ProductExists()],
+            'id' => ['integer', new ProductExists()],
             'description' => 'sometimes|string',
             'price' => 'sometimes|numeric|min:0',
             'stock' => 'sometimes|integer|min:0',

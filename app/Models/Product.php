@@ -126,4 +126,12 @@ class Product extends Model
                 });
         });
     }
+    public function scopeOrderByCreatedDate(Builder $query, $order): void
+    {
+        $query->orderBy('created_at', $order);
+    }
+    public function scopeOrderByStock(Builder $query, $order): void
+    {
+        $query->orderBy('stock', $order);
+    }
 }

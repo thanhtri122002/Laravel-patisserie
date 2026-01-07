@@ -24,7 +24,7 @@ import useFetch from "./useFetch";
  */
 export default function useCategories() {
     const [selectedCategoryId, setSelectedCategoryId] = useState([]);
-
+    
     const handleSetInitialCategories = useCallback((result) => {
         if (!result?.data) return;
         setSelectedCategoryId((prev) =>

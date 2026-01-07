@@ -9,8 +9,11 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\DB;
 
 class ProductService extends Service {
-
-    
+    /**
+     * Summary of getProduct
+     * @param mixed $id
+     * @return Product|\Illuminate\Database\Eloquent\Collection<int, Product>
+     */
     public function getProduct($id) {
 
         return Product::with(['category', 'productImages'])->findOrFail($id);
@@ -33,18 +36,29 @@ class ProductService extends Service {
             ->when(!empty($data['category_ids']), fn($q) =>
                 $q->whereIn('category_id', $data['category_ids'])
             )
+            
             ->paginate($perPage);
     }
 
-    public function detail($id) {
+    public function detail($id) 
+    {
         $product = $this->getProduct($id);
 
         return $product;
     }
-
-    public function store($data) {
-
+    /**
+     * Summary of store
+     * Store a new product
+     * 
+     * @param array $data
+     * 
+     * @return Product
+     */
+     
+    public function store($data) 
+    {
         $product = Product::create($data);
+
         return $product;
     }
 
@@ -57,7 +71,8 @@ class ProductService extends Service {
      * @param array $data
      * @param int $id
      */
-    public function update($data, $id) {
+    public function update($data, $id) 
+    {
         $product = $this->getProduct($id);
         $updateProduct = $product->update($data);
 
