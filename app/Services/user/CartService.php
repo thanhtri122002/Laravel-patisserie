@@ -1,0 +1,264 @@
+<?php
+
+namespace App\Services\user;
+
+use App\Events\UpdateCartProductDetailStock;
+use App\Jobs\UpdateProductStock;
+use App\Models\Cart;
+use App\Models\Product;
+use App\Services\admin\ProductService;
+use App\Services\Service;
+class CartService extends Service
+{
+    /**
+     * @var \App\Services\user\ProductDetailService
+     */
+    protected $productDetailService;
+    protected $productService;
+    protected $product;
+
+    /**
+     * @var App\Services\user\InvoiceService
+     */
+    protected $invoiceService;
+
+    public function __construct(ProductDetailService $productDetailService, ProductService $productService)
+    {
+        $this->productDetailService = $productDetailService;
+        $this->productService = $productService;
+    }
+
+    /**
+     * A function to get the current authenticated user's id
+     * 
+     * @return int the current authenticated user's id
+     */
+    private function getUserId()
+    {
+        return $this->getUser()->id;
+    }
+
+    /**
+     * Get the cart for the user
+     * if the user already has a cart
+     * if not create the cart for the user 
+     * 
+     * @return \App\Models\Cart
+     */
+    public function getOrCreateCart()
+    {
+        $userId = $this->getUserId();
+
+        $cart = Cart::where('user_id', $userId)->first();
+
+        if (!$cart) {
+            $cart = Cart::create([
+                'user_id' => $userId,
+                'cost' => 0
+            ]);
+        }
+        return $cart;
+    }
+    /**
+     * Get a productDetail
+     * 
+     * First the function will the the cart of the user and then find the productDetail
+     * by id
+     * 
+     * @param int $productDetail 
+     * @return \App\Models\ProductDetail
+     */
+    public function getProductDetail($productDetailId)
+    {
+        $cart = $this->getOrCreateCart();
+        $productDetail = $cart->productDetails()->findOrFail($productDetailId);
+
+        return $productDetail;
+    }
+
+    public function isProductInCart($cart, $productId)
+    {
+        $isExists = $cart->productDetails()->where('product_id', $productId)->exists();
+
+        return $isExists;
+    }
+
+    /**
+     * Get all the product details in the cart
+     * 
+     * First it checks whether the cart exists for a particular user
+     * if it does, the function returns the cart
+     * if it does not, create a new cart for the user
+     * 
+     * @return array $detail the detail which contains the products in the carts and the total cost of the cart
+     */
+    public function cartDetail()
+    {
+        $cart = $this->getOrCreateCart();
+        $detail['cart'] = $cart->productDetails()->with(['product.productImages', 'product.category'])->get();
+        $detail['total'] = $this->getCartCost();
+
+        return $detail;
+    }
+    /**
+     * Add the product into the cart
+     * 
+     * this method checks whether a product detail already exist in the cart
+     * if it does, it increments the quantity
+     * if it does no, it creastes a new product detail associated with the cart
+     * 
+     * @param array $data: the data containing atleast 
+     *                              - product_id: int, required
+     *                              - cart_id: int, required 
+     * 
+     * @return \App\Models\ProductDetail The created or updated ProductDetail instance
+     */
+    public function addProduct($data)
+    {
+        $cart = $this->getOrCreateCart();
+        $data['cart_id'] = $cart->id;
+        $product = $this->productService->getProduct($data['product_id']);
+
+        $isProductinCart = $this->isProductInCart($cart, $data['product_id']);
+
+        if ($isProductinCart) {
+            $productDetail = $cart->productDetails()->where('product_id', $data['product_id'])->first();
+            $data['mode'] = 'relative';
+            
+            $productDetail = $this->update($data, $productDetail->id);
+        } else {
+            if ($product && $product->stock >= 1) {
+                $productDetail = $this->productDetailService->create($data);
+
+                if ($productDetail->wasRecentlyCreated) {
+
+                    UpdateCartProductDetailStock::dispatch($productDetail, 1);
+                }
+            }
+        }
+        
+        return $productDetail;
+    }
+
+    /**
+     * Submit the cart to create the invoice for the user
+     * 
+     * First get all the productDetails in the cart then calculate the total cost of the cart
+     * then create the invoice instance for the cart
+     *                   
+     * @return \App\Models\Invoice
+     */
+    public function submitCart()
+    {
+        $cartDetail = $this->cartDetail();
+        $user = $this->getUser();
+        $data['cost'] = $this->getCartCost();
+        $invoice = InvoiceService::getInstance()->withUser($user)->makeInvoice($data, $cartDetail['cart']);
+
+        return $invoice;
+    }
+    /**
+     * Cart update , mainly update when the product detail, including the 
+     * 
+     * @param array $data a data array containing
+     *                          - quantity: int
+     *                          - mode: relative or absolute, 
+     *                              1/ relative means the data will minus or plus the quantity
+     *                              2/ absolute means directly set the quantity 
+     * @param int $productDetailId
+     * @return \App\Models\ProductDetail
+     */
+    public function update($data, $productDetailId)
+    {
+        $productDetail = $this->getProductDetail($productDetailId);
+        $product = $this->productService::getInstance()->getProduct($productDetail->product_id);
+        
+        if ($product && $product->stock >= $data['quantity']) {
+
+            if ($data['mode'] == "relative") {
+
+                [$productDetail, $data['quantity']] = $this->productDetailService->updateStockRelative($data, $productDetail);
+                
+                if ($productDetail->wasChanged()) {
+                    
+                    UpdateCartProductDetailStock::dispatch($productDetail, $data['quantity']);
+                }
+            } elseif ($data['mode'] == 'absolute') {
+
+                [$productDetail, $delta] = $this->productDetailService->updateStockAbsolute($data, $productDetail);
+
+                if ($productDetail->wasChanged()) {
+                    
+                    UpdateCartProductDetailStock::dispatch($productDetail, $delta);
+                }
+            }
+        }
+
+        return $productDetail;
+    }
+
+    /**
+     * A function to clear all the product in the cart
+     * 
+     * @return boolean
+     */
+    public function clearCart()
+    {
+        $productsInCart = $this->cartDetail();
+        foreach ($productsInCart as $detail) {
+            $detail->delete();
+        }
+
+        return true;
+    }
+
+    /**
+     * A function to delete a product in the cart
+     * 
+     * First get the productDetail by the id and then delete it 
+     * 
+     * @param int $productDetailId 
+     * @return boolean 
+     */
+    public function deleteProduct($productDetailId)
+    {
+        $productDetail = $this->getProductDetail($productDetailId);
+        
+        $hasBeenDel = $this->productDetailService->delete($productDetail);
+        if ($hasBeenDel) {
+            $quantity = -$productDetail->quantity;
+            UpdateCartProductDetailStock::dispatch($productDetail, $quantity);
+        }
+        return true;
+    }
+
+    /**
+     * A function to get the total price of the cart
+     * 
+     * First get the cart of the current user then get all the products in the cart
+     * then calculate the cost of the cart
+     * 
+     * @return float $cost total cost of all product in the cart
+     */
+    public function getCartCost()
+    {
+        $cart = $this->getOrCreateCart();
+
+        $productDetails = $cart->productDetails;
+        $cost = 0;
+
+        foreach ($productDetails as $detail) {
+            $cost += $detail->calculateTotal();
+        }
+
+        return $cost;
+    }
+
+    /**
+     * Note 
+     * 1/   if the product id of the cart is does not have the invoice id 
+     *      then you can delete the product id too 
+     *      You can choose which product detail can be have the invoice id 
+     * 
+     */
+}

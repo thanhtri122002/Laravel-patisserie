@@ -1,0 +1,28 @@
+@use '../utils/variables' as *; 
+
+.chip {
+    padding: 0.5rem 1rem;
+    border-radius: 9999px;
+    border: 1px solid transparent;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  
+    &--selected {
+      background-color: $Pink-Primary;
+      color: $text-contrast;
+  
+      &:hover {
+        background-color: $Dusty-Mauve;
+      }
+    }
+  
+    &--unselected {
+      background-color: $Gray-Tertiary;
+      color: $text-default;
+  
+      &:hover {
+        background-color: $Gray-Secondary;
+      }
+    }
+  }
+  

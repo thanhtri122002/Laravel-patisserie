@@ -1,0 +1,149 @@
+@use 'tailwindcss/base';
+@use 'tailwindcss/components';
+@use 'tailwindcss/utilities';
+
+@use './utils/variables' as *;
+@use './utils/fonts';
+@use './responsive/responsive';
+@use 'animation';
+@use 'transition';
+@use 'body';
+@use './components/index.scss';
+@use './layout/sidebar';
+@use './layout/topbar';
+@use './layout/footer';
+@use './components/custom-swiper';
+
+:root {
+    /* Brand Colors */
+    --Pink-Primary: #ee76ad;
+    --Pink-Secondary: #fce7f1;
+  
+    /* Gray Scale */
+    --Gray-Primary: #def4fb;
+    --Gray-Secondary: #c0c0c3;
+    --Gray-Tertiary: #fdf2ea;
+  
+    /* Complementary Colors */
+    --Deep-Purple: #6b2a5b;
+    --Muted-Blue: #6b8fa6;
+    --Dark-Teal: #2a5b6b;
+  
+    /* Monochromatic Pink */
+    --Soft-Rose: #ffb6c1;
+    --Dusty-Mauve: #b76e79;
+    --Muted-Blush: #d8a7b1;
+  
+    /* Neutral Pairings */
+    --Warm-Beige: #f5e0d6;
+    --Rich-Brown: #8c5a4d;
+    --Stone-Gray: #a8a8aa;
+  
+    /* Accents */
+    --Golden-Yellow: #f4b400;
+    --Peach-Orange: #ffcc99;
+    --Electric-Blue: #1e90ff;
+    --notification-badge: #ff3b30;
+  
+    /* Button Colors */
+    --btn-primary-bg: var(--Pink-Primary);
+    --btn-primary-hover: var(--Dusty-Mauve);
+  
+    --btn-secondary-bg: var(--Muted-Blue);
+    --btn-secondary-hover: var(--Dark-Teal);
+  
+    --btn-outline-bg: transparent;
+    --btn-outline-border: var(--Stone-Gray);
+    --btn-outline-text: var(--Stone-Gray);
+    --btn-outline-hover-bg: var(--Gray-Tertiary);
+  
+    --btn-danger-bg: var(--notification-badge);
+    --btn-danger-hover: #d6342b; /* ≈10% darker */
+  
+    --btn-success-bg: var(--Golden-Yellow);
+    --btn-success-hover: #d49e00; /* ≈10% darker */
+  
+    /* Section Backgrounds */
+    --section-light: var(--Warm-Beige);
+    --section-accent: var(--Pink-Secondary);
+    --section-dark: var(--sidebar-bg-color);
+    --section-muted: var(--Gray-Tertiary);
+    --section-focus: var(--Electric-Blue);
+  
+    /* Alerts */
+    --alert-success-bg: #fff1cc;
+    --alert-success-border: var(--Golden-Yellow);
+  
+    --alert-error-bg: #ffa5a0;
+    --alert-error-border: var(--notification-badge);
+  
+    --alert-warning-bg: #ffd8b3;
+    --alert-warning-border: var(--Peach-Orange);
+  
+    --alert-info-bg: #bed3df;
+    --alert-info-border: var(--Muted-Blue);
+  
+    /* Inputs */
+    --input-bg: #ffffff;
+    --input-border: var(--Gray-Secondary);
+    --input-focus-border: var(--Muted-Blue);
+    --input-disabled-bg: var(--Gray-Tertiary);
+    --input-placeholder-color: var(--Stone-Gray);
+  
+    /* Text */
+    --text-muted: var(--Stone-Gray);
+    --text-default: var(--Rich-Brown);
+    --text-contrast: #ffffff;
+  
+    /* Misc */
+    --badge-highlight: var(--Electric-Blue);
+    --highlight-bg: var(--Soft-Rose);
+    --Layered-Overlay: #2b232d;
+    --merriweather-sans: 'Merriweather', sans-serif;
+  
+    /* Breakpoints (Optional for reference) */
+    --breakpoint-xs: 0;
+    --breakpoint-sm: 576px;
+    --breakpoint-md: 768px;
+    --breakpoint-lg: 992px;
+    --breakpoint-xl: 1200px;
+    --breakpoint-xxl: 1400px;
+}
+  
+html {
+    overflow-x: hidden;
+}
+
+p {
+    font-variant-numeric: 'tnums';
+}
+
+.text-h1 {
+    color: $Soft-Rose;
+    
+}
+
+.navlink-about-us a {
+    padding: 0.5rem 1rem;
+    margin: 0 0.75rem;
+    text-decoration: none
+}
+
+.navlink-about-us a::after {
+    content: '' ;
+    height: 1px;
+    width: 0px;
+    background-color: $Pink-Primary;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    transition: width 1s ease;
+
+}
+
+.navlink-about-us a:hover::after{
+
+    width: 100%;
+    
+}
+

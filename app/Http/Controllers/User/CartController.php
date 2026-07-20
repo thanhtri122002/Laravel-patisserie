@@ -1,0 +1,108 @@
+<?php
+
+namespace App\Http\Controllers\User;
+
+use App\Helpers\Response;
+use App\Http\Requests\user\ProductDetailRequest;
+use App\Models\ProductDetail;
+use App\Models\User;
+use App\Services\user\CartService;
+class CartController extends BaseController
+{
+    /**
+     * A function to get the current authenticated user
+     *
+     * @return Illuminate\Contracts\Auth\Guard::user
+     */
+    public function getUser(): User
+    {
+        return $this->guard()->user();
+    }
+
+
+    /**
+     * A function to get the cart of a specific user 
+     * 
+     * This method get the current authenticated user and the call the CartService 
+     * to retrieve the products in the cart and the total cost of all product
+     * 
+     * @return array $cartDetail 
+     */
+    public function getCart(): array
+    {      
+        $user = $this->getUser();
+        $cartDetail = CartService::getInstance()->withUser($user)->cartDetail();
+        
+        return $cartDetail;
+    }
+
+    /**
+     * A function to add a ProductDetail into the cart
+     * 
+     * This method get the current authenticated user and the call the CartService 
+     * to add a ProductDetail into the cart 
+     * 
+     * @param App\Http\Requests\user\ProductDetailRequest $request
+     * 
+     * @return \App\Models\ProductDetail
+     */
+    public function addToCart(ProductDetailRequest $request): ProductDetail
+    {   
+        $data = $request->safe()->only(['product_id', 'quantity', 'mode']);
+        $user = $this->getUser();
+        $addProduct = CartService::getInstance()->withUser($user)->addProduct($data);
+        
+        return $addProduct;
+    }
+
+    /**
+     * A function to update a ProductDetail instance
+     * 
+     * This will update the quantity of an existing ProductDetail 
+     * 
+     * @param App\Http\Requests\user\ProductDetailRequest $request
+     * @param int $productDetailId
+     * 
+     * @return \App\Models\ProductDetail
+     */
+    public function update(ProductDetailRequest $request ,$productDetailId): ProductDetail
+    {   
+        $user = $this->getUser();
+        $data = $request->safe()->only(['quantity', 'mode']);
+        
+        $updateProduct = CartService::getInstance()->withUser($user)->update($data, $productDetailId);
+
+        return $updateProduct;
+    }
+
+    /**
+     * A function to submit the cart which will turn the cart into an invoice
+     * 
+     * First this will receive the submitCartRequest which contain personal in4
+     * then call the cartService to create an invoice
+     * 
+     * @return 
+     */
+    public function submitCart()
+    {
+        $user = $this->getUser();
+        $invoice = CartService::getInstance()->withUser($user)->submitCart();        
+
+        return $this->sendSuccessResponse($invoice, "Submit successfully", Response::OK);
+    }
+
+    /**
+     * This function delete a product from the cart
+     * 
+     * @param int $productDetailId
+     * 
+     * @return boolean
+     */
+    public function deleteProduct($productDetailId): bool
+    {
+        $user = $this->getUser();
+        CartService::getInstance()->withUser($user)->deleteProduct($productDetailId);
+        
+        return true;
+    }
+}

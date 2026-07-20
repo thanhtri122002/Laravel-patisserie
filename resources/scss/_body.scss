@@ -1,0 +1,182 @@
+@use './utils/variables' as *;
+@use 'animation';
+
+.section-inf {
+    //set display to the grid
+    display:grid;
+    grid-template-rows: auto; 
+    //set to absolute so then divs will not be stack like block under block
+    //Note that this is the initial state of the transition
+    > div {
+        grid-area: 1 /1 ;
+        opacity : 0;
+        transform: translateY(20px);
+        transition : opacity 0.3s ease, transform 0.3s ease; 
+    }
+    > div.grid {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    
+    .img-wrapper {
+        height: 15rem;
+        width: auto;
+    }
+    
+}
+
+.section-product {
+    // .products .product img {
+    //     transition: 0.3s ease-out;
+    // }
+    // .products .product img:hover {
+    //     transform: scale(1.1);
+    // }
+
+    .product .product-name, 
+    .product .product-price {
+        transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out
+    }
+    .product:focus .product-name{
+        transform : translate(-50%,-100%);
+    }
+    .product:focus .product-price{
+        transform: translate(-50%, 100%);
+    }
+}
+
+.moving-text-banner {
+    .moving-right {
+        animation: slideRight 20s linear infinite
+    }
+    .moving-left {
+        animation: slideLeft 20s linear infinite
+    }
+}
+
+.section-ingredients {
+    color: var(--text-default);
+    .section-standard {
+        .standard {
+            width: 100%;
+            border-radius: 1.5rem;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            padding: 1.5rem;
+            gap: 1.5rem;
+            background-color: $Pink-Secondary;
+            transform: translateY(0);
+            transition: transform 0.3s ease-in-out;
+        }
+        .standard:hover {
+            transform: translateY(-1rem);
+        }
+        .standard .img-icon {
+            background-color: $Pink-Primary;
+            border-radius: 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 4rem !important;
+            height: 4rem !important;
+            flex-shrink: 0;
+        }
+        .ingredient-img img:nth-child(2) {
+            animation: bounce 1s linear infinite;
+        }
+
+    }
+}
+
+//Our teams page
+
+.our-team {
+    background-color: #f7f5ec;
+    padding: 1.75rem 2.5rem; 
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    .member p {
+        text-align: center;
+    }
+
+    .picture {
+        width: 7.5rem;
+        height: 7.5rem;
+        margin-bottom: 1.75rem;
+        border-radius: 50%;
+        z-index: 1;
+        position: relative;
+        transform: all 0.3s ease;
+        
+        img {
+            border-radius: 50%;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transform: none;
+            transition: all 0.3s ease;
+        }
+
+        &::before {
+            content: "";
+            width: 100%;
+            height: 0;
+            position: absolute;
+            left:0;
+            right:0;
+            bottom:135%;
+            background-color:aqua;
+            border-radius: 50%;
+            opacity: 0.5;
+            transform: scale(3);
+            transition: all 0.3s ease;
+        }
+
+        &::after {
+            content: "";
+            border-radius: 50%;
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: -1;
+            background-color: pink;
+        }
+    }   
+
+    &:hover .picture img {
+        transform: scale(0.7);
+        box-shadow: 0 0 0 0.75rem white;
+    }
+    
+    &:hover .picture::before {
+        height: 100%;
+    }
+
+}
+
+.glass {
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px); /* Safari support */
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    padding: 20px;
+    border-radius: 10px;
+}
+
+//products page
+
+.category-title {
+    padding-bottom: 3rem;
+    position: relative;
+    left: 50%;
+    bottom: 20%;
+    transform: translateX(-50%);
+    width: 50%;
+}

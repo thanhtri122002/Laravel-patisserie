@@ -1,0 +1,10 @@
+@use '../utils/variables' as * ;
+
+footer {
+   
+    background-color: var(--section-accent);
+    color: var(--text-default);
+    div {
+        background-color: var(--Mute-Blush);
+    }
+}

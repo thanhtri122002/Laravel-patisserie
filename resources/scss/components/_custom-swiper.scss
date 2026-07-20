@@ -1,0 +1,33 @@
+.section-product {
+    .swiper-slide {
+        width: 10rem;
+        height: auto;
+    }
+}
+
+.section-special-product {
+    .swiper-slide {
+        width: 100%;
+        height: auto;
+    }
+
+    .special-product-des {
+        position: relative;
+        inset: 0;
+
+        .dynamic-text {
+            position: absolute;
+            top: 0;
+            left: 0;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: transform 0.5s ease, opacity 0.5s ease;
+        }
+        .dynamic-text.active {
+            opacity: 1;
+            z-index: 1;
+            transform: translateY(0px);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+    }
+}
